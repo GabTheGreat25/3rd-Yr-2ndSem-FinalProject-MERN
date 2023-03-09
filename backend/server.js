@@ -11,7 +11,6 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const users = require("./routes/user");
 
-mongoose.set("strictQuery", false);
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 4000;
 
