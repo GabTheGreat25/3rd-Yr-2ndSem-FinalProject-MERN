@@ -10,8 +10,8 @@ const crashHandler = require("./middleware/crashHandler");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const users = require("./routes/user");
+const notes = require("./routes/note");
 
-mongoose.set("strictQuery", false);
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 4000;
 
@@ -24,6 +24,7 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 app.use("/", require("./routes/root"));
 
 app.use("/api/v1", users);
+app.use("/api/v1", notes);
 
 app.all("*", (req, res) => {
   const filePath = req.accepts("html")
