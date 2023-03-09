@@ -12,16 +12,24 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
     .lean()
     .exec();
 
-  if (!users?.length) next(new ErrorHandler("No users found"));
+  if (!users?.length) {
+    return next(new ErrorHandler("No users found"));
+  }
 
-  SuccessHandler(res, "Success", users);
+  SuccessHandler(
+    res,
+    `Users with names ${users.map((u) => u.name).join(", ")} and IDs ${users
+      .map((u) => u._id)
+      .join(", ")} retrieved`,
+    users
+  );
 });
 
 exports.getSingleUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler("Invalid ID"));
+    return next(new ErrorHandler(`User not found with ID: ${id}`));
 
   const user = await User.findById(id)
     .sort({ createdAt: -1 })
@@ -31,7 +39,7 @@ exports.getSingleUser = asyncHandler(async (req, res, next) => {
 
   if (!user?.length) next(new ErrorHandler("No users found"));
 
-  SuccessHandler(res, `user with an id ${id} is found`, user);
+  SuccessHandler(res, `User ${user.name} with ID ${id} retrieved`, user);
 });
 
 exports.createNewUser = asyncHandler(async (req, res, next) => {
@@ -65,7 +73,7 @@ exports.createNewUser = asyncHandler(async (req, res, next) => {
     roles,
   });
 
-  SuccessHandler(res, `New user ${name} created`, user);
+  SuccessHandler(res, `New user ${name} created with an ID ${user._id}`, user);
 });
 
 exports.updateUser = asyncHandler(async (req, res, next) => {
@@ -81,7 +89,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   }
 
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return next(new ErrorHandler("Invalid ID"));
+    return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
 
   const user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -92,10 +100,10 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("No user found"));
 
-  if (req.body.name) {
+  if (user.name) {
     const duplicate = await User.findOne({
-      name: req.body.name,
-      _id: { $ne: req.params.id },
+      name: user.name,
+      _id: { $ne: user._id },
     })
       .collation({ locale: "en", strength: 2 })
       .lean()
@@ -104,30 +112,20 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
     if (duplicate) return next(new ErrorHandler("Duplicate name"));
   }
 
-  SuccessHandler(res, `user with an id ${req.params.id} is updated`, user);
+  SuccessHandler(res, `User ${user.name} with ID ${user._id} is updated`, user);
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.body;
+  const id = req.params.id;
 
-  if (!id) {
-    return res.status(400).json({ message: "User ID Required" });
-  }
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return next(new ErrorHandler(`User not found with ID: ${id}`));
 
-  const note = await Note.findOne({ user: id }).lean().exec();
-  if (note) {
-    return res.status(400).json({ message: "User has assigned notes" });
-  }
+  if (!id) return next(new ErrorHandler(`User ID Required`));
 
-  const user = await User.findById(id).exec();
+  const user = await User.findOneAndDelete({ _id: id }).lean().exec();
 
-  if (!user) {
-    return res.status(400).json({ message: "User not found" });
-  }
+  if (!user) return next(new ErrorHandler("No user found"));
 
-  const result = await user.deleteOne();
-
-  const reply = `Username ${result.username} with ID ${result._id} deleted`;
-
-  res.json(reply);
+  SuccessHandler(res, `User ${user.name} with ID ${id} is deleted`, user);
 });
