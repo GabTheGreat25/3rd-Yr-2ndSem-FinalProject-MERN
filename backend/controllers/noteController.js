@@ -16,7 +16,7 @@ exports.getAllNotes = asyncHandler(async (req, res, next) => {
     : SuccessHandler(
         res,
         `Notes with titles ${notes
-          .map((u) => u.name)
+          .map((u) => u.title)
           .join(", ")} and IDs ${notes.map((u) => u._id).join(", ")} retrieved`,
         notes
       );
