@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "8cc04544-df09-4c7c-a19f-4b7848733b4a",
+		"name": "MERN-FINALS-2023",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19567688"
+	},
+	"item": [
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "AUTH",
+					"item": [
+						{
+							"name": "LOGIN A USER",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
+								},
+								"url": {
+									"raw": "{{URI}}{{V1}}auth",
+									"host": [
+										"{{URI}}{{V1}}auth"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "REFRESH TOKEN",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
+								},
+								"url": {
+									"raw": "{{URI}}{{V1}}auth/refresh",
+									"host": [
+										"{{URI}}{{V1}}auth"
+									],
+									"path": [
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LOGOUT",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "file",
+									"file": {}
+								},
+								"url": {
+									"raw": "{{URI}}{{V1}}auth/logout",
+									"host": [
+										"{{URI}}{{V1}}auth"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GET ALL USERS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6IkdhYnoiLCJyb2xlcyI6WyJFbXBsb3llZSIsIkFkbWluIiwiU3VwZXJBZG1pbiJdfSwiaWF0IjoxNjc4MTEwNzI0LCJleHAiOjE2NzgxMTE2MjR9.qa1KAIPEv5TyHKpLLArtI1VU3LFOCK3xUVP1C2YEruA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URI}}{{V1}}users",
+							"host": [
+								"{{URI}}{{V1}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SINGLE USER",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6IkdhYnoiLCJyb2xlcyI6WyJFbXBsb3llZSIsIkFkbWluIiwiU3VwZXJBZG1pbiJdfSwiaWF0IjoxNjc4MTEwNzI0LCJleHAiOjE2NzgxMTE2MjR9.qa1KAIPEv5TyHKpLLArtI1VU3LFOCK3xUVP1C2YEruA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URI}}{{V1}}user/64093e01dc5af14a4dac1614",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"64093e01dc5af14a4dac1614"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE A USER",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"123\",\r\n    \"email\": \"123@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Admin,Employee\"]\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}users",
+							"host": [
+								"{{URI}}{{V1}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE A USER",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"name\": \"gab\",\r\n        \"email\": \"gab@gmail.com\",\r\n        \"roles\": [\r\n            \"Admin\"\r\n        ],\r\n        \"active\": true\r\n    }"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}user/64093e01dc5af14a4dac1614",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"64093e01dc5af14a4dac1614"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE A USER",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}user/64093db0549a1fc85e2b4de2",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"64093db0549a1fc85e2b4de2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "NOTES",
+			"item": [
+				{
+					"name": "GET ALL NOTES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}notes",
+							"host": [
+								"{{URI}}{{V1}}notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SINGLE NOTE",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"640a6a80cae4fdc61e6f3937"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE A NOTE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Fun\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}notes",
+							"host": [
+								"{{URI}}{{V1}}notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE A NOTE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": true\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}note/64098910dcea167c88ee92a0",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"64098910dcea167c88ee92a0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE A NOTE",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}note/64098910dcea167c88ee92a0",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"64098910dcea167c88ee92a0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
