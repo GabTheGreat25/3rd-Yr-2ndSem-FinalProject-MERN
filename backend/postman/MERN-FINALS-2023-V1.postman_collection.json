@@ -333,6 +333,120 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "CAMERAS",
+			"item": [
+				{
+					"name": "GET ALL CAMERA",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}cameras",
+							"host": [
+								"{{URI}}{{V1}}cameras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SINGLE CAMERA",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"640acc877b7d9314b0a71af0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE A CAMERA",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"name\": \"Canon 500D\",\r\n    \"text\": \"Good Camera\",\r\n    \"price\": \"1000\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}cameras",
+							"host": [
+								"{{URI}}{{V1}}cameras"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE A CAMERA",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"name\": \"Canon 600D\",\r\n    \"text\": \"Good Camera\",\r\n    \"price\": \"1000\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"640acc877b7d9314b0a71af0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE A CAMERA",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/640acc8c7b7d9314b0a71af3",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"640acc8c7b7d9314b0a71af3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
