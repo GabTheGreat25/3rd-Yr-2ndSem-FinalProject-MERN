@@ -13,6 +13,7 @@ const users = require('./routes/user')
 const notes = require('./routes/note')
 const cameras = require('./routes/camera')
 const transactions = require('./routes/transactions')
+const comment = require('./routes/comment')
 
 const connectDB = require('./config/db')
 const PORT = process.env.PORT || 4000
@@ -29,6 +30,7 @@ app.use('/api/v1', users)
 app.use('/api/v1', notes)
 app.use('/api/v1', cameras)
 app.use('/api/v1', transactions)
+app.use('/api/v1', comment)
 
 app.all('*', (req, res) => {
   const filePath = req.accepts('html')
