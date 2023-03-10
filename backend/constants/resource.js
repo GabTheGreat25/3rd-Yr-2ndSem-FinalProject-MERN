@@ -3,4 +3,5 @@ module.exports = {
   USER: 'User',
   CAMERA: 'Camera',
   TRANSACTIONS: 'Transactions',
+  COMMENT: 'Comment',
 }
