@@ -1,16 +1,11 @@
-const User = require("../models/User");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const mongoose = require("mongoose");
+const usersAction = require("../actions/userAction");
 const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
+const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find()
-    .sort({ createdAt: -1 })
-    .select("-password")
-    .lean()
-    .exec();
+  const users = await usersAction.getAllUsers();
 
   return !users?.length
     ? next(new ErrorHandler("No users found"))
@@ -24,118 +19,55 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleUser = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`User not found with ID: ${id}`));
-
-  const user = await User.findById(id).select("-password").lean().exec();
+  const user = await usersAction.getUserById(req.params.id);
 
   return !user
     ? next(new ErrorHandler("No user found"))
-    : SuccessHandler(res, `User ${user.name} with ID ${id} retrieved`, user);
-});
-
-exports.createNewUser = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["name", "email", "password", "roles"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
-
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
-    );
-
-  const { name, email, password, roles } = req.body;
-
-  if (!Array.isArray(roles) || !roles.length)
-    next(new ErrorHandler("At least one role is required"));
-
-  const duplicate = await User.findOne({ name })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate name"))
-    : await User.create({
-        name,
-        email,
-        password: await bcrypt.hash(password, Number(process.env.SALT_NUMBER)),
-        roles,
-      }).then((user) =>
-        SuccessHandler(
-          res,
-          `New user ${name} created with an ID ${user._id}`,
-          user
-        )
+    : SuccessHandler(
+        res,
+        `User ${user.name} with ID ${req.params.id} retrieved`,
+        user
       );
 });
 
-exports.updateUser = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["name", "email", "roles"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
+exports.createNewUser = [
+  checkRequiredFields(["name", "email", "password"]),
+  asyncHandler(async (req, res, next) => {
+    const user = await usersAction.CreateUserData(req);
 
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
-    );
-
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return next(new ErrorHandler(`User not found with ID: ${req.params.id}`));
-
-  const user = await User.findById(req.params.id).exec();
-
-  if (!user) return next(new ErrorHandler("No user found"));
-
-  if (!Array.isArray(user.roles) || !user.roles.length)
-    next(new ErrorHandler("At least one role is required"));
-
-  const duplicate = await User.findOne({
-    name: req.body.name,
-    _id: { $ne: user._id },
-  })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate name"))
-    : User.findByIdAndUpdate(user._id, req.body, {
-        new: true,
-        runValidators: true,
-      })
-        .lean()
-        .exec()
-        .then((updatedUser) =>
-          !updatedUser
-            ? next(new ErrorHandler("No user found"))
-            : SuccessHandler(
-                res,
-                `User ${updatedUser.name} with ID ${updatedUser._id} is updated`,
-                updatedUser
-              )
+    return !user
+      ? next(new ErrorHandler("Error creating new user"))
+      : SuccessHandler(
+          res,
+          `New user ${user.name} created with an ID ${user._id}`,
+          user
         );
-});
+  }),
+];
+
+exports.updateUser = [
+  checkRequiredFields(["name", "email", "roles"]),
+  asyncHandler(async (req, res, next) => {
+    const user = await usersAction.updateUserData(req, res, req.params.id);
+
+    return !user
+      ? next(new ErrorHandler("Error updating user"))
+      : SuccessHandler(
+          res,
+          `User ${user.name} with ID ${user._id} is updated`,
+          user
+        );
+  }),
+];
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`User not found with ID: ${id}`));
-
-  if (!id) return next(new ErrorHandler("User ID required"));
-
-  const user = await User.findOneAndDelete({ _id: id }).lean().exec();
+  const user = await usersAction.deleteUserData(req.params.id);
 
   return !user
     ? next(new ErrorHandler("No user found"))
-    : SuccessHandler(res, `User ${user.name} with ID ${id} is deleted`, user);
+    : SuccessHandler(
+        res,
+        `User ${user.name} with ID ${user._id} is deleted`,
+        user
+      );
 });
