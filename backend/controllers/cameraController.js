@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 
 exports.getAllCameras = asyncHandler(async (req, res, next) => {
   const cameras = await Camera.find()
-    .populate("user", "name")
+    .populate({ path: "user", select: "name" })
     .sort({ createdAt: -1 })
     .lean()
     .exec();
@@ -31,7 +31,7 @@ exports.getSingleCamera = asyncHandler(async (req, res, next) => {
     return next(new ErrorHandler(`Camera not found with ID: ${id}`));
 
   const camera = await Camera.findById(id)
-    .populate("user", "name")
+    .populate({ path: "user", select: "name" })
     .lean()
     .exec();
 
