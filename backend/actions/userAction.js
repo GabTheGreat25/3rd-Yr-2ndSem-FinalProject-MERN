@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const ErrorHandler = require("../utils/errorHandler");
 const bcrypt = require("bcrypt");
 
-exports.getAllUsers = async () => {
+exports.getAllUsersData = async () => {
   const users = await User.find()
     .sort({ createdAt: -1 })
     .select("-password")
@@ -13,7 +13,7 @@ exports.getAllUsers = async () => {
   return users;
 };
 
-exports.getUserById = async (id) => {
+exports.getSingleUserData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid user id: ${id}`);
 

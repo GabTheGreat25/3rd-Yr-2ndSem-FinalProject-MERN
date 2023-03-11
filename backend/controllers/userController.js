@@ -5,7 +5,7 @@ const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await usersAction.getAllUsers();
+  const users = await usersAction.getAllUsersData();
 
   return !users?.length
     ? next(new ErrorHandler("No users found"))
@@ -19,7 +19,7 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleUser = asyncHandler(async (req, res, next) => {
-  const user = await usersAction.getUserById(req.params.id);
+  const user = await usersAction.getSingleUserData(req.params.id);
 
   return !user
     ? next(new ErrorHandler("No user found"))
