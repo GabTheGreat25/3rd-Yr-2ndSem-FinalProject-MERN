@@ -17,10 +17,10 @@ const cameraSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter a description of your camera"],
   },
-
   price: {
-    type: String,
+    type: Number,
     required: [true, "Please enter a price"],
+    min: 0,
   },
 });
 

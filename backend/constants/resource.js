@@ -1,7 +1,7 @@
 module.exports = {
-  NOTE: 'Note',
-  USER: 'User',
-  CAMERA: 'Camera',
-  TRANSACTIONS: 'Transactions',
-  COMMENT: 'Comment',
-}
+  NOTE: "Note",
+  USER: "User",
+  CAMERA: "Camera",
+  TRANSACTION: "Transaction",
+  COMMENT: "Comment",
+};

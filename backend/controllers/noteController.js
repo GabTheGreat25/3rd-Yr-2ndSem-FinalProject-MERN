@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 
 exports.getAllNotes = asyncHandler(async (req, res, next) => {
   const notes = await Note.find()
-    .populate("user", "name")
+    .populate({ path: "user", select: "name" })
     .sort({ createdAt: -1 })
     .lean()
     .exec();
@@ -28,7 +28,10 @@ exports.getSingleNote = asyncHandler(async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     return next(new ErrorHandler(`Note not found with ID: ${id}`));
 
-  const note = await Note.findById(id).populate("user", "name").lean().exec();
+  const note = await Note.findById(id)
+    .populate({ path: "user", select: "name" })
+    .lean()
+    .exec();
 
   return !note
     ? next(new ErrorHandler("No note found"))
