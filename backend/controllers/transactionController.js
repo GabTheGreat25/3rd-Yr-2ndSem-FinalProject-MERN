@@ -1,4 +1,4 @@
-const Transactions = require("../models/transactions");
+const Transactions = require("../models/transaction");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
