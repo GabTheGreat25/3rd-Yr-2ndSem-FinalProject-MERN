@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8cc04544-df09-4c7c-a19f-4b7848733b4a",
+		"_postman_id": "cbd1d9bc-a331-482e-a98c-7791dfc590fd",
 		"name": "MERN-FINALS-2023",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19567688"
@@ -335,6 +335,120 @@
 			]
 		},
 		{
+			"name": "COMMENTS",
+			"item": [
+				{
+					"name": "GET ALL COMMENTS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}comments",
+							"host": [
+								"{{URI}}{{V1}}comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SINGLE COMMENT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd7afa91ce76df4479202",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd7afa91ce76df4479202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE A COMMENT",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 1,\r\n    \"text\": \"GG\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}comments",
+							"host": [
+								"{{URI}}{{V1}}comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE A COMMENT",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd901610d02792f9b55d7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE A COMMENT",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd901610d02792f9b55d7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "CAMERAS",
 			"item": [
 				{
@@ -441,6 +555,120 @@
 							],
 							"path": [
 								"640acc8c7b7d9314b0a71af3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TRANSACTIONS",
+			"item": [
+				{
+					"name": "GET ALL TRANSACTIONS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}transactions",
+							"host": [
+								"{{URI}}{{V1}}transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET SINGLE TRANSACTION",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bced47f37478158e52bdd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE A TRANSACTION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}transactions",
+							"host": [
+								"{{URI}}{{V1}}transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE A TRANSACTION",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bced47f37478158e52bdd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE A TRANSACTION",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bced47f37478158e52bdd"
 							]
 						}
 					},
