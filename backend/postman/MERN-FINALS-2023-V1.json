@@ -367,7 +367,7 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7"
+						"url": "{{URI}}{{V1}}comment/640bd79ca91ce76df44791fc"
 					},
 					"response": []
 				},
