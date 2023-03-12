@@ -1,15 +1,11 @@
-const Camera = require("../models/Camera");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const mongoose = require("mongoose");
+const camerasAction = require("../actions/cameraAction");
 const asyncHandler = require("express-async-handler");
+const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllCameras = asyncHandler(async (req, res, next) => {
-  const cameras = await Camera.find()
-    .populate({ path: "user", select: "name" })
-    .sort({ createdAt: -1 })
-    .lean()
-    .exec();
+  const cameras = await camerasAction.getAllCamerasData();
 
   return !cameras?.length
     ? next(new ErrorHandler("No cameras found"))
@@ -25,123 +21,55 @@ exports.getAllCameras = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleCamera = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Camera not found with ID: ${id}`));
-
-  const camera = await Camera.findById(id)
-    .populate({ path: "user", select: "name" })
-    .lean()
-    .exec();
+  const camera = await camerasAction.getSingleCameraData(req.params.id);
 
   return !camera
     ? next(new ErrorHandler("No camera found"))
     : SuccessHandler(
         res,
-        `Camera ${camera.name} with ID ${id} retrieved`,
+        `Camera ${camera.name} with ID ${camera._id} retrieved`,
         camera
       );
 });
 
-exports.createNewCamera = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["user", "name", "text", "price"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
+exports.createNewCamera = [
+  checkRequiredFields(["user", "name", "text", "price"]),
+  asyncHandler(async (req, res, next) => {
+    const camera = await camerasAction.CreateCameraData(req);
 
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
+    return SuccessHandler(
+      res,
+      `New camera ${camera.name} created with an ID ${camera._id}`,
+      camera
+    );
+  }),
+];
+
+exports.updateCamera = [
+  checkRequiredFields(["user", "name", "text", "price"]),
+  asyncHandler(async (req, res, next) => {
+    const camera = await camerasAction.updateCameraData(
+      req,
+      res,
+      req.params.id
     );
 
-  const { user, name, text, price } = req.body;
-
-  const duplicate = await Camera.findOne({ name })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate name"))
-    : await Camera.create({
-        user,
-        name,
-        text,
-        price,
-      }).then((camera) =>
-        SuccessHandler(
-          res,
-          `New camera ${name} created with an ID ${camera._id}`,
-          camera
-        )
-      );
-});
-
-exports.updateCamera = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["user", "name", "text", "price"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
-
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
+    return SuccessHandler(
+      res,
+      `Camera ${camera.name} with ID ${camera._id} is updated`,
+      camera
     );
-
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return next(new ErrorHandler(`Camera not found with ID: ${req.params.id}`));
-
-  const camera = await Camera.findById(req.params.id).exec();
-
-  if (!camera) return next(new ErrorHandler("No camera found"));
-
-  const duplicate = await Camera.findOne({
-    name: req.body.name,
-    _id: { $ne: camera._id },
-  })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate name"))
-    : Camera.findByIdAndUpdate(camera._id, req.body, {
-        new: true,
-        runValidators: true,
-      })
-        .lean()
-        .exec()
-        .then((updatedCamera) =>
-          !updatedCamera
-            ? next(new ErrorHandler("No camera found"))
-            : SuccessHandler(
-                res,
-                `Camera ${updatedCamera.name} with ID ${updatedCamera._id} is updated`,
-                updatedCamera
-              )
-        );
-});
+  }),
+];
 
 exports.deleteCamera = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Camera not found with ID: ${id}`));
-
-  if (!id) return next(new ErrorHandler("Camera ID required"));
-
-  const camera = await Camera.findOneAndDelete({ _id: id }).lean().exec();
+  const camera = await camerasAction.deleteCameraData(req.params.id);
 
   return !camera
     ? next(new ErrorHandler("No camera found"))
     : SuccessHandler(
         res,
-        `Camera ${camera.name} with ID ${id} is deleted`,
+        `Camera ${camera.name} with ID ${camera._id} is deleted`,
         camera
       );
 });

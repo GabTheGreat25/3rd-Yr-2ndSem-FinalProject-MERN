@@ -25,7 +25,7 @@ exports.getSingleUser = asyncHandler(async (req, res, next) => {
     ? next(new ErrorHandler("No user found"))
     : SuccessHandler(
         res,
-        `User ${user.name} with ID ${req.params.id} retrieved`,
+        `User ${user.name} with ID ${user_id} retrieved`,
         user
       );
 });
@@ -35,13 +35,11 @@ exports.createNewUser = [
   asyncHandler(async (req, res, next) => {
     const user = await usersAction.CreateUserData(req);
 
-    return !user
-      ? next(new ErrorHandler("Error creating new user"))
-      : SuccessHandler(
-          res,
-          `New user ${user.name} created with an ID ${user._id}`,
-          user
-        );
+    return SuccessHandler(
+      res,
+      `New user ${user.name} created with an ID ${user._id}`,
+      user
+    );
   }),
 ];
 
@@ -50,13 +48,11 @@ exports.updateUser = [
   asyncHandler(async (req, res, next) => {
     const user = await usersAction.updateUserData(req, res, req.params.id);
 
-    return !user
-      ? next(new ErrorHandler("Error updating user"))
-      : SuccessHandler(
-          res,
-          `User ${user.name} with ID ${user._id} is updated`,
-          user
-        );
+    return SuccessHandler(
+      res,
+      `User ${user.name} with ID ${user._id} is updated`,
+      user
+    );
   }),
 ];
 

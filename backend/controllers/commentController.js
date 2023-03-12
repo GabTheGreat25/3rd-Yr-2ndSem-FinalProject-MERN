@@ -1,131 +1,76 @@
 const Comment = require("../models/Comment");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const mongoose = require("mongoose");
+const commentsAction = require("../actions/commentAction");
 const asyncHandler = require("express-async-handler");
+const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllComment = asyncHandler(async (req, res, next) => {
-  const comment = await Comment.find()
-    .populate({ path: "transaction", select: "status" })
-    .sort({ createdAt: -1 })
-    .lean()
-    .exec();
+  const comments = await commentsAction.getAllCommentsData();
 
-  return !comment?.length
+  return !comments?.length
     ? next(new ErrorHandler("No comment found"))
     : SuccessHandler(
         res,
-        `Comment with texts ${comment
+        `Comment with texts ${comments
           .map((u) => u.text)
-          .join(", ")} and IDs ${comment
+          .join(", ")} and IDs ${comments
           .map((u) => u._id)
           .join(", ")} retrieved`,
-        comment
+        comments
       );
 });
 
 exports.getSingleComment = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Comment not found with ID: ${id}`));
-
-  const comment = await Comment.findById(id)
-    .populate({ path: "transaction", select: "status" })
-    .lean()
-    .exec();
+  const comment = await commentsAction.getSingleCommentData(req.params.id);
 
   return !comment
     ? next(new ErrorHandler("No comment found"))
     : SuccessHandler(
         res,
-        `Comment ${comment.text} with ID ${id} retrieved`,
+        `Comment ${comment.text} with ID ${comment._id} retrieved`,
         comment
       );
 });
 
-exports.createNewComment = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["transaction", "ratings", "text"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
+exports.createNewComment = [
+  checkRequiredFields(["transaction", "ratings", "text"]),
+  asyncHandler(async (req, res, next) => {
+    const comment = await commentsAction.CreateCommentData(req);
 
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
-    );
-
-  const { transaction, ratings, text } = req.body;
-
-  await Comment.create({
-    transaction,
-    ratings,
-    text,
-  }).then((comment) =>
-    SuccessHandler(
+    return SuccessHandler(
       res,
-      `New comment ${text} created with an ID ${comment._id}`,
+      `New comment ${comment.text} created with an ID ${comment._id}`,
       comment
-    )
-  );
-});
+    );
+  }),
+];
 
-exports.updateComment = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["transaction", "ratings", "text"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
-
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
+exports.updateComment = [
+  checkRequiredFields(["transaction", "ratings", "text"]),
+  asyncHandler(async (req, res, next) => {
+    const comment = await commentsAction.updateCommentData(
+      req,
+      res,
+      req.params.id
     );
 
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return next(
-      new ErrorHandler(`Comment not found with ID: ${req.params.id}`)
+    return SuccessHandler(
+      res,
+      `Comment ${comment.text} with ID ${comment._id} is updated`,
+      comment
     );
-
-  const comment = await Comment.findById(req.params.id).exec();
-
-  if (!comment) return next(new ErrorHandler("No comment found"));
-
-  await Comment.findByIdAndUpdate(comment._id, req.body, {
-    new: true,
-    runValidators: true,
-  })
-    .lean()
-    .exec()
-    .then((updatedComment) =>
-      !updatedComment
-        ? next(new ErrorHandler("No Comment found"))
-        : SuccessHandler(
-            res,
-            `Comment ${updatedComment.text} with ID ${updatedComment._id} is updated`,
-            updatedComment
-          )
-    );
-});
+  }),
+];
 
 exports.deleteComment = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Comment not found with ID: ${id}`));
-
-  if (!id) return next(new ErrorHandler("Comment ID required"));
-
-  const comment = await Comment.findOneAndDelete({ _id: id }).lean().exec();
+  const comment = await commentsAction.deleteCommentData(req.params.id);
 
   return !comment
     ? next(new ErrorHandler("No comment found"))
     : SuccessHandler(
         res,
-        `Comment ${comment.text} with ID ${id} is deleted`,
+        `Comment ${comment.text} with ID ${comment._id} is deleted`,
         comment
       );
 });

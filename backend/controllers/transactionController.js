@@ -1,22 +1,11 @@
-const Transactions = require("../models/transaction");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const mongoose = require("mongoose");
+const transactionsAction = require("../actions/transactionAction");
 const asyncHandler = require("express-async-handler");
+const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllTransactions = asyncHandler(async (req, res, next) => {
-  const transactions = await Transactions.find()
-    .populate({
-      path: "user",
-      select: "name",
-    })
-    .populate({
-      path: "camera",
-      select: "name",
-    })
-    .sort({ createdAt: -1 })
-    .lean()
-    .exec();
+  const transactions = await transactionsAction.getAllTransactionsData();
 
   return !transactions?.length
     ? next(new ErrorHandler("No transactions found"))
@@ -31,127 +20,57 @@ exports.getAllTransactions = asyncHandler(async (req, res, next) => {
       );
 });
 exports.getSingleTransactions = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+  const transaction = await transactionsAction.getSingleTransactionData(
+    req.params.id
+  );
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Transactions not found with ID: ${id}`));
-
-  const transactions = await Transactions.findById(id)
-    .populate("camera", "status") // populate the "camera" field with the "status" field of the referenced Camera document
-    .lean()
-    .exec();
-
-  return !transactions
-    ? next(new ErrorHandler("No transactions found"))
+  return !transaction
+    ? next(new ErrorHandler("No transaction found"))
     : SuccessHandler(
         res,
-        `Transactions ${transactions.status} with ID ${id} retrieved`,
-        transactions
+        `Transaction with ID ${transaction.id} is ${transaction.status}`,
+        transaction
       );
 });
 
-exports.createNewTransactions = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["user", "camera", "status", "date"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
+exports.createNewTransactions = [
+  checkRequiredFields(["user", "camera", "status", "date"]),
+  asyncHandler(async (req, res, next) => {
+    const transaction = await transactionsAction.CreateTransactionData(req);
 
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
+    return SuccessHandler(
+      res,
+      `New transaction on ${transaction.date} was created with an ID ${transaction._id}`,
+      transaction
+    );
+  }),
+];
+
+exports.updateTransactions = [
+  checkRequiredFields(["user", "camera", "status", "date"]),
+  asyncHandler(async (req, res, next) => {
+    const transaction = await transactionsAction.updateTransactionData(
+      req,
+      res,
+      req.params.id
     );
 
-  const { user, camera, status, date } = req.body;
-
-  const duplicate = await Transactions.findOne({ status })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate status"))
-    : await Transactions.create({
-        user,
-        camera,
-        status,
-        date,
-      }).then((transactions) =>
-        SuccessHandler(
-          res,
-          `New transactions ${status} created with an ID ${transactions._id}`,
-          transactions
-        )
-      );
-});
-
-exports.updateTransactions = asyncHandler(async (req, res, next) => {
-  const requiredFields = ["user", "camera", "status", "date"];
-  const missingFields = requiredFields.filter((field) => !req.body[field]);
-
-  if (missingFields.length)
-    return next(
-      new ErrorHandler(
-        JSON.stringify(
-          missingFields.map((field) => ({ [field]: `${field} is required` }))
-        ).replace(/[{}\[\]\\"]/g, "")
-      )
+    return SuccessHandler(
+      res,
+      `Transaction on ${transaction.date} with ID ${transaction._id} is updated`,
+      transaction
     );
-
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return next(
-      new ErrorHandler(`Transactions not found with ID: ${req.params.id}`)
-    );
-
-  const transactions = await Transactions.findById(req.params.id).exec();
-
-  if (!transactions) return next(new ErrorHandler("No transactions found"));
-
-  const duplicate = await Transactions.findOne({
-    status: req.body.status,
-    _id: { $ne: transactions._id },
-  })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  return duplicate
-    ? next(new ErrorHandler("Duplicate status"))
-    : Transactions.findByIdAndUpdate(transactions._id, req.body, {
-        new: true,
-        runValidators: true,
-      })
-        .lean()
-        .exec()
-        .then((updatedTransactions) =>
-          !updatedTransactions
-            ? next(new ErrorHandler("No transactions found"))
-            : SuccessHandler(
-                res,
-                `Transactions ${updatedTransactions.status} with ID ${updatedTransactions._id} is updated`,
-                updatedTransactions
-              )
-        );
-});
+  }),
+];
 
 exports.deleteTransactions = asyncHandler(async (req, res, next) => {
-  const id = req.params.id;
+  const transaction = await commentsAction.deleteCommentData(req.params.id);
 
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Transactions not found with ID: ${id}`));
-
-  if (!id) return next(new ErrorHandler("Transactions ID required"));
-
-  const transactions = await Transactions.findOneAndDelete({ _id: id })
-    .lean()
-    .exec();
-
-  return !transactions
-    ? next(new ErrorHandler("No transactions found"))
+  return !transaction
+    ? next(new ErrorHandler("No transaction found"))
     : SuccessHandler(
         res,
-        `Transactions ${transactions.name} with ID ${id} is deleted`,
-        transactions
+        `Transaction on ${transaction.date} with ID ${id} is deleted`,
+        transaction
       );
 });
