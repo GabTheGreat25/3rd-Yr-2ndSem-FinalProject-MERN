@@ -1,149 +1,450 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Welcome to My Web Application</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700');
+      html,
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f7f7f7;
-        color: #333;
         margin: 0;
         padding: 0;
-        text-align: center;
+        box-sizing: border-box;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 62.5%;
+        font-size: 10px;
       }
+      /*-- Inspiration taken from abdo steif -->
+/* --> https://codepen.io/abdosteif/pen/bRoyMb?editors=1100*/
 
-      header {
-        background-color: #007bff;
-        color: #fff;
-        padding: 30px 0;
-      }
+      /* Navbar section */
 
-      h1 {
-        margin-top: 40px;
-        font-size: 48px;
-        font-weight: bold;
-      }
-
-      p {
-        font-size: 24px;
-        margin: 40px 0;
-      }
-
-      a {
-        color: #007bff;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      main {
-        padding: 4rem 0;
-      }
-
-      .feature-box {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 20px;
-        padding: 30px;
-        background-color: #fff;
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        text-align: center;
-      }
-
-      .feature-box h2 {
-        font-size: 36px;
-        font-weight: bold;
-        margin: 20px 0;
-      }
-
-      .feature-box p {
-        font-size: 18px;
-        margin: 20px 0;
-      }
-
-      .feature-box a {
-        font-size: 18px;
-        font-weight: bold;
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 5px;
-        transition: background-color 0.2s ease-in-out;
-      }
-
-      .feature-box a:hover {
-        background-color: #0062cc;
-        color: #fff;
-      }
-
-      footer {
-        background-color: #007bff;
-        color: #fff;
-        padding: 20px;
-        position: fixed;
-        bottom: 0;
-        left: 0;
+      .nav {
         width: 100%;
+        height: 65px;
+        position: fixed;
+        line-height: 65px;
+        text-align: center;
       }
 
-      footer p {
+      .nav div.logo {
+        float: left;
+        width: auto;
+        height: auto;
+        padding-left: 3rem;
+      }
+
+      .nav div.logo a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 2.5rem;
+      }
+
+      .nav div.logo a:hover {
+        color: #00e676;
+      }
+
+      .nav div.main_list {
+        height: 65px;
+        float: right;
+      }
+
+      .nav div.main_list ul {
+        width: 100%;
+        height: 65px;
+        display: flex;
+        list-style: none;
         margin: 0;
+        padding: 0;
+      }
+
+      .nav div.main_list ul li {
+        width: auto;
+        height: 65px;
+        padding: 0;
+        padding-right: 3rem;
+      }
+
+      .nav div.main_list ul li a {
+        text-decoration: none;
+        color: #fff;
+        line-height: 65px;
+        font-size: 2.4rem;
+      }
+
+      .nav div.main_list ul li a:hover {
+        color: #00e676;
+      }
+
+      /* Home section */
+
+      .home {
+        width: 100%;
+        height: 100vh;
+        background-image: url(https://images.unsplash.com/photo-1498550744921-75f79806b8a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0f6908fa5e81286213c7211276e6b3d&auto=format&fit=crop&w=1500&q=80);
+        background-position: center top;
+        background-size: cover;
+      }
+
+      .navTrigger {
+        display: none;
+      }
+
+      .nav {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        -webkit-transition: all 0.4s ease;
+        transition: all 0.4s ease;
+      }
+
+      /* Media qurey section */
+
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        .container {
+          margin: 0;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .navTrigger {
+          display: block;
+        }
+        .nav div.logo {
+          margin-left: 15px;
+        }
+        .nav div.main_list {
+          width: 100%;
+          height: 0;
+          overflow: hidden;
+        }
+        .nav div.show_list {
+          height: auto;
+          display: none;
+        }
+        .nav div.main_list ul {
+          flex-direction: column;
+          width: 100%;
+          height: 100vh;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          background-color: #111;
+          /*same background color of navbar*/
+          background-position: center top;
+        }
+        .nav div.main_list ul li {
+          width: 100%;
+          text-align: right;
+        }
+        .nav div.main_list ul li a {
+          text-align: center;
+          width: 100%;
+          font-size: 3rem;
+          padding: 20px;
+        }
+        .nav div.media_button {
+          display: block;
+        }
+      }
+
+      /* Animation */
+      /* Inspiration taken from Dicson https://codemyui.com/simple-hamburger-menu-x-mark-animation/ */
+
+      .navTrigger {
+        cursor: pointer;
+        width: 30px;
+        height: 25px;
+        margin: auto;
+        position: absolute;
+        right: 30px;
+        top: 0;
+        bottom: 0;
+      }
+
+      .navTrigger i {
+        background-color: #fff;
+        border-radius: 2px;
+        content: '';
+        display: block;
+        width: 100%;
+        height: 4px;
+      }
+
+      .navTrigger i:nth-child(1) {
+        -webkit-animation: outT 0.8s backwards;
+        animation: outT 0.8s backwards;
+        -webkit-animation-direction: reverse;
+        animation-direction: reverse;
+      }
+
+      .navTrigger i:nth-child(2) {
+        margin: 5px 0;
+        -webkit-animation: outM 0.8s backwards;
+        animation: outM 0.8s backwards;
+        -webkit-animation-direction: reverse;
+        animation-direction: reverse;
+      }
+
+      .navTrigger i:nth-child(3) {
+        -webkit-animation: outBtm 0.8s backwards;
+        animation: outBtm 0.8s backwards;
+        -webkit-animation-direction: reverse;
+        animation-direction: reverse;
+      }
+
+      .navTrigger.active i:nth-child(1) {
+        -webkit-animation: inT 0.8s forwards;
+        animation: inT 0.8s forwards;
+      }
+
+      .navTrigger.active i:nth-child(2) {
+        -webkit-animation: inM 0.8s forwards;
+        animation: inM 0.8s forwards;
+      }
+
+      .navTrigger.active i:nth-child(3) {
+        -webkit-animation: inBtm 0.8s forwards;
+        animation: inBtm 0.8s forwards;
+      }
+
+      @-webkit-keyframes inM {
+        50% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(45deg);
+        }
+      }
+
+      @keyframes inM {
+        50% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(45deg);
+        }
+      }
+
+      @-webkit-keyframes outM {
+        50% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(45deg);
+        }
+      }
+
+      @keyframes outM {
+        50% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(45deg);
+        }
+      }
+
+      @-webkit-keyframes inT {
+        0% {
+          -webkit-transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          -webkit-transform: translateY(9px) rotate(0deg);
+        }
+        100% {
+          -webkit-transform: translateY(9px) rotate(135deg);
+        }
+      }
+
+      @keyframes inT {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(9px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(9px) rotate(135deg);
+        }
+      }
+
+      @-webkit-keyframes outT {
+        0% {
+          -webkit-transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          -webkit-transform: translateY(9px) rotate(0deg);
+        }
+        100% {
+          -webkit-transform: translateY(9px) rotate(135deg);
+        }
+      }
+
+      @keyframes outT {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(9px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(9px) rotate(135deg);
+        }
+      }
+
+      @-webkit-keyframes inBtm {
+        0% {
+          -webkit-transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          -webkit-transform: translateY(-9px) rotate(0deg);
+        }
+        100% {
+          -webkit-transform: translateY(-9px) rotate(135deg);
+        }
+      }
+
+      @keyframes inBtm {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-9px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-9px) rotate(135deg);
+        }
+      }
+
+      @-webkit-keyframes outBtm {
+        0% {
+          -webkit-transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          -webkit-transform: translateY(-9px) rotate(0deg);
+        }
+        100% {
+          -webkit-transform: translateY(-9px) rotate(135deg);
+        }
+      }
+
+      @keyframes outBtm {
+        0% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-9px) rotate(0deg);
+        }
+        100% {
+          transform: translateY(-9px) rotate(135deg);
+        }
+      }
+
+      .affix {
+        padding: 0;
+        background-color: #111;
+      }
+
+      .myH2 {
+        text-align: center;
+        font-size: 4rem;
+      }
+      .myP {
+        text-align: justify;
+        padding-left: 15%;
+        padding-right: 15%;
+        font-size: 20px;
+      }
+      @media all and (max-width: 700px) {
+        .myP {
+          padding: 2%;
+        }
       }
     </style>
+    <script>
+      $('.navTrigger').click(function () {
+        $(this).toggleClass('active')
+        console.log('Clicked menu')
+        $('#mainListDiv').toggleClass('show_list')
+        $('#mainListDiv').fadeIn()
+      })
+    </script>
   </head>
   <body>
-    <header>
-      <h1>Welcome to My Web Application</h1>
-    </header>
-    <main>
-      <section class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="feature-box">
-              <h2>Our Products</h2>
-              <p>
-                Explore our wide selection of high-quality products for all your
-                needs.
-              </p>
-              <a href="/products">View Products</a>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="feature-box">
-              <h2>About Us</h2>
-              <p>
-                Learn more about our company, our values, and our commitment to
-                excellence.
-              </p>
-              <a href="/about">Learn More</a>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="feature-box">
-              <h2>Contact Us</h2>
-              <p>
-                Get in touch with us for any questions, concerns, or feedback.
-              </p>
-              <a href="/contact">Contact Us</a>
-            </div>
-          </div>
+    <nav class="nav">
+      <div class="container">
+        <div class="logo">
+          <a href="#">RedFrame Camera Rentals</a>
         </div>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2023 My Web Application. All rights reserved.</p>
-    </footer>
+        <div id="mainListDiv" class="main_list">
+          <ul class="navlinks">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <span class="navTrigger">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </div>
+    </nav>
+
+    <section class="home"></section>
+    <div style="height: 1000px;">
+      <!-- just to make scrolling effect possible -->
+      <h2 class="myH2">About Us?</h2>
+      <p class="myP">
+        Rent our camera for smooth/fast reliable transactions. No downpayment
+        needed just fill out the form.
+      </p>
+
+      <p class="myP">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum ratione
+        facere animi impedit rem labore sint repellendus ipsa sapiente
+        voluptatem aut excepturi quo itaque, ab earum cumque. Voluptatem beatae
+        id inventore quod voluptate qui deserunt, quis placeat, tempora ex
+        totam, dolore sequi harum eos voluptatibus animi labore officiis minus
+        laboriosam Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        Ipsum ratione facere animi impedit rem labore sint repellendus ipsa
+        sapiente voluptatem aut excepturi quo itaque, ab earum cumque.
+        Voluptatem beatae id inventore quod voluptate qui deserunt, quis
+        placeat, tempora ex totam, dolore sequi harum eos voluptatibus animi
+        labore officiis minus laboriosam Lorem, ipsum dolor sit amet consectetur
+        adipisicing elit. Ipsum ratione facere animi impedit rem labore sint
+        repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum
+        cumque. Voluptatem beatae id inventore quod voluptate qui deserunt, quis
+        placeat, tempora ex totam, dolore sequi harum eos voluptatibus animi
+        labore officiis minus laboriosam Lorem, ipsum dolor sit amet consectetur
+        adipisicing elit. Ipsum ratione facere animi impedit rem labore sint
+        repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum
+        cumque. Voluptatem beatae id inventore quod voluptate qui deserunt, quis
+        placeat, tempora ex totam, dolore sequi harum eos voluptatibus animi
+        labore officiis minus laboriosam Lorem, ipsum dolor sit amet consectetur
+        adipisicing elit. Ipsum ratione facere animi impedit rem labore sint
+        repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum
+        cumque. Voluptatem beatae id inventore quod voluptate qui deserunt, quis
+        placeat, tempora ex totam, dolore sequi harum eos voluptatibus animi
+        labore officiis minus laboriosam
+      </p>
+    </div>
+
+    <!-- Jquery needed -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <!-- Function used to shrink nav bar removing paddings and adding black background -->
+    <script>
+      $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+          $('.nav').addClass('affix')
+          console.log('OK')
+        } else {
+          $('.nav').removeClass('affix')
+        }
+      })
+    </script>
   </body>
 </html>
