@@ -9,6 +9,7 @@ const corsOptions = {
     }
   },
   credentials: true,
+  preflightContinue: true,
   optionsSuccessStatus: 200,
 };
 
