@@ -140,7 +140,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"123\",\r\n    \"email\": \"123@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Admin,Employee\"]\r\n}"
+							"raw": "{\r\n    \"name\": \"12345678\",\r\n    \"email\": \"12345678@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Admin\",\"Employee\"]\r\n}"
 						},
 						"url": "{{URI}}{{V1}}users"
 					},
@@ -567,7 +567,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}"
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-12\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
 					},

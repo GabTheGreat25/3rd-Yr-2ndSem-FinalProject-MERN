@@ -35,8 +35,6 @@ const logEvents = async (message, logFileName) => {
     if (messagesCount >= MAX_MESSAGES_PER_LOG_FILE)
       await fsPromises.unlink(logFilePath);
 
-    await fsPromises.appendFile(logFilePath, logItem);
-
     if (
       message === lastErrorMessage &&
       lastErrorTime &&
@@ -46,12 +44,17 @@ const logEvents = async (message, logFileName) => {
         console.warn(
           `Discarded error message '${message}' due to duplicate errors.`
         );
+        return;
       }
-    } else lastErrorMessage = message;
+    } else {
+      lastErrorMessage = message;
+      errorCount = 0;
+    }
     lastErrorTime = Date.now();
-    errorCount = 0;
+
+    await fsPromises.appendFile(logFilePath, logItem);
   } catch (err) {
-    console.log(err);
+    console.error(`Error while writing to log file '${logFileName}': ${err}`);
   }
 };
 

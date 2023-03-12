@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
-const asyncHandler = require("express-async-handler");
 
-const connectDB = asyncHandler(async () => {
-  mongoose.set("strictQuery", false);
-  mongoose.connect(process.env.DATABASE_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-});
+const connectDB = async () => {
+  try {
+    mongoose.set("strictQuery", false);
+    await mongoose.connect(process.env.DATABASE_URI);
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
+};
 
 module.exports = connectDB;
