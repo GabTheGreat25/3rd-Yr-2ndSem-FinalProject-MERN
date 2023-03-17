@@ -1,12 +1,12 @@
 const Comment = require("../models/Comment");
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const commentsAction = require("../actions/commentAction");
+const commentsService = require("../services/commentService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllComment = asyncHandler(async (req, res, next) => {
-  const comments = await commentsAction.getAllCommentsData();
+  const comments = await commentsService.getAllCommentsData();
 
   return !comments?.length
     ? next(new ErrorHandler("No comment found"))
@@ -22,7 +22,7 @@ exports.getAllComment = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleComment = asyncHandler(async (req, res, next) => {
-  const comment = await commentsAction.getSingleCommentData(req.params.id);
+  const comment = await commentsService.getSingleCommentData(req.params.id);
 
   return !comment
     ? next(new ErrorHandler("No comment found"))
@@ -34,9 +34,9 @@ exports.getSingleComment = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewComment = [
-  checkRequiredFields(["transaction", "ratings", "text"]),
+  checkRequiredFields(["transservice", "ratings", "text"]),
   asyncHandler(async (req, res, next) => {
-    const comment = await commentsAction.CreateCommentData(req);
+    const comment = await commentsService.CreateCommentData(req);
 
     return SuccessHandler(
       res,
@@ -47,9 +47,9 @@ exports.createNewComment = [
 ];
 
 exports.updateComment = [
-  checkRequiredFields(["transaction", "ratings", "text"]),
+  checkRequiredFields(["transservice", "ratings", "text"]),
   asyncHandler(async (req, res, next) => {
-    const comment = await commentsAction.updateCommentData(
+    const comment = await commentsService.updateCommentData(
       req,
       res,
       req.params.id
@@ -64,7 +64,7 @@ exports.updateComment = [
 ];
 
 exports.deleteComment = asyncHandler(async (req, res, next) => {
-  const comment = await commentsAction.deleteCommentData(req.params.id);
+  const comment = await commentsService.deleteCommentData(req.params.id);
 
   return !comment
     ? next(new ErrorHandler("No comment found"))

@@ -69,7 +69,7 @@ exports.updateTransactionData = async (req, res, id) => {
   return updatedTransaction;
 };
 
-exports.deletedTransactionData = async (id) => {
+exports.deleteTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid transaction ID: ${id}`);
 
