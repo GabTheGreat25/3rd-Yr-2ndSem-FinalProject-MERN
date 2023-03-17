@@ -1,11 +1,11 @@
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const notesAction = require("../actions/noteAction");
+const notesService = require("../services/noteService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllNotes = asyncHandler(async (req, res, next) => {
-  const notes = await notesAction.getAllNotesData();
+  const notes = await notesService.getAllNotesData();
 
   return !notes?.length
     ? next(new ErrorHandler("No notes found"))
@@ -19,7 +19,7 @@ exports.getAllNotes = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleNote = asyncHandler(async (req, res, next) => {
-  const note = await notesAction.getSingleNoteData(req.params.id);
+  const note = await notesService.getSingleNoteData(req.params.id);
 
   return !note
     ? next(new ErrorHandler("No note found"))
@@ -33,7 +33,7 @@ exports.getSingleNote = asyncHandler(async (req, res, next) => {
 exports.createNewNote = [
   checkRequiredFields(["user", "title", "text"]),
   asyncHandler(async (req, res, next) => {
-    const note = await notesAction.CreateNoteData(req);
+    const note = await notesService.CreateNoteData(req);
 
     return SuccessHandler(
       res,
@@ -46,7 +46,7 @@ exports.createNewNote = [
 exports.updateNote = [
   checkRequiredFields(["user", "title", "text"]),
   asyncHandler(async (req, res, next) => {
-    const note = await notesAction.updateNoteData(req, res, req.params.id);
+    const note = await notesService.updateNoteData(req, res, req.params.id);
 
     return SuccessHandler(
       res,
@@ -57,7 +57,7 @@ exports.updateNote = [
 ];
 
 exports.deleteNote = asyncHandler(async (req, res, next) => {
-  const note = await notesAction.deleteNoteData(req.params.id);
+  const note = await notesService.deleteNoteData(req.params.id);
 
   return !note
     ? next(new ErrorHandler("No note found"))

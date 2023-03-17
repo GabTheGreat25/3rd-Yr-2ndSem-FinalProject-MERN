@@ -1,11 +1,11 @@
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const transactionsAction = require("../actions/transactionAction");
+const transactionsService = require("../services/transactionService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllTransactions = asyncHandler(async (req, res, next) => {
-  const transactions = await transactionsAction.getAllTransactionsData();
+  const transactions = await transactionsService.getAllTransactionsData();
 
   return !transactions?.length
     ? next(new ErrorHandler("No transactions found"))
@@ -20,7 +20,7 @@ exports.getAllTransactions = asyncHandler(async (req, res, next) => {
       );
 });
 exports.getSingleTransactions = asyncHandler(async (req, res, next) => {
-  const transaction = await transactionsAction.getSingleTransactionData(
+  const transaction = await transactionsService.getSingleTransactionData(
     req.params.id
   );
 
@@ -36,7 +36,7 @@ exports.getSingleTransactions = asyncHandler(async (req, res, next) => {
 exports.createNewTransactions = [
   checkRequiredFields(["user", "camera", "status", "date"]),
   asyncHandler(async (req, res, next) => {
-    const transaction = await transactionsAction.CreateTransactionData(req);
+    const transaction = await transactionsService.CreateTransactionData(req);
 
     return SuccessHandler(
       res,
@@ -49,7 +49,7 @@ exports.createNewTransactions = [
 exports.updateTransactions = [
   checkRequiredFields(["user", "camera", "status", "date"]),
   asyncHandler(async (req, res, next) => {
-    const transaction = await transactionsAction.updateTransactionData(
+    const transaction = await transactionsService.updateTransactionData(
       req,
       res,
       req.params.id
@@ -64,13 +64,15 @@ exports.updateTransactions = [
 ];
 
 exports.deleteTransactions = asyncHandler(async (req, res, next) => {
-  const transaction = await commentsAction.deleteCommentData(req.params.id);
+  const transaction = await transactionsService.deleteTransactionData(
+    req.params.id
+  );
 
   return !transaction
     ? next(new ErrorHandler("No transaction found"))
     : SuccessHandler(
         res,
-        `Transaction on ${transaction.date} with ID ${id} is deleted`,
+        `Transaction on ${transaction.date} with ID ${transaction._id} is deleted`,
         transaction
       );
 });

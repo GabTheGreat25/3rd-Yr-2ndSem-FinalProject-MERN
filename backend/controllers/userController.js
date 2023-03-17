@@ -1,11 +1,11 @@
 const SuccessHandler = require("../utils/successHandler");
 const ErrorHandler = require("../utils/errorHandler");
-const usersAction = require("../actions/userAction");
+const usersService = require("../services/userService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await usersAction.getAllUsersData();
+  const users = await usersService.getAllUsersData();
 
   return !users?.length
     ? next(new ErrorHandler("No users found"))
@@ -19,7 +19,7 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.getSingleUser = asyncHandler(async (req, res, next) => {
-  const user = await usersAction.getSingleUserData(req.params.id);
+  const user = await usersService.getSingleUserData(req.params.id);
 
   return !user
     ? next(new ErrorHandler("No user found"))
@@ -33,7 +33,7 @@ exports.getSingleUser = asyncHandler(async (req, res, next) => {
 exports.createNewUser = [
   checkRequiredFields(["name", "email", "password"]),
   asyncHandler(async (req, res, next) => {
-    const user = await usersAction.CreateUserData(req);
+    const user = await usersService.CreateUserData(req);
 
     return SuccessHandler(
       res,
@@ -46,7 +46,7 @@ exports.createNewUser = [
 exports.updateUser = [
   checkRequiredFields(["name", "email", "roles"]),
   asyncHandler(async (req, res, next) => {
-    const user = await usersAction.updateUserData(req, res, req.params.id);
+    const user = await usersService.updateUserData(req, res, req.params.id);
 
     return SuccessHandler(
       res,
@@ -57,7 +57,7 @@ exports.updateUser = [
 ];
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  const user = await usersAction.deleteUserData(req.params.id);
+  const user = await usersService.deleteUserData(req.params.id);
 
   return !user
     ? next(new ErrorHandler("No user found"))
