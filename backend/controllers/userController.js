@@ -29,7 +29,7 @@ exports.refresh = asyncHandler(async (req, res, next) => {
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
-  const cookies = await usersService.logoutUser(req.cookies);
+  const cookies = await usersService.logoutUser(req.cookies, res);
   return cookies
     ? SuccessHandler(res, "Cookie Cleared", cookies)
     : next(new ErrorHandler("Failed to clear cookie"));

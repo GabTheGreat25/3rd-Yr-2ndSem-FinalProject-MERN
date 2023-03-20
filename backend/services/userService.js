@@ -36,7 +36,7 @@ exports.refreshToken = async (refreshToken) => {
   return accessToken;
 };
 
-exports.logoutUser = (cookies) => {
+exports.logoutUser = (cookies, res) => {
   return new Promise((resolve, reject) => {
     !cookies?.jwt
       ? reject(new Error("You are not logged in"))
