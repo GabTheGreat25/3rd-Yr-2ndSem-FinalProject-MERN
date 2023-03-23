@@ -14,25 +14,20 @@ exports.login = [
     const setCookie = token.setRefreshTokenCookie(refreshTokenMaxAge);
     setCookie(res, refreshToken);
 
-    return accessToken
-      ? SuccessHandler(res, "Token Generated", { accessToken })
-      : next(new ErrorHandler("Unauthorized"));
+    SuccessHandler(res, "Token Generated", { accessToken });
   }),
 ];
 
 exports.refresh = asyncHandler(async (req, res, next) => {
   const accessToken = await usersService.refreshToken(req.cookies.jwt);
 
-  return accessToken
-    ? SuccessHandler(res, "Token Refreshed", { accessToken })
-    : next(new ErrorHandler("Failed to refresh token"));
+  SuccessHandler(res, "Token Refreshed", { accessToken });
 });
 
 exports.logout = asyncHandler(async (req, res, next) => {
   const cookies = await usersService.logoutUser(req.cookies, res);
-  return cookies
-    ? SuccessHandler(res, "Cookie Cleared", cookies)
-    : next(new ErrorHandler("Failed to clear cookie"));
+
+  SuccessHandler(res, "Cookie Cleared", cookies);
 });
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
