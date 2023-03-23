@@ -1,19 +1,46 @@
 const express = require("express");
 const router = express.Router();
-const transactionsController = require("../controllers/transactionController");
-const verifyJWT = require("../middleware/verifyJWT");
+const transactionController = require("../controllers/transactionController");
+const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
+const { METHOD, PATH, ROLE } = require("../constants/index");
 
 router.use(verifyJWT);
 
-router
-  .route("/transactions")
-  .get(transactionsController.getAllTransactions)
-  .post(transactionsController.createNewTransactions);
+const transactionRoutes = [
+  {
+    method: METHOD.GET,
+    path: PATH.TRANSACTIONS,
+    roles: [PATH.ADMIN, PATH.EMPLOYEE, PATH.CUSTOMER],
+    handler: transactionController.getAllTransactions,
+  },
+  {
+    method: METHOD.POST,
+    path: PATH.TRANSACTIONS,
+    roles: [PATH.CUSTOMER],
+    handler: transactionController.createNewTransaction,
+  },
+  {
+    method: METHOD.GET,
+    path: PATH.TRANSACTION_ID,
+    roles: [PATH.ADMIN, PATH.EMPLOYEE, PATH.CUSTOMER],
+    handler: transactionController.getSingleTransaction,
+  },
+  {
+    method: METHOD.PATCH,
+    path: PATH.TRANSACTION_ID,
+    roles: [PATH.ADMIN, PATH.EMPLOYEE],
+    handler: transactionController.updateTransaction,
+  },
+  {
+    method: METHOD.DELETE,
+    path: PATH.TRANSACTION_ID,
+    roles: [PATH.ADMIN, PATH.EMPLOYEE],
+    handler: transactionController.deleteTransaction,
+  },
+];
 
-router
-  .route("/transaction/:id")
-  .get(transactionsController.getSingleTransactions)
-  .patch(transactionsController.updateTransactions)
-  .delete(transactionsController.deleteTransactions);
-
+transactionRoutes.forEach((route) => {
+  const { method, path, roles, handler } = route;
+  router[method](path, authorizeRoles(...roles), handler);
+});
 module.exports = router;
