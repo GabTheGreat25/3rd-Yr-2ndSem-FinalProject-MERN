@@ -28,7 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
+									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}/login"
 							},
@@ -143,7 +143,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"gab\",\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Admin\",\"Employee\"]\r\n}"
+							"raw": "{\r\n    \"name\": \"customer\",\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Customer\"]\r\n}"
 						},
 						"url": "{{URI}}{{V1}}users"
 					},
@@ -725,7 +725,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "064d88ea-2325-48f5-800e-5c98d749db7d",
+				"id": "4382c0c0-bb02-4319-bf45-91e48dfd6a49",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -735,7 +735,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "cd3c599c-44f2-48c7-b6dd-d40ca16aedc9",
+				"id": "656da2f2-c7a8-47d0-9858-cd39f7fa7cef",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -745,9 +745,9 @@
 	],
 	"variable": [
 		{
-			"id": "b0c618bc-3f7b-4be9-93f4-42c7bf498c4f",
+			"id": "dcf0dd36-6ca7-4ced-99a9-0843106e0b84",
 			"key": "Bearer",
-			"value": "Bearer "
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2Nzk1MzkyMDUsImV4cCI6MTY3OTU0MDEwNX0.4eHI1RpCbY--abcD9xYswpJk-zzbIH-Lh9c5tQ2QER4"
 		}
 	]
 }
