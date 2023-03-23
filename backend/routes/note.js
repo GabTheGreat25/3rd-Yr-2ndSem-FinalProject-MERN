@@ -1,16 +1,47 @@
 const express = require("express");
 const router = express.Router();
-const notesController = require("../controllers/noteController");
+const noteController = require("../controllers/noteController");
+const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
+const { METHOD, PATH, ROLE } = require("../constants/index");
 
-router
-  .route("/notes")
-  .get(notesController.getAllNotes)
-  .post(notesController.createNewNote);
+router.use(verifyJWT);
 
-router
-  .route("/note/:id")
-  .get(notesController.getSingleNote)
-  .patch(notesController.updateNote)
-  .delete(notesController.deleteNote);
+const noteRoutes = [
+  {
+    method: METHOD.GET,
+    path: PATH.NOTES,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: noteController.getAllNotes,
+  },
+  {
+    method: METHOD.POST,
+    path: PATH.NOTES,
+    roles: [ROLE.ADMIN],
+    handler: noteController.createNewNote,
+  },
+  {
+    method: METHOD.GET,
+    path: PATH.NOTE_ID,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: noteController.getSingleNote,
+  },
+  {
+    method: METHOD.PATCH,
+    path: PATH.NOTE_ID,
+    roles: [ROLE.ADMIN],
+    handler: noteController.updateNote,
+  },
+  {
+    method: METHOD.DELETE,
+    path: PATH.NOTE_ID,
+    roles: [ROLE.ADMIN],
+    handler: noteController.deleteNote,
+  },
+];
+
+noteRoutes.forEach((route) => {
+  const { method, path, roles, handler } = route;
+  router[method](path, authorizeRoles(...roles), handler);
+});
 
 module.exports = router;

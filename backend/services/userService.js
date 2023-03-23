@@ -2,13 +2,56 @@ const User = require("../models/user");
 const mongoose = require("mongoose");
 const ErrorHandler = require("../utils/errorHandler");
 const bcrypt = require("bcrypt");
+const token = require("../utils/token");
+
+exports.loginToken = async (email, password) => {
+  const foundUser = await User.findOne({ email }).select("+password").exec();
+
+  if (!foundUser || !foundUser.active)
+    throw new ErrorHandler("Wrong Email Or Password");
+
+  const match = await bcrypt.compare(password, foundUser.password);
+
+  if (!match) throw new ErrorHandler("Wrong Password");
+
+  const accessToken = token.generateAccessToken(
+    foundUser.email,
+    foundUser.roles
+  );
+
+  const refreshToken = token.generateRefreshToken(foundUser.email);
+
+  const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
+
+  return { accessToken, refreshToken, refreshTokenMaxAge };
+};
+
+exports.refreshToken = async (refreshToken) => {
+  const decodedRefreshToken = token.verifyRefreshToken(refreshToken);
+
+  const accessToken = token.generateAccessToken(
+    decodedRefreshToken.email,
+    decodedRefreshToken.roles
+  );
+
+  return accessToken;
+};
+
+exports.logoutUser = (cookies, res) => {
+  return new Promise((resolve, reject) => {
+    !cookies?.jwt
+      ? reject(new Error("You are not logged in"))
+      : (res.clearCookie("jwt", {
+          httpOnly: true,
+          sameSite: "None",
+          secure: true,
+        }),
+        resolve(cookies));
+  });
+};
 
 exports.getAllUsersData = async () => {
-  const users = await User.find()
-    .sort({ createdAt: -1 })
-    .select("-password")
-    .lean()
-    .exec();
+  const users = await User.find().sort({ createdAt: -1 }).lean().exec();
 
   return users;
 };
@@ -17,7 +60,7 @@ exports.getSingleUserData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  const user = await User.findById(id).select("-password").lean().exec();
+  const user = await User.findById(id).lean().exec();
 
   if (!user) throw new ErrorHandler(`User not found with ID: ${id}`);
 

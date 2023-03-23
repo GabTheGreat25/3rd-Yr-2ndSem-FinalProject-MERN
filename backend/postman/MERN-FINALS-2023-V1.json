@@ -28,9 +28,9 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
+									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
-								"url": "{{URI}}{{V1}}auth"
+								"url": "{{URI}}{{V1}}/login"
 							},
 							"response": []
 						},
@@ -53,7 +53,7 @@
 									"mode": "raw",
 									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
 								},
-								"url": "{{URI}}{{V1}}auth/refresh"
+								"url": "{{URI}}{{V1}}refresh"
 							},
 							"response": []
 						},
@@ -76,7 +76,7 @@
 									"mode": "file",
 									"file": {}
 								},
-								"url": "{{URI}}{{V1}}auth/logout"
+								"url": "{{URI}}{{V1}}/logout"
 							},
 							"response": []
 						}
@@ -94,9 +94,8 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6IkdhYnoiLCJyb2xlcyI6WyJFbXBsb3llZSIsIkFkbWluIiwiU3VwZXJBZG1pbiJdfSwiaWF0IjoxNjc4MTEwNzI0LCJleHAiOjE2NzgxMTE2MjR9.qa1KAIPEv5TyHKpLLArtI1VU3LFOCK3xUVP1C2YEruA",
-								"type": "text",
-								"disabled": true
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"url": "{{URI}}{{V1}}users"
@@ -114,12 +113,11 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJ1c2VybmFtZSI6IkdhYnoiLCJyb2xlcyI6WyJFbXBsb3llZSIsIkFkbWluIiwiU3VwZXJBZG1pbiJdfSwiaWF0IjoxNjc4MTEwNzI0LCJleHAiOjE2NzgxMTE2MjR9.qa1KAIPEv5TyHKpLLArtI1VU3LFOCK3xUVP1C2YEruA",
-								"type": "text",
-								"disabled": true
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}user/64093e01dc5af14a4dac1614"
+						"url": "{{URI}}{{V1}}user/641704ecf5fb4eed11b7872b"
 					},
 					"response": []
 				},
@@ -136,11 +134,16 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"12345678\",\r\n    \"email\": \"12345678@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Admin\",\"Employee\"]\r\n}"
+							"raw": "{\r\n    \"name\": \"customer\",\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Customer\"]\r\n}"
 						},
 						"url": "{{URI}}{{V1}}users"
 					},
@@ -158,6 +161,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -181,6 +189,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -206,7 +219,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}notes"
 					},
 					"response": []
@@ -219,7 +238,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
 					},
 					"response": []
@@ -236,6 +261,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -260,6 +290,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -282,6 +317,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -307,7 +347,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}comments"
 					},
 					"response": []
@@ -320,7 +366,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}comment/640bd7afa91ce76df4479202"
 					},
 					"response": []
@@ -337,6 +389,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -361,6 +418,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -383,6 +445,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -408,7 +475,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}cameras"
 					},
 					"response": []
@@ -421,7 +494,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0"
 					},
 					"response": []
@@ -438,6 +517,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -462,6 +546,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -484,6 +573,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -509,7 +603,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}transactions"
 					},
 					"response": []
@@ -522,7 +622,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
 						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
 					},
 					"response": []
@@ -539,6 +645,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
 								"type": "text"
 							}
 						],
@@ -563,6 +674,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -586,6 +702,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
 							}
 						],
 						"body": {
@@ -598,6 +719,35 @@
 				}
 			],
 			"id": "ab9c455f-6003-4ae8-85c3-745b747480b8"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4382c0c0-bb02-4319-bf45-91e48dfd6a49",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "656da2f2-c7a8-47d0-9858-cd39f7fa7cef",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "dcf0dd36-6ca7-4ced-99a9-0843106e0b84",
+			"key": "Bearer",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2Nzk1MzkyMDUsImV4cCI6MTY3OTU0MDEwNX0.4eHI1RpCbY--abcD9xYswpJk-zzbIH-Lh9c5tQ2QER4"
 		}
 	]
 }

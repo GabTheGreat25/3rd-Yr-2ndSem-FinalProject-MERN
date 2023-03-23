@@ -3,6 +3,32 @@ const ErrorHandler = require("../utils/errorHandler");
 const usersService = require("../services/userService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
+const token = require("../utils/token");
+
+exports.login = [
+  checkRequiredFields(["email", "password"]),
+  asyncHandler(async (req, res, next) => {
+    const { accessToken, refreshToken, refreshTokenMaxAge } =
+      await usersService.loginToken(req.body.email, req.body.password);
+
+    const setCookie = token.setRefreshTokenCookie(refreshTokenMaxAge);
+    setCookie(res, refreshToken);
+
+    SuccessHandler(res, "Token Generated", { accessToken });
+  }),
+];
+
+exports.refresh = asyncHandler(async (req, res, next) => {
+  const accessToken = await usersService.refreshToken(req.cookies.jwt);
+
+  SuccessHandler(res, "Token Refreshed", { accessToken });
+});
+
+exports.logout = asyncHandler(async (req, res, next) => {
+  const cookies = await usersService.logoutUser(req.cookies, res);
+
+  SuccessHandler(res, "Cookie Cleared", cookies);
+});
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const users = await usersService.getAllUsersData();
@@ -25,7 +51,7 @@ exports.getSingleUser = asyncHandler(async (req, res, next) => {
     ? next(new ErrorHandler("No user found"))
     : SuccessHandler(
         res,
-        `User ${user.name} with ID ${user_id} retrieved`,
+        `User ${user.name} with ID ${user._id} retrieved`,
         user
       );
 });

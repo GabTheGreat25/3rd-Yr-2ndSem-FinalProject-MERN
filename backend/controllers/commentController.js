@@ -5,7 +5,7 @@ const commentsService = require("../services/commentService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 
-exports.getAllComment = asyncHandler(async (req, res, next) => {
+exports.getAllComments = asyncHandler(async (req, res, next) => {
   const comments = await commentsService.getAllCommentsData();
 
   return !comments?.length

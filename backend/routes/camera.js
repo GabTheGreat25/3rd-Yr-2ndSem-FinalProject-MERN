@@ -1,16 +1,47 @@
 const express = require("express");
 const router = express.Router();
-const camerasController = require("../controllers/cameraController");
+const cameraController = require("../controllers/cameraController");
+const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
+const { METHOD, PATH, ROLE } = require("../constants/index");
 
-router
-  .route("/cameras")
-  .get(camerasController.getAllCameras)
-  .post(camerasController.createNewCamera);
+router.use(verifyJWT);
 
-router
-  .route("/camera/:id")
-  .get(camerasController.getSingleCamera)
-  .patch(camerasController.updateCamera)
-  .delete(camerasController.deleteCamera);
+const cameraRoutes = [
+  {
+    method: METHOD.GET,
+    path: PATH.CAMERAS,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
+    handler: cameraController.getAllCameras,
+  },
+  {
+    method: METHOD.POST,
+    path: PATH.CAMERAS,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: cameraController.createNewCamera,
+  },
+  {
+    method: METHOD.GET,
+    path: PATH.CAMERA_ID,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
+    handler: cameraController.getSingleCamera,
+  },
+  {
+    method: METHOD.PATCH,
+    path: PATH.CAMERA_ID,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: cameraController.updateCamera,
+  },
+  {
+    method: METHOD.DELETE,
+    path: PATH.CAMERA_ID,
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: cameraController.deleteCamera,
+  },
+];
+
+cameraRoutes.forEach((route) => {
+  const { method, path, roles, handler } = route;
+  router[method](path, authorizeRoles(...roles), handler);
+});
 
 module.exports = router;
