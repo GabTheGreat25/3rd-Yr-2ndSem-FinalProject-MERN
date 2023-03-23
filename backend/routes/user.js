@@ -1,19 +1,47 @@
 const express = require("express");
 const router = express.Router();
-const usersController = require("../controllers/userController");
-const verifyJWT = require("../middleware/verifyJWT");
+const userController = require("../controllers/userController");
+const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
+const { METHOD, PATH, ROLE } = require("../constants/index");
 
 router.use(verifyJWT);
 
-router
-  .route("/users")
-  .get(usersController.getAllUsers)
-  .post(usersController.createNewUser);
+const userRoutes = [
+  {
+    method: METHOD.GET,
+    path: PATH.USERS,
+    roles: ROLE.ADMIN,
+    handler: userController.getAllUsers,
+  },
+  {
+    method: METHOD.POST,
+    path: PATH.USERS,
+    roles: ROLE.ADMIN,
+    handler: userController.createNewUser,
+  },
+  {
+    method: METHOD.GET,
+    path: PATH.USER_ID,
+    roles: ROLE.ADMIN,
+    handler: userController.getSingleUser,
+  },
+  {
+    method: METHOD.PATCH,
+    path: PATH.USER_ID,
+    roles: ROLE.ADMIN,
+    handler: userController.updateUser,
+  },
+  {
+    method: METHOD.DELETE,
+    path: PATH.USER_ID,
+    roles: ROLE.ADMIN,
+    handler: userController.deleteUser,
+  },
+];
 
-router
-  .route("/user/:id")
-  .get(usersController.getSingleUser)
-  .patch(usersController.updateUser)
-  .delete(usersController.deleteUser);
+userRoutes.forEach((route) => {
+  const { method, path, roles, handler } = route;
+  router[method](path, authorizeRoles(...roles), handler);
+});
 
 module.exports = router;
