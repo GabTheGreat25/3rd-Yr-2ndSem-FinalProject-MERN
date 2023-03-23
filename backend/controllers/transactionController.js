@@ -19,7 +19,7 @@ exports.getAllTransactions = asyncHandler(async (req, res, next) => {
         transactions
       );
 });
-exports.getSingleTransactions = asyncHandler(async (req, res, next) => {
+exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
   const transaction = await transactionsService.getSingleTransactionData(
     req.params.id
   );
@@ -33,7 +33,7 @@ exports.getSingleTransactions = asyncHandler(async (req, res, next) => {
       );
 });
 
-exports.createNewTransactions = [
+exports.createNewTransaction = [
   checkRequiredFields(["user", "camera", "status", "date"]),
   asyncHandler(async (req, res, next) => {
     const transaction = await transactionsService.CreateTransactionData(req);
@@ -46,7 +46,7 @@ exports.createNewTransactions = [
   }),
 ];
 
-exports.updateTransactions = [
+exports.updateTransaction = [
   checkRequiredFields(["user", "camera", "status", "date"]),
   asyncHandler(async (req, res, next) => {
     const transaction = await transactionsService.updateTransactionData(
@@ -63,7 +63,7 @@ exports.updateTransactions = [
   }),
 ];
 
-exports.deleteTransactions = asyncHandler(async (req, res, next) => {
+exports.deleteTransaction = asyncHandler(async (req, res, next) => {
   const transaction = await transactionsService.deleteTransactionData(
     req.params.id
   );
