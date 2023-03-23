@@ -7,7 +7,8 @@ const token = require("../utils/token");
 exports.loginToken = async (email, password) => {
   const foundUser = await User.findOne({ email }).select("+password").exec();
 
-  if (!foundUser || !foundUser.active) throw new ErrorHandler("Unauthorize");
+  if (!foundUser || !foundUser.active)
+    throw new ErrorHandler("Wrong Email Or Password");
 
   const match = await bcrypt.compare(password, foundUser.password);
 
@@ -18,7 +19,7 @@ exports.loginToken = async (email, password) => {
     foundUser.roles
   );
 
-  const refreshToken = token.generateRefreshToken(foundUser.username);
+  const refreshToken = token.generateRefreshToken(foundUser.email);
 
   const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
 
