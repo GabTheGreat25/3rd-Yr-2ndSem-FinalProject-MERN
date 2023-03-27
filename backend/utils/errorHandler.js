@@ -1,5 +1,6 @@
+const { STATUSCODE } = require("../constants/index");
 class ErrorHandler extends Error {
-  constructor(message, statusCode = 400) {
+  constructor(message, statusCode = STATUSCODE.BAD_REQUEST) {
     super(message);
     this.statusCode = statusCode;
     Error.captureStackTrace(this, this.constructor);

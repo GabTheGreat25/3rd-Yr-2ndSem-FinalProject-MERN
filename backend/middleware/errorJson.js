@@ -1,13 +1,10 @@
 const ErrorHandler = require("../utils/errorHandler");
+const { STATUSCODE } = require("../constants/index");
 
 const errorJson = (err, req, res, next) => {
-  console.error(err.stack);
-
   if (err instanceof ErrorHandler) return next(err);
 
   const error = new ErrorHandler(err.message);
-
-  console.error(error.stack);
 
   next(error);
 };
@@ -15,9 +12,7 @@ const errorJson = (err, req, res, next) => {
 const { logEvents } = require("./logger");
 
 const errorHandler = (err, req, res, next) => {
-  console.error(err.stack);
-
-  const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || STATUSCODE.SERVER_ERROR;
   const message = err.message || "Internal Server Error";
 
   logEvents(
