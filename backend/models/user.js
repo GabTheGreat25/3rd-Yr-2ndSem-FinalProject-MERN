@@ -31,6 +31,22 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  image: [
+    {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+      originalname: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model(RESOURCE.USER, userSchema);
