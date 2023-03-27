@@ -10,31 +10,31 @@ const transactionRoutes = [
   {
     method: METHOD.GET,
     path: PATH.TRANSACTIONS,
-    roles: [PATH.ADMIN, PATH.EMPLOYEE, PATH.CUSTOMER],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
     handler: transactionController.getAllTransactions,
   },
   {
     method: METHOD.POST,
     path: PATH.TRANSACTIONS,
-    roles: [PATH.CUSTOMER],
+    roles: [ROLE.CUSTOMER],
     handler: transactionController.createNewTransaction,
   },
   {
     method: METHOD.GET,
     path: PATH.TRANSACTION_ID,
-    roles: [PATH.ADMIN, PATH.EMPLOYEE, PATH.CUSTOMER],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
     handler: transactionController.getSingleTransaction,
   },
   {
     method: METHOD.PATCH,
     path: PATH.TRANSACTION_ID,
-    roles: [PATH.ADMIN, PATH.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: transactionController.updateTransaction,
   },
   {
     method: METHOD.DELETE,
     path: PATH.TRANSACTION_ID,
-    roles: [PATH.ADMIN, PATH.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: transactionController.deleteTransaction,
   },
 ];
