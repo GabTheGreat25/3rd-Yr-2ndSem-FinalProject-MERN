@@ -5,8 +5,8 @@ const connectDB = async () => {
     mongoose.set("strictQuery", false);
     await mongoose.connect(process.env.DATABASE_URI);
   } catch (err) {
-    console.error(err);
-    process.exit(1);
+    const mongoExit = 1;
+    process.exit(mongoExit);
   }
 };
 
