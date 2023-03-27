@@ -4,6 +4,7 @@ const usersService = require("../services/userService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
 const token = require("../utils/token");
+const { upload } = require("../utils/cloudinary");
 
 exports.login = [
   checkRequiredFields(["email", "password"]),
@@ -57,7 +58,8 @@ exports.getSingleUser = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewUser = [
-  checkRequiredFields(["name", "email", "password"]),
+  upload.array("image"),
+  checkRequiredFields(["name", "email", "password", "image"]),
   asyncHandler(async (req, res, next) => {
     const user = await usersService.CreateUserData(req);
 
@@ -70,6 +72,7 @@ exports.createNewUser = [
 ];
 
 exports.updateUser = [
+  upload.array("image"),
   checkRequiredFields(["name", "email", "roles"]),
   asyncHandler(async (req, res, next) => {
     const user = await usersService.updateUserData(req, res, req.params.id);
