@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const { verifyAccessToken } = require("../utils/token");
 const ErrorHandler = require("../utils/errorHandler");
 
