@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700');
+      @import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700");
       html,
       body {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 62.5%;
         font-size: 10px;
       }
@@ -83,7 +83,7 @@
       .home {
         width: 100%;
         height: 100vh;
-        background-image: url(https://images.unsplash.com/photo-1498550744921-75f79806b8a7?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=b0f6908fa5e81286213c7211276e6b3d&auto=format&fit=crop&w=1500&q=80);
+        background-image: url(https://images.unsplash.com/photo-1465215872600-ad89fd2f1724?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGZyb250JTIwY2FtZXJhfGVufDB8fDB8fA%3D%3D&w=1000&q=80);
         background-position: center top;
         background-size: cover;
       }
@@ -166,7 +166,7 @@
       .navTrigger i {
         background-color: #fff;
         border-radius: 2px;
-        content: '';
+        content: "";
         display: block;
         width: 100%;
         height: 4px;
@@ -363,12 +363,12 @@
       }
     </style>
     <script>
-      $('.navTrigger').click(function () {
-        $(this).toggleClass('active')
-        console.log('Clicked menu')
-        $('#mainListDiv').toggleClass('show_list')
-        $('#mainListDiv').fadeIn()
-      })
+      $(".navTrigger").click(function () {
+        $(this).toggleClass("active");
+        console.log("Clicked menu");
+        $("#mainListDiv").toggleClass("show_list");
+        $("#mainListDiv").fadeIn();
+      });
     </script>
   </head>
   <body>
@@ -393,7 +393,7 @@
     </nav>
 
     <section class="home"></section>
-    <div style="height: 1000px;">
+    <div style="height: 100%">
       <!-- just to make scrolling effect possible -->
       <h2 class="myH2">About Us?</h2>
       <p class="myP">
@@ -439,12 +439,12 @@
     <script>
       $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
-          $('.nav').addClass('affix')
-          console.log('OK')
+          $(".nav").addClass("affix");
+          console.log("OK");
         } else {
-          $('.nav').removeClass('affix')
+          $(".nav").removeClass("affix");
         }
-      })
+      });
     </script>
   </body>
 </html>
