@@ -10,31 +10,31 @@ const userRoutes = [
   {
     method: METHOD.GET,
     path: PATH.USERS,
-    roles: ROLE.ADMIN,
+    roles: [ROLE.ADMIN],
     handler: userController.getAllUsers,
   },
   {
     method: METHOD.POST,
     path: PATH.USERS,
-    roles: ROLE.ADMIN,
+    roles: [ROLE.ADMIN],
     handler: userController.createNewUser,
   },
   {
     method: METHOD.GET,
     path: PATH.USER_ID,
-    roles: ROLE.ADMIN,
+    roles: [ROLE.ADMIN],
     handler: userController.getSingleUser,
   },
   {
     method: METHOD.PATCH,
     path: PATH.USER_ID,
-    roles: ROLE.ADMIN,
+    roles: [ROLE.ADMIN],
     handler: userController.updateUser,
   },
   {
     method: METHOD.DELETE,
     path: PATH.USER_ID,
-    roles: ROLE.ADMIN,
+    roles: [ROLE.ADMIN],
     handler: userController.deleteUser,
   },
 ];
