@@ -1,8 +1,9 @@
 const ErrorHandler = require("../utils/errorHandler");
 
 const checkRequiredFields = (fields) => (req, res, next) => {
-  const missingFields = fields.filter((field) => !req.body[field]);
-
+  const missingFields = fields.filter((field) =>
+    field === "image" ? !req.body.image && !req.files : !req.body[field]
+  );
   if (missingFields.length)
     return next(
       new ErrorHandler(
@@ -11,7 +12,6 @@ const checkRequiredFields = (fields) => (req, res, next) => {
         ).replace(/[{}\[\]\\"]/g, "")
       )
     );
-
   next();
 };
 
