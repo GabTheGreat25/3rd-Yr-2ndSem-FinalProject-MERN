@@ -4,4 +4,5 @@ module.exports = {
   CAMERA: "Camera",
   TRANSACTION: "Transaction",
   COMMENT: "Comment",
+  IMAGES: "Images",
 };
