@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ErrorHandler = require("../utils/errorHandler");
 const bcrypt = require("bcrypt");
 const token = require("../utils/token");
+const { cloudinary } = require("../utils/cloudinary");
 
 exports.loginToken = async (email, password) => {
   const foundUser = await User.findOne({ email }).select("+password").exec();
@@ -68,20 +69,32 @@ exports.getSingleUserData = async (id) => {
 };
 
 exports.CreateUserData = async (req, res) => {
-  const duplicate = await User.findOne({ name: req.body.name })
+  const duplicateUser = await User.findOne({ name: req.body.name })
     .collation({ locale: "en" })
     .lean()
     .exec();
 
-  if (duplicate) throw new ErrorHandler("Duplicate name");
+  if (duplicateUser) throw new ErrorHandler("Duplicate name");
+
+  const images = await Promise.all(
+    req.files.map(async (file) => {
+      const result = await cloudinary.uploader.upload(file.path, {
+        public_id: file.filename,
+      });
+      return {
+        public_id: result.public_id,
+        url: result.url,
+        originalname: file.originalname,
+      };
+    })
+  );
 
   const user = await User.create({
-    ...req.body,
-    password: await bcrypt.hash(
-      req.body.password,
-      Number(process.env.SALT_NUMBER)
-    ),
-    roles: req.body.roles || ["Customer"],
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    roles: req.body.roles.split(",") || ["Customer"],
+    image: images,
   });
 
   return user;
@@ -91,38 +104,62 @@ exports.updateUserData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  const updatedUser = await User.findByIdAndUpdate(id, req.body, {
-    new: true,
-    runValidators: true,
-  })
+  const existingUser = await User.findById(id).lean().exec();
+
+  if (!existingUser) throw new ErrorHandler(`User not found with ID: ${id}`);
+
+  let images;
+  if (req.files && req.files.length > 0) {
+    images = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await cloudinary.uploader.upload(file.path, {
+          public_id: file.filename,
+        });
+        return {
+          public_id: result.public_id,
+          url: result.url,
+          originalname: file.originalname,
+        };
+      })
+    );
+    await cloudinary.api.delete_resources(
+      existingUser.image.map((image) => image.public_id)
+    );
+  } else images = existingUser.image || [];
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      ...req.body,
+      roles: req.body.roles.split(","),
+      image: images,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
     .lean()
     .exec();
 
   if (!updatedUser) throw new ErrorHandler(`User not found with ID: ${id}`);
-
-  if (!Array.isArray(req.body.roles) || !req.body.roles.length)
-    throw new ErrorHandler("At least one role is required");
-
-  const duplicate = await User.findOne({
-    name: req.body.name,
-    _id: { $ne: id },
-  })
-    .collation({ locale: "en" })
-    .lean()
-    .exec();
-
-  if (duplicate) throw new ErrorHandler("Duplicate name");
 
   return updatedUser;
 };
 
 exports.deleteUserData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    return next(new ErrorHandler(`Invalid user ID: ${id}`));
+    throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  if (!id) return next(new ErrorHandler(`User not found with ID: ${id}`));
+  const user = await User.findOne({ _id: id });
+  if (!user) throw new ErrorHandler(`User not found with ID: ${id}`);
 
-  const user = await User.findOneAndDelete({ _id: id }).lean().exec();
+  const publicIds = user.image.map((image) => image.public_id);
+
+  await Promise.all([
+    User.deleteOne({ _id: id }).lean().exec(),
+    cloudinary.api.delete_resources(publicIds),
+  ]);
 
   return user;
 };
