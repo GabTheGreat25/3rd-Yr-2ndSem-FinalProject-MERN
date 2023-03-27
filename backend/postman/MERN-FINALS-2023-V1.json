@@ -28,7 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
+									"raw": "{\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}/login"
 							},
@@ -142,8 +142,37 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"customer\",\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"roles\": [\"Customer\"]\r\n}"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Gabgab",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "gaab@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								},
+								{
+									"key": "roles",
+									"value": "Admin,Employee",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [
+										"/C:/Users/gabriel/Downloads/Images/Di ako nag brbrip.jpg",
+										"/C:/Users/gabriel/Downloads/Images/default_avatar.jpg"
+									]
+								}
+							]
 						},
 						"url": "{{URI}}{{V1}}users"
 					},
@@ -170,10 +199,34 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"name\": \"gab\",\r\n        \"email\": \"gab@gmail.com\",\r\n        \"roles\": [\r\n            \"Admin\"\r\n        ],\r\n        \"active\": true\r\n    }"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Gabgabgab",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "gaab@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "roles",
+									"value": "Admin,Employee",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [
+										"/C:/Users/gabriel/Downloads/Images/download.png",
+										"/C:/Users/gabriel/Downloads/Images/johndoe.png"
+									]
+								}
+							]
 						},
-						"url": "{{URI}}{{V1}}user/64093e01dc5af14a4dac1614"
+						"url": "{{URI}}{{V1}}user/642183bde96f00a61b997312"
 					},
 					"response": []
 				},
@@ -201,7 +254,7 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}user/64093db0549a1fc85e2b4de2"
+						"url": "{{URI}}{{V1}}user/6421839ee96f00a61b99730c"
 					},
 					"response": []
 				}
@@ -725,7 +778,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "4382c0c0-bb02-4319-bf45-91e48dfd6a49",
+				"id": "b1bbcb5f-aa31-4751-9c76-35f9403a79e9",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -735,7 +788,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "656da2f2-c7a8-47d0-9858-cd39f7fa7cef",
+				"id": "6683ee31-0ae7-4c3c-b76e-16c260168a8f",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -745,9 +798,9 @@
 	],
 	"variable": [
 		{
-			"id": "dcf0dd36-6ca7-4ced-99a9-0843106e0b84",
+			"id": "d6686c98-3fb9-484e-9de1-d769b88c3b68",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2Nzk1MzkyMDUsImV4cCI6MTY3OTU0MDEwNX0.4eHI1RpCbY--abcD9xYswpJk-zzbIH-Lh9c5tQ2QER4"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2Nzk5MTc5MjYsImV4cCI6MTY4MDAwNDMyNn0.3h_ZKTUw0sTvBQg1Q_LOBs_atqBHj2lS0O_WMuCs-Eg"
 		}
 	]
 }
