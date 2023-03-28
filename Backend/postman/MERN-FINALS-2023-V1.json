@@ -146,12 +146,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Gabgab",
+									"value": "gabgab",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "gaab@gmail.com",
+									"value": "gabbzz@gmail.com",
 									"type": "text"
 								},
 								{
@@ -203,12 +203,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Gabgabpogi",
+									"value": "gabgabgab",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "gaab@gmail.com",
+									"value": "gabbzz@gmail.com",
 									"type": "text"
 								},
 								{
@@ -220,13 +220,13 @@
 									"key": "image",
 									"type": "file",
 									"src": [
-										"/C:/Users/gabriel/Downloads/Images/download.png",
-										"/C:/Users/gabriel/Downloads/Images/johndoe.png"
+										"/C:/Users/gabriel/Downloads/Images/johndoe.png",
+										"/C:/Users/gabriel/Downloads/Images/metamask-unscreen.gif"
 									]
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}user/642183bde96f00a61b997312"
+						"url": "{{URI}}{{V1}}user/642288f0e3c4b5341107befa"
 					},
 					"response": []
 				},
@@ -254,7 +254,7 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}user/6421839ee96f00a61b99730c"
+						"url": "{{URI}}{{V1}}user/6422888be3c4b5341107bee7"
 					},
 					"response": []
 				}
@@ -579,8 +579,34 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"name\": \"Canon 500D\",\r\n    \"text\": \"Good Camera\",\r\n    \"price\": \"1000\"\r\n}"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user",
+									"value": "642183bde96f00a61b997312",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Canon 600D",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Good Camera",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/gabriel/Downloads/Images/camera.png"
+								}
+							]
 						},
 						"url": "{{URI}}{{V1}}cameras"
 					},
@@ -607,10 +633,39 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"name\": \"Canon 600D\",\r\n    \"text\": \"Good Camera\",\r\n    \"price\": \"1000\"\r\n}"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user",
+									"value": "642183bde96f00a61b997312",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Canon 600D",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Cool Camera",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "1000",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": [
+										"/C:/Users/gabriel/Downloads/Images/camera.png",
+										"/C:/Users/gabriel/Downloads/Images/Di Ako Nag Brbrip.png"
+									]
+								}
+							]
 						},
-						"url": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0"
+						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
 					},
 					"response": []
 				},
@@ -638,7 +693,7 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}camera/640acc8c7b7d9314b0a71af3"
+						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
 					},
 					"response": []
 				}
@@ -798,7 +853,7 @@
 	],
 	"variable": [
 		{
-			"id": "23196942-33e9-4f3d-97e9-f3a90d6a62aa",
+			"id": "437108db-f6f0-466a-9ddc-c699ca0fd366",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2Nzk5MTc5MjYsImV4cCI6MTY4MDAwNDMyNn0.3h_ZKTUw0sTvBQg1Q_LOBs_atqBHj2lS0O_WMuCs-Eg"
 		}
