@@ -22,6 +22,22 @@ const cameraSchema = new mongoose.Schema({
     required: [true, "Please enter a price"],
     min: 0,
   },
+  image: [
+    {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+      originalname: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model(RESOURCE.CAMERA, cameraSchema);
