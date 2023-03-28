@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "e75cbabb-6946-407c-ae49-749ade74af79",
+		"_postman_id": "da2cb62d-7e4d-411b-9900-3c0180076e5e",
 		"name": "MERN-FINALS-2023",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19603641"
 	},
 	"item": [
 		{
@@ -13,10 +14,6 @@
 					"item": [
 						{
 							"name": "LOGIN A USER",
-							"id": "53e6bbcb-23e9-4234-83c5-067f38a956e1",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "POST",
 								"header": [
@@ -30,13 +27,20 @@
 									"mode": "raw",
 									"raw": "{\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
-								"url": "{{URI}}{{V1}}/login"
+								"url": {
+									"raw": "{{URI}}{{V1}}/login",
+									"host": [
+										"{{URI}}{{V1}}"
+									],
+									"path": [
+										"login"
+									]
+								}
 							},
 							"response": []
 						},
 						{
 							"name": "REFRESH TOKEN",
-							"id": "da9e5f83-5111-436e-81f6-a9be1efe8fbb",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -53,16 +57,17 @@
 									"mode": "raw",
 									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
 								},
-								"url": "{{URI}}{{V1}}refresh"
+								"url": {
+									"raw": "{{URI}}{{V1}}refresh",
+									"host": [
+										"{{URI}}{{V1}}refresh"
+									]
+								}
 							},
 							"response": []
 						},
 						{
 							"name": "LOGOUT",
-							"id": "60922cc8-ca90-4a20-89b5-a824a8367ff5",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "POST",
 								"header": [
@@ -76,19 +81,22 @@
 									"mode": "file",
 									"file": {}
 								},
-								"url": "{{URI}}{{V1}}/logout"
+								"url": {
+									"raw": "{{URI}}{{V1}}/logout",
+									"host": [
+										"{{URI}}{{V1}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
 							},
 							"response": []
 						}
-					],
-					"id": "c14ccbd3-87b3-4d71-9efd-ba9cac16f5bc"
+					]
 				},
 				{
 					"name": "GET ALL USERS",
-					"id": "e94ce9df-46d3-4e67-93f7-df03f2478430",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -98,16 +106,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}users"
+						"url": {
+							"raw": "{{URI}}{{V1}}users",
+							"host": [
+								"{{URI}}{{V1}}users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "GET SINGLE USER",
-					"id": "336fe1be-b913-41f3-9bb2-0325404c010b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -117,16 +126,20 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}user/641704ecf5fb4eed11b7872b"
+						"url": {
+							"raw": "{{URI}}{{V1}}user/641704ecf5fb4eed11b7872b",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"641704ecf5fb4eed11b7872b"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CREATE A USER",
-					"id": "030cc58d-ea27-470e-941c-2a3242bb0187",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -138,7 +151,8 @@
 							{
 								"key": "Authorization",
 								"value": "{{Bearer}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -146,12 +160,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "gabgab",
+									"value": "heinrich",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "gabbzz@gmail.com",
+									"value": "heinrich@gmail.com",
 									"type": "text"
 								},
 								{
@@ -174,16 +188,17 @@
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}users"
+						"url": {
+							"raw": "{{URI}}{{V1}}users",
+							"host": [
+								"{{URI}}{{V1}}users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "UPDATE A USER",
-					"id": "8166db69-8968-410a-8eb7-39b24bedad61",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -226,16 +241,20 @@
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}user/642288f0e3c4b5341107befa"
+						"url": {
+							"raw": "{{URI}}{{V1}}user/642288f0e3c4b5341107befa",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"642288f0e3c4b5341107befa"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DELETE A USER",
-					"id": "89a68387-b32c-493d-9da2-3bcb7685f084",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -254,22 +273,25 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}user/6422888be3c4b5341107bee7"
+						"url": {
+							"raw": "{{URI}}{{V1}}user/6422888be3c4b5341107bee7",
+							"host": [
+								"{{URI}}{{V1}}user"
+							],
+							"path": [
+								"6422888be3c4b5341107bee7"
+							]
+						}
 					},
 					"response": []
 				}
-			],
-			"id": "ca9ff0c5-4fd6-44b6-aff3-87939a4f8c2b"
+			]
 		},
 		{
 			"name": "NOTES",
 			"item": [
 				{
 					"name": "GET ALL NOTES",
-					"id": "c444164a-ff88-48c2-a6ac-e7c41ec8a633",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -279,16 +301,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}notes"
+						"url": {
+							"raw": "{{URI}}{{V1}}notes",
+							"host": [
+								"{{URI}}{{V1}}notes"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "GET SINGLE NOTE",
-					"id": "af8284e5-9051-4b37-87de-a3c49fc07787",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -298,16 +321,20 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
+						"url": {
+							"raw": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"640a6a80cae4fdc61e6f3937"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CREATE A NOTE",
-					"id": "1aabab92-0f1d-4764-9760-234d05e37f20",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -326,16 +353,17 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Fun\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}notes"
+						"url": {
+							"raw": "{{URI}}{{V1}}notes",
+							"host": [
+								"{{URI}}{{V1}}notes"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "UPDATE A NOTE",
-					"id": "bb7c996f-06b6-4c12-8921-c118998bb1ab",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -354,16 +382,20 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": true\r\n}"
 						},
-						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
+						"url": {
+							"raw": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"640a6a80cae4fdc61e6f3937"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DELETE A NOTE",
-					"id": "67cf36d8-dd15-465f-b1db-bdfef605619e",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -382,22 +414,25 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}note/64098910dcea167c88ee92a0"
+						"url": {
+							"raw": "{{URI}}{{V1}}note/64098910dcea167c88ee92a0",
+							"host": [
+								"{{URI}}{{V1}}note"
+							],
+							"path": [
+								"64098910dcea167c88ee92a0"
+							]
+						}
 					},
 					"response": []
 				}
-			],
-			"id": "4822fadb-d5b9-42dd-8d80-468a3cc120c8"
+			]
 		},
 		{
 			"name": "COMMENTS",
 			"item": [
 				{
 					"name": "GET ALL COMMENTS",
-					"id": "ed206939-4f1a-4e61-94ac-b72cfc8a1d94",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -407,16 +442,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}comments"
+						"url": {
+							"raw": "{{URI}}{{V1}}comments",
+							"host": [
+								"{{URI}}{{V1}}comments"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "GET SINGLE COMMENT",
-					"id": "a18cfe97-c71c-4094-8b34-7630fc1df6dc",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -426,16 +462,20 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}comment/640bd7afa91ce76df4479202"
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd7afa91ce76df4479202",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd7afa91ce76df4479202"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CREATE A COMMENT",
-					"id": "4e4674fa-8eb8-4fc4-80e5-788536d7765b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -454,16 +494,17 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 1,\r\n    \"text\": \"GG\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}comments"
+						"url": {
+							"raw": "{{URI}}{{V1}}comments",
+							"host": [
+								"{{URI}}{{V1}}comments"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "UPDATE A COMMENT",
-					"id": "297541ca-cd17-4e96-828d-5d3ca08760d9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -482,16 +523,20 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}comment/640bd79ca91ce76df44791fc"
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd79ca91ce76df44791fc",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd79ca91ce76df44791fc"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DELETE A COMMENT",
-					"id": "e51a79da-547f-4b51-9be0-c81bc1a61423",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -510,22 +555,25 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7"
+						"url": {
+							"raw": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7",
+							"host": [
+								"{{URI}}{{V1}}comment"
+							],
+							"path": [
+								"640bd901610d02792f9b55d7"
+							]
+						}
 					},
 					"response": []
 				}
-			],
-			"id": "35ce9b4e-44e1-494c-95bf-0e077d570c48"
+			]
 		},
 		{
 			"name": "CAMERAS",
 			"item": [
 				{
 					"name": "GET ALL CAMERA",
-					"id": "df260883-d114-4340-832a-0860173208b2",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -535,16 +583,27 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}cameras"
+						"url": {
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=2",
+							"host": [
+								"{{URI}}{{V1}}cameras"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "GET SINGLE CAMERA",
-					"id": "2a70218f-60d6-4396-8ae3-b026e3892001",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -554,16 +613,20 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0"
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"640acc877b7d9314b0a71af0"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CREATE A CAMERA",
-					"id": "872ec46d-5470-4438-b5a5-85b43e982355",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -608,16 +671,17 @@
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}cameras"
+						"url": {
+							"raw": "{{URI}}{{V1}}cameras",
+							"host": [
+								"{{URI}}{{V1}}cameras"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "UPDATE A CAMERA",
-					"id": "dde0a607-c36c-4b07-aa6f-937b91e1f83c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -665,16 +729,20 @@
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/642289e964d970c52537a66f",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"642289e964d970c52537a66f"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DELETE A CAMERA",
-					"id": "241ad5d3-75a7-456b-bef6-69f9ff447a9a",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -693,22 +761,25 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
+						"url": {
+							"raw": "{{URI}}{{V1}}camera/642289e964d970c52537a66f",
+							"host": [
+								"{{URI}}{{V1}}camera"
+							],
+							"path": [
+								"642289e964d970c52537a66f"
+							]
+						}
 					},
 					"response": []
 				}
-			],
-			"id": "bc738326-1fe4-42da-a3ec-c125d38f9b2c"
+			]
 		},
 		{
 			"name": "TRANSACTIONS",
 			"item": [
 				{
 					"name": "GET ALL TRANSACTIONS",
-					"id": "88a80a57-6f56-40ae-9d90-a6436000407c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -718,16 +789,17 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transactions"
+						"url": {
+							"raw": "{{URI}}{{V1}}transactions",
+							"host": [
+								"{{URI}}{{V1}}transactions"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "GET SINGLE TRANSACTION",
-					"id": "10a00e1c-357e-4ea4-b091-96177be1867e",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -737,16 +809,20 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bced47f37478158e52bdd"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "CREATE A TRANSACTION",
-					"id": "20ff725e-44f3-4a31-bec0-132f7ce93087",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [
@@ -765,16 +841,17 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}transactions"
+						"url": {
+							"raw": "{{URI}}{{V1}}transactions",
+							"host": [
+								"{{URI}}{{V1}}transactions"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "UPDATE A TRANSACTION",
-					"id": "e72ba1b5-3920-4373-a86d-b848c4e85b86",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -793,16 +870,20 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-14\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}transaction/640bcf4cdd16e1f18eee6486"
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bcf4cdd16e1f18eee6486",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bcf4cdd16e1f18eee6486"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "DELETE A TRANSACTION",
-					"id": "17e3eff9-de10-4c94-8007-9b4c38c34c8c",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -821,19 +902,25 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
+						"url": {
+							"raw": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd",
+							"host": [
+								"{{URI}}{{V1}}transaction"
+							],
+							"path": [
+								"640bced47f37478158e52bdd"
+							]
+						}
 					},
 					"response": []
 				}
-			],
-			"id": "ab9c455f-6003-4ae8-85c3-745b747480b8"
+			]
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "b1bbcb5f-aa31-4751-9c76-35f9403a79e9",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -843,7 +930,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6683ee31-0ae7-4c3c-b76e-16c260168a8f",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -853,9 +939,8 @@
 	],
 	"variable": [
 		{
-			"id": "437108db-f6f0-466a-9ddc-c699ca0fd366",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2Nzk5MTc5MjYsImV4cCI6MTY4MDAwNDMyNn0.3h_ZKTUw0sTvBQg1Q_LOBs_atqBHj2lS0O_WMuCs-Eg"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwMTY3NTEsImV4cCI6MTY4MDAxNzY1MX0.zsCy3hJ6Ow4c2A9ZJdHkWe_M0NK6RAx3r1F8CnDnUBk"
 		}
 	]
 }
