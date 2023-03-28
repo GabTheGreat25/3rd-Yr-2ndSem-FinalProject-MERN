@@ -1,6 +1,7 @@
 const Camera = require("../models/Camera");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
+const { cloudinary } = require("../utils/cloudinary");
 
 exports.getAllCamerasData = async () => {
   const cameras = await Camera.find()
@@ -35,7 +36,20 @@ exports.CreateCameraData = async (req, res) => {
   )
     throw new ErrorHandler("Duplicate name");
 
-  const camera = await Camera.create(req.body);
+  const images = await Promise.all(
+    req.files.map(async (file) => {
+      const result = await cloudinary.uploader.upload(file.path, {
+        public_id: file.filename,
+      });
+      return {
+        public_id: result.public_id,
+        url: result.url,
+        originalname: file.originalname,
+      };
+    })
+  );
+
+  const camera = await Camera.create({ ...req.body, image: images });
 
   return camera;
 };
@@ -44,16 +58,12 @@ exports.updateCameraData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid camera ID: ${id}`);
 
-  const updatedCamera = await Camera.findByIdAndUpdate(id, req.body, {
-    new: true,
-    runValidators: true,
-  })
-    .lean()
-    .exec();
+  const existingCamera = await Camera.findById(id).lean().exec();
 
-  if (!updatedCamera) throw new ErrorHandler(`Camera not found with ID: ${id}`);
+  if (!existingCamera)
+    throw new ErrorHandler(`Camera not found with ID: ${id}`);
 
-  const duplicate = await Camera.findOne({
+  const duplicateCamera = await Camera.findOne({
     name: req.body.name,
     _id: { $ne: id },
   })
@@ -61,7 +71,42 @@ exports.updateCameraData = async (req, res, id) => {
     .lean()
     .exec();
 
-  if (duplicate) throw new ErrorHandler("Duplicate name");
+  if (duplicateCamera) throw new ErrorHandler("Duplicate name");
+
+  let images;
+  if (req.files && req.files.length > 0) {
+    images = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await cloudinary.uploader.upload(file.path, {
+          public_id: file.filename,
+        });
+        return {
+          public_id: result.public_id,
+          url: result.url,
+          originalname: file.originalname,
+        };
+      })
+    );
+    await cloudinary.api.delete_resources(
+      existingCamera.image.map((image) => image.public_id)
+    );
+  } else images = existingCamera.image || [];
+
+  const updatedCamera = await Camera.findByIdAndUpdate(
+    id,
+    {
+      ...req.body,
+      image: images,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+    .lean()
+    .exec();
+
+  if (!updatedCamera) throw new ErrorHandler(`Camera not found with ID: ${id}`);
 
   return updatedCamera;
 };
@@ -70,9 +115,15 @@ exports.deleteCameraData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid camera ID: ${id}`);
 
-  if (!id) throw new ErrorHandler(`Camera not found with ID: ${id}`);
+  const camera = await Camera.findOne({ _id: id });
+  if (!camera) throw new ErrorHandler(`Camera not found with ID: ${id}`);
 
-  const camera = await Camera.findOneAndDelete({ _id: id }).lean().exec();
+  const publicIds = camera.image.map((image) => image.public_id);
+
+  await Promise.all([
+    Camera.deleteOne({ _id: id }).lean().exec(),
+    cloudinary.api.delete_resources(publicIds),
+  ]);
 
   return camera;
 };
