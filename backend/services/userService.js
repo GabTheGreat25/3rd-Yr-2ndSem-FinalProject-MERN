@@ -108,6 +108,16 @@ exports.updateUserData = async (req, res, id) => {
 
   if (!existingUser) throw new ErrorHandler(`User not found with ID: ${id}`);
 
+  const duplicateUser = await User.findOne({
+    name: req.body.name,
+    _id: { $ne: id },
+  })
+    .collation({ locale: "en" })
+    .lean()
+    .exec();
+
+  if (duplicateUser) throw new ErrorHandler("Duplicate name");
+
   let images;
   if (req.files && req.files.length > 0) {
     images = await Promise.all(

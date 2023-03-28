@@ -3,6 +3,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const camerasService = require("../services/cameraService");
 const asyncHandler = require("express-async-handler");
 const checkRequiredFields = require("../helpers/checkRequiredFields");
+const { upload } = require("../utils/cloudinary");
 
 exports.getAllCameras = asyncHandler(async (req, res, next) => {
   const cameras = await camerasService.getAllCamerasData();
@@ -33,6 +34,7 @@ exports.getSingleCamera = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewCamera = [
+  upload.array("image"),
   checkRequiredFields(["user", "name", "text", "price"]),
   asyncHandler(async (req, res, next) => {
     const camera = await camerasService.CreateCameraData(req);
@@ -46,6 +48,7 @@ exports.createNewCamera = [
 ];
 
 exports.updateCamera = [
+  upload.array("image"),
   checkRequiredFields(["user", "name", "text", "price"]),
   asyncHandler(async (req, res, next) => {
     const camera = await camerasService.updateCameraData(
