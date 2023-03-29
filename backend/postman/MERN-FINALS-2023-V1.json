@@ -169,8 +169,8 @@
 									"key": "image",
 									"type": "file",
 									"src": [
-										"/C:/Users/gabriel/Downloads/Images/Di ako nag brbrip.jpg",
-										"/C:/Users/gabriel/Downloads/Images/default_avatar.jpg"
+										"/C:/Users/gabriel/Downloads/Images/327389832_730063578545800_8784535188904779754_n.jpg",
+										"/C:/Users/gabriel/Downloads/Images/GettyImages-1289796719-scaled-e1618347894180.jpg"
 									]
 								}
 							]
@@ -869,7 +869,7 @@
 	],
 	"variable": [
 		{
-			"id": "314b6850-144c-49e5-aa95-c8119c5a2575",
+			"id": "40287cbe-8ca4-4df2-8730-07759364ec5f",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwNTMyNDEsImV4cCI6MTY4MDA1NDE0MX0.up4OHF1rQDb17EoDP49x8KI7Gyem1C09C5ViBhmapQ0"
 		}
