@@ -13,7 +13,7 @@
 					"item": [
 						{
 							"name": "LOGIN A USER",
-							"_postman_id": "b47f263d-810a-4bf6-b727-6910e02e2d98",
+							"id": "b47f263d-810a-4bf6-b727-6910e02e2d98",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -28,8 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
-									"options": {}
+									"raw": "{\r\n    \"email\": \"gab@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}/login"
 							},
@@ -37,7 +36,7 @@
 						},
 						{
 							"name": "REFRESH TOKEN",
-							"_postman_id": "1f140173-b6bb-44ca-a6d2-5a953b591660",
+							"id": "1f140173-b6bb-44ca-a6d2-5a953b591660",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -52,8 +51,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}",
-									"options": {}
+									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}refresh"
 							},
@@ -61,7 +59,7 @@
 						},
 						{
 							"name": "LOGOUT",
-							"_postman_id": "bc791f54-b849-496b-bb86-42c5e9c64b19",
+							"id": "bc791f54-b849-496b-bb86-42c5e9c64b19",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -83,12 +81,11 @@
 							"response": []
 						}
 					],
-					"_postman_id": "4e313355-03cb-45fb-8158-247b61c83fbf",
-					"_postman_isSubFolder": true
+					"id": "4e313355-03cb-45fb-8158-247b61c83fbf"
 				},
 				{
 					"name": "GET ALL USERS",
-					"_postman_id": "565bb007-7a91-4054-a04e-81e87bee2b0b",
+					"id": "565bb007-7a91-4054-a04e-81e87bee2b0b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -107,7 +104,7 @@
 				},
 				{
 					"name": "GET SINGLE USER",
-					"_postman_id": "1a616bb9-4e3f-496d-b3a1-6cedff76835e",
+					"id": "1a616bb9-4e3f-496d-b3a1-6cedff76835e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -126,7 +123,7 @@
 				},
 				{
 					"name": "CREATE A USER",
-					"_postman_id": "f34f90b2-daef-4626-8464-6e9896afa9c0",
+					"id": "f34f90b2-daef-4626-8464-6e9896afa9c0",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -176,8 +173,7 @@
 										"/C:/Users/gabriel/Downloads/Images/default_avatar.jpg"
 									]
 								}
-							],
-							"options": {}
+							]
 						},
 						"url": "{{URI}}{{V1}}users"
 					},
@@ -185,7 +181,7 @@
 				},
 				{
 					"name": "UPDATE A USER",
-					"_postman_id": "25ac4316-586c-4190-af2d-b5cffcaa2b67",
+					"id": "25ac4316-586c-4190-af2d-b5cffcaa2b67",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -229,8 +225,7 @@
 										"/C:/Users/gabriel/Downloads/Images/metamask-unscreen.gif"
 									]
 								}
-							],
-							"options": {}
+							]
 						},
 						"url": "{{URI}}{{V1}}user/642288f0e3c4b5341107befa"
 					},
@@ -238,7 +233,7 @@
 				},
 				{
 					"name": "DELETE A USER",
-					"_postman_id": "1b5c5e7c-dc79-4377-bb4e-9081e0c45252",
+					"id": "1b5c5e7c-dc79-4377-bb4e-9081e0c45252",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -258,22 +253,21 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {}
+							"raw": ""
 						},
 						"url": "{{URI}}{{V1}}user/6422888be3c4b5341107bee7"
 					},
 					"response": []
 				}
 			],
-			"_postman_id": "6e8c52fd-d244-469e-b7cb-faaba5f41690"
+			"id": "6e8c52fd-d244-469e-b7cb-faaba5f41690"
 		},
 		{
 			"name": "NOTES",
 			"item": [
 				{
 					"name": "GET ALL NOTES",
-					"_postman_id": "bfb941d7-d559-4194-82c3-cb66113fbb07",
+					"id": "bfb941d7-d559-4194-82c3-cb66113fbb07",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -292,7 +286,7 @@
 				},
 				{
 					"name": "GET SINGLE NOTE",
-					"_postman_id": "3fe68dfd-47ee-4697-bb34-9a09ffc21e42",
+					"id": "3fe68dfd-47ee-4697-bb34-9a09ffc21e42",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -311,7 +305,7 @@
 				},
 				{
 					"name": "CREATE A NOTE",
-					"_postman_id": "1c811ed0-51cb-4766-97f0-852b0ae2b1b9",
+					"id": "1c811ed0-51cb-4766-97f0-852b0ae2b1b9",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -331,8 +325,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Fun\"\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Fun\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}notes"
 					},
@@ -340,7 +333,7 @@
 				},
 				{
 					"name": "UPDATE A NOTE",
-					"_postman_id": "1bfaa3b6-702b-49ea-aa1a-4a9fb1a21300",
+					"id": "1bfaa3b6-702b-49ea-aa1a-4a9fb1a21300",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -360,8 +353,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": true\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": true\r\n}"
 						},
 						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
 					},
@@ -369,7 +361,7 @@
 				},
 				{
 					"name": "DELETE A NOTE",
-					"_postman_id": "bd447530-4d3e-488a-9315-9e6c138c9618",
+					"id": "bd447530-4d3e-488a-9315-9e6c138c9618",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -389,22 +381,21 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {}
+							"raw": ""
 						},
 						"url": "{{URI}}{{V1}}note/64098910dcea167c88ee92a0"
 					},
 					"response": []
 				}
 			],
-			"_postman_id": "d2d5938d-5f2f-4249-be37-913f0f8ebabe"
+			"id": "d2d5938d-5f2f-4249-be37-913f0f8ebabe"
 		},
 		{
 			"name": "COMMENTS",
 			"item": [
 				{
 					"name": "GET ALL COMMENTS",
-					"_postman_id": "4e2f7eea-89cb-468c-b7f1-3e0c880b683c",
+					"id": "4e2f7eea-89cb-468c-b7f1-3e0c880b683c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -423,7 +414,7 @@
 				},
 				{
 					"name": "GET SINGLE COMMENT",
-					"_postman_id": "2d51f98c-013e-4117-ab29-1eb790fa173d",
+					"id": "2d51f98c-013e-4117-ab29-1eb790fa173d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -442,7 +433,7 @@
 				},
 				{
 					"name": "CREATE A COMMENT",
-					"_postman_id": "1c0319f4-f360-4e07-a96d-ffabc79dcfa3",
+					"id": "1c0319f4-f360-4e07-a96d-ffabc79dcfa3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -462,8 +453,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 1,\r\n    \"text\": \"GG\"\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 1,\r\n    \"text\": \"GG\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -471,7 +461,7 @@
 				},
 				{
 					"name": "UPDATE A COMMENT",
-					"_postman_id": "2dad574b-8057-4545-ba32-f2f1ee737477",
+					"id": "2dad574b-8057-4545-ba32-f2f1ee737477",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -491,8 +481,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"transaction\": \"640bced47f37478158e52bdd\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comment/640bd79ca91ce76df44791fc"
 					},
@@ -500,7 +489,7 @@
 				},
 				{
 					"name": "DELETE A COMMENT",
-					"_postman_id": "d1268fdf-d78a-483e-9ec3-8be2dce01999",
+					"id": "d1268fdf-d78a-483e-9ec3-8be2dce01999",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -520,22 +509,21 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {}
+							"raw": ""
 						},
 						"url": "{{URI}}{{V1}}comment/640bd901610d02792f9b55d7"
 					},
 					"response": []
 				}
 			],
-			"_postman_id": "71243fde-4640-4a8d-95b1-ee0a915ab782"
+			"id": "71243fde-4640-4a8d-95b1-ee0a915ab782"
 		},
 		{
 			"name": "CAMERAS",
 			"item": [
 				{
 					"name": "GET ALL CAMERA",
-					"_postman_id": "f5a12e3a-b386-4e0e-811e-5209cf5df2fa",
+					"id": "f5a12e3a-b386-4e0e-811e-5209cf5df2fa",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -549,7 +537,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}cameras?page=1&limit=3",
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=2",
 							"host": [
 								"{{URI}}{{V1}}cameras"
 							],
@@ -560,7 +548,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "3"
+									"value": "2"
 								}
 							]
 						}
@@ -569,7 +557,7 @@
 				},
 				{
 					"name": "GET SINGLE CAMERA",
-					"_postman_id": "440be8a8-b9bf-4771-b27b-3eee15040d83",
+					"id": "440be8a8-b9bf-4771-b27b-3eee15040d83",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -588,7 +576,7 @@
 				},
 				{
 					"name": "CREATE A CAMERA",
-					"_postman_id": "9336d512-1051-41bb-844a-4d02d7ecd291",
+					"id": "9336d512-1051-41bb-844a-4d02d7ecd291",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -634,8 +622,7 @@
 									"type": "file",
 									"src": "/C:/Users/gabriel/Downloads/Images/camera.png"
 								}
-							],
-							"options": {}
+							]
 						},
 						"url": "{{URI}}{{V1}}cameras"
 					},
@@ -643,7 +630,7 @@
 				},
 				{
 					"name": "UPDATE A CAMERA",
-					"_postman_id": "619c5bc7-c03c-41cc-9267-4929493fd97c",
+					"id": "619c5bc7-c03c-41cc-9267-4929493fd97c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -692,8 +679,7 @@
 										"/C:/Users/gabriel/Downloads/Images/Di Ako Nag Brbrip.png"
 									]
 								}
-							],
-							"options": {}
+							]
 						},
 						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
 					},
@@ -701,7 +687,7 @@
 				},
 				{
 					"name": "DELETE A CAMERA",
-					"_postman_id": "dd586459-ce55-41aa-829e-09ee7ccaa111",
+					"id": "dd586459-ce55-41aa-829e-09ee7ccaa111",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -721,22 +707,21 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {}
+							"raw": ""
 						},
 						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
 					},
 					"response": []
 				}
 			],
-			"_postman_id": "6d0a87df-40dd-47b0-9277-46ab0b271b31"
+			"id": "6d0a87df-40dd-47b0-9277-46ab0b271b31"
 		},
 		{
 			"name": "TRANSACTIONS",
 			"item": [
 				{
 					"name": "GET ALL TRANSACTIONS",
-					"_postman_id": "f5625a40-8832-4a40-af6c-daa7c8f81879",
+					"id": "f5625a40-8832-4a40-af6c-daa7c8f81879",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -755,7 +740,7 @@
 				},
 				{
 					"name": "GET SINGLE TRANSACTION",
-					"_postman_id": "59419518-a167-47c2-a543-8439355c569f",
+					"id": "59419518-a167-47c2-a543-8439355c569f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -774,7 +759,7 @@
 				},
 				{
 					"name": "CREATE A TRANSACTION",
-					"_postman_id": "87bcd060-d324-4679-aa0c-eabd2b980784",
+					"id": "87bcd060-d324-4679-aa0c-eabd2b980784",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -794,8 +779,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-11\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -803,7 +787,7 @@
 				},
 				{
 					"name": "UPDATE A TRANSACTION",
-					"_postman_id": "8cfe26a0-b76e-4416-8294-4da2d0a7841e",
+					"id": "8cfe26a0-b76e-4416-8294-4da2d0a7841e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -823,8 +807,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-14\"\r\n}",
-							"options": {}
+							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-14\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}transaction/640bcf4cdd16e1f18eee6486"
 					},
@@ -832,7 +815,7 @@
 				},
 				{
 					"name": "DELETE A TRANSACTION",
-					"_postman_id": "886d9500-0073-4efa-bbed-983d40245f39",
+					"id": "886d9500-0073-4efa-bbed-983d40245f39",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -852,15 +835,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
-							"options": {}
+							"raw": ""
 						},
 						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
 					},
 					"response": []
 				}
 			],
-			"_postman_id": "2d73adde-e96a-4517-a9ff-c726a0b72a35"
+			"id": "2d73adde-e96a-4517-a9ff-c726a0b72a35"
 		}
 	],
 	"event": [
@@ -887,10 +869,9 @@
 	],
 	"variable": [
 		{
-			"id": "ed984ad5-9a33-403c-a799-244a2e9f6bbd",
+			"id": "223f93e6-9355-4ffa-8d47-4437fa44db82",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwMTY3NTEsImV4cCI6MTY4MDAxNzY1MX0.zsCy3hJ6Ow4c2A9ZJdHkWe_M0NK6RAx3r1F8CnDnUBk",
-			"type": "string"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwMTY3NTEsImV4cCI6MTY4MDAxNzY1MX0.zsCy3hJ6Ow4c2A9ZJdHkWe_M0NK6RAx3r1F8CnDnUBk"
 		}
 	]
 }
