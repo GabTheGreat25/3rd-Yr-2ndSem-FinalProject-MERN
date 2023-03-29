@@ -255,7 +255,7 @@
 							"mode": "raw",
 							"raw": ""
 						},
-						"url": "{{URI}}{{V1}}user/6422fe29c35d011e2731bbb9"
+						"url": "{{URI}}{{V1}}user/6422fd973ba88126104400b6"
 					},
 					"response": []
 				}
@@ -869,7 +869,7 @@
 	],
 	"variable": [
 		{
-			"id": "40287cbe-8ca4-4df2-8730-07759364ec5f",
+			"id": "da7308d6-9933-4ecf-96ce-c7b601ca9762",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwNTMyNDEsImV4cCI6MTY4MDA1NDE0MX0.up4OHF1rQDb17EoDP49x8KI7Gyem1C09C5ViBhmapQ0"
 		}
