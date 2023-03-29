@@ -97,11 +97,6 @@
 								"key": "Authorization",
 								"value": "{{Bearer}}",
 								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
 							}
 						],
 						"url": "{{URI}}{{V1}}users"
@@ -875,7 +870,7 @@
 	],
 	"variable": [
 		{
-			"id": "e7ba46c7-a3a3-4eef-b22d-c7feee5b78e7",
+			"id": "d8d41605-b89a-4be8-928e-a291d4113c11",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwNTM1MDksImV4cCI6MTY4MDA1NDQwOX0.Rs7SFmwS8Akk8M-gbcuxBWpo8MUrqCwHLxjY-EKJKWk"
 		}
