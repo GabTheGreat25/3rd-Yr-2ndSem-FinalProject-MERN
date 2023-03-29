@@ -96,7 +96,8 @@
 							{
 								"key": "Authorization",
 								"value": "{{Bearer}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": "{{URI}}{{V1}}users"
@@ -869,7 +870,7 @@
 	],
 	"variable": [
 		{
-			"id": "41e66349-268d-4003-9a7d-1b564cd96179",
+			"id": "3ac58179-ad0d-451b-b1fa-2ada14bfa50b",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwNTcyNTEsImV4cCI6MTY4MDA1ODE1MX0.9dDEHD4tIZc35pN7NRgsuakg0SCHq_Gl-YixIs0ZaBU"
 		}
