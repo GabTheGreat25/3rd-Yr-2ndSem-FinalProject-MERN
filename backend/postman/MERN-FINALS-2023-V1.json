@@ -87,7 +87,8 @@
 					"name": "GET ALL USERS",
 					"id": "565bb007-7a91-4054-a04e-81e87bee2b0b",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
 					},
 					"request": {
 						"method": "GET",
@@ -95,6 +96,11 @@
 							{
 								"key": "Authorization",
 								"value": "{{Bearer}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
@@ -869,7 +875,7 @@
 	],
 	"variable": [
 		{
-			"id": "6d43b9c4-2aae-4e06-998b-8003948f2e91",
+			"id": "e7ba46c7-a3a3-4eef-b22d-c7feee5b78e7",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODAwNTM1MDksImV4cCI6MTY4MDA1NDQwOX0.Rs7SFmwS8Akk8M-gbcuxBWpo8MUrqCwHLxjY-EKJKWk"
 		}
