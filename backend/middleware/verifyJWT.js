@@ -19,7 +19,9 @@ exports.verifyJWT = (req, res, next) => {
 exports.authorizeRoles =
   (...allowedRoles) =>
   (req, res, next) =>
-    (req.roles || []).some((role) => allowedRoles.includes(role))
+    allowedRoles.length === 0 || !req.roles
+      ? next()
+      : req.roles.some((role) => allowedRoles.includes(role))
       ? next()
       : next(
           new ErrorHandler(
