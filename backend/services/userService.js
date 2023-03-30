@@ -47,8 +47,12 @@ exports.logoutUser = (cookies, res) => {
           sameSite: "None",
           secure: true,
         }),
-        resolve(cookies));
+        resolve());
   });
+};
+
+exports.isUserLoggedIn = (cookies) => {
+  return !!cookies.jwt;
 };
 
 exports.getAllUsersData = async () => {

@@ -1,7 +1,11 @@
 const { verifyAccessToken } = require("../utils/token");
 const ErrorHandler = require("../utils/errorHandler");
+const usersService = require("../services/userService");
 
 exports.verifyJWT = (req, res, next) => {
+  if (!usersService.isUserLoggedIn(req.cookies))
+    throw new ErrorHandler("You are not logged in.");
+
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
   if (!authHeader?.match(/^Bearer\s+(.*)$/))

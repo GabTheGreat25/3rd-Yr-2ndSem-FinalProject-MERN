@@ -37,7 +37,7 @@ exports.setRefreshTokenCookie = (refreshTokenMaxAge) => {
   return (res, refreshToken) => {
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "None",
       maxAge: refreshTokenMaxAge,
     });
