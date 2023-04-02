@@ -27,13 +27,12 @@ exports.getSingleNoteData = async (id) => {
 };
 
 exports.CreateNoteData = async (req, res) => {
-  if (
-    await Note.findOne({ title: req.body.title })
-      .collation({ locale: "en" })
-      .lean()
-      .exec()
-  )
-    throw new ErrorHandler("Duplicate title");
+  const duplicateNote = await Note.findOne({ title: req.body.title })
+    .collation({ locale: "en" })
+    .lean()
+    .exec();
+
+  if (duplicateNote) throw new ErrorHandler("Duplicate title");
 
   const note = await Note.create(req.body);
 

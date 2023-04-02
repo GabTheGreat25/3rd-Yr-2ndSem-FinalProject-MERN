@@ -30,13 +30,12 @@ exports.getSingleCameraData = async (id) => {
 };
 
 exports.CreateCameraData = async (req, res) => {
-  if (
-    await Camera.findOne({ name: req.body.name })
-      .collation({ locale: "en" })
-      .lean()
-      .exec()
-  )
-    throw new ErrorHandler("Duplicate name");
+  const duplicateCamera = await Camera.findOne({ name: req.body.name })
+    .collation({ locale: "en" })
+    .lean()
+    .exec();
+
+  if (duplicateCamera) throw new ErrorHandler("Duplicate name");
 
   const images = await Promise.all(
     req.files.map(async (file) => {
