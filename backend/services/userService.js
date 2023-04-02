@@ -96,7 +96,7 @@ exports.CreateUserData = async (req, res) => {
   const user = await User.create({
     name: req.body.name,
     email: req.body.email,
-    password: req.body.password,
+    password: await bcrypt.hash(password, Number(process.env.SALT_NUMBER)),
     roles: req.body.roles.split(",") || ["Customer"],
     image: images,
   });
