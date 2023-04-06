@@ -1,76 +1,81 @@
-const Comment = require("../models/Comment");
-const SuccessHandler = require("../utils/successHandler");
-const ErrorHandler = require("../utils/errorHandler");
-const commentsService = require("../services/commentService");
-const asyncHandler = require("express-async-handler");
-const checkRequiredFields = require("../helpers/checkRequiredFields");
+const Comment = require('../models/Comment')
+const SuccessHandler = require('../utils/successHandler')
+const ErrorHandler = require('../utils/errorHandler')
+const commentsService = require('../services/commentService')
+const asyncHandler = require('express-async-handler')
+const checkRequiredFields = require('../helpers/checkRequiredFields')
 
 exports.getAllComments = asyncHandler(async (req, res, next) => {
-  const comments = await commentsService.getAllCommentsData();
+  const page = parseInt(req.query.page) || 1
+  const limit = parseInt(req.query.limit) || 10
 
-  return !comments?.length
-    ? next(new ErrorHandler("No comment found"))
-    : SuccessHandler(
-        res,
-        `Comment with texts ${comments
-          .map((u) => u.text)
-          .join(", ")} and IDs ${comments
-          .map((u) => u._id)
-          .join(", ")} retrieved`,
-        comments
-      );
-});
+  const commentsQuery = commentsService.getAllCommentsData(page, limit)
+  const comments = await commentsQuery
+
+  if (!comments.length) {
+    return next(new ErrorHandler('No comment found'))
+  }
+
+  const commentTexts = comments.map((u) => u.text).join(', ')
+  const commentIds = comments.map((u) => u._id).join(', ')
+
+  return SuccessHandler(
+    res,
+    `Comment with texts ${commentTexts} and IDs ${commentIds} retrieved`,
+    comments,
+  )
+})
 
 exports.getSingleComment = asyncHandler(async (req, res, next) => {
-  const comment = await commentsService.getSingleCommentData(req.params.id);
+  const comment = await commentsService.getSingleCommentData(req.params.id)
 
   return !comment
-    ? next(new ErrorHandler("No comment found"))
+    ? next(new ErrorHandler('No comment found'))
     : SuccessHandler(
         res,
         `Comment ${comment.text} with ID ${comment._id} retrieved`,
-        comment
-      );
-});
+        comment,
+      )
+})
 
 exports.createNewComment = [
-  checkRequiredFields(["transservice", "ratings", "text"]),
+  checkRequiredFields(['transservice', 'ratings', 'text']),
   asyncHandler(async (req, res, next) => {
-    const comment = await commentsService.CreateCommentData(req);
+    const comment = await commentsService.CreateCommentData(req)
 
     return SuccessHandler(
       res,
       `New comment ${comment.text} created with an ID ${comment._id}`,
-      comment
-    );
+      comment,
+    )
   }),
-];
+]
 
 exports.updateComment = [
-  checkRequiredFields(["transservice", "ratings", "text"]),
+  checkRequiredFields(['transservice', 'ratings', 'text']),
   asyncHandler(async (req, res, next) => {
     const comment = await commentsService.updateCommentData(
       req,
       res,
-      req.params.id
-    );
+      req.params.id,
+    )
 
     return SuccessHandler(
       res,
       `Comment ${comment.text} with ID ${comment._id} is updated`,
-      comment
-    );
+      comment,
+    )
   }),
-];
+]
 
 exports.deleteComment = asyncHandler(async (req, res, next) => {
-  const comment = await commentsService.deleteCommentData(req.params.id);
+  const comment = await commentsService.deleteCommentData(req.params.id)
 
   return !comment
-    ? next(new ErrorHandler("No comment found"))
+    ? next(new ErrorHandler('No comment found'))
     : SuccessHandler(
         res,
         `Comment ${comment.text} with ID ${comment._id} is deleted`,
-        comment
-      );
-});
+        comment,
+      )
+})
