@@ -735,7 +735,24 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transactions"
+						"url": {
+							"raw": "{{URI}}{{V1}}transactions?page=1&limit=2",
+							"host": [
+								"{{URI}}{{V1}}transactions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "limit",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -870,7 +887,7 @@
 	],
 	"variable": [
 		{
-			"id": "f9d41d5a-a523-49a6-8f17-108060532f7f",
+			"id": "92f70a37-dca2-40e3-9cc4-a9e3966c2a92",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDc5NjU0NiwiZXhwIjoxNjgwNzk3NDQ2fQ.nyQFgnfAzULW8Bld7YUn5YYEAxvy5dSxVo2KNJePaIE"
 		}
