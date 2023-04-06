@@ -1,83 +1,85 @@
-const Transaction = require("../models/transaction");
-const ErrorHandler = require("../utils/errorHandler");
-const mongoose = require("mongoose");
+const Transaction = require('../models/transaction')
+const ErrorHandler = require('../utils/errorHandler')
+const mongoose = require('mongoose')
 
-exports.getAllTransactionsData = async () => {
+exports.getAllTransactionsData = async (page, limit) => {
+  const skip = (page - 1) * limit
   const transactions = await Transaction.find()
     .populate([
       {
-        path: "user",
-        select: "name",
+        path: 'user',
+        select: 'name',
       },
       {
-        path: "camera",
-        select: "name",
+        path: 'camera',
+        select: 'name',
       },
     ])
-
     .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
     .lean()
-    .exec();
+    .exec()
 
-  return transactions;
-};
+  return transactions
+}
 
 exports.getSingleTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
 
   const transaction = await Transaction.findById(id)
     .populate([
       {
-        path: "user",
-        select: "name",
+        path: 'user',
+        select: 'name',
       },
       {
-        path: "camera",
-        select: "name",
+        path: 'camera',
+        select: 'name',
       },
     ])
     .lean()
-    .exec();
+    .exec()
 
   if (!transaction)
-    throw new ErrorHandler(`Transaction not found with ID: ${id}`);
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
 
-  return transaction;
-};
+  return transaction
+}
 
 exports.CreateTransactionData = async (req, red) => {
-  const transaction = await Transaction.create(req.body);
+  const transaction = await Transaction.create(req.body)
 
-  return transaction;
-};
+  return transaction
+}
 
 exports.updateTransactionData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
 
   const updatedTransaction = await Transaction.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
   })
     .lean()
-    .exec();
+    .exec()
 
   if (!updatedTransaction)
-    throw new ErrorHandler(`Transaction not found with ID: ${id}`);
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
 
-  return updatedTransaction;
-};
+  return updatedTransaction
+}
 
 exports.deleteTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
 
-  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`);
+  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`)
 
   const transaction = await Transaction.findOneAndDelete({ _id: id })
     .lean()
-    .exec();
+    .exec()
 
-  return transaction;
-};
+  return transaction
+}
