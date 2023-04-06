@@ -538,7 +538,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}cameras?page=1&limit=10&price[gte]=123123",
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=10&filter=price:123123",
 							"host": [
 								"{{URI}}{{V1}}cameras"
 							],
@@ -548,6 +548,10 @@
 									"value": "1"
 								},
 								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
 									"key": "search",
 									"value": "Canon",
 									"type": "text",
@@ -555,22 +559,12 @@
 								},
 								{
 									"key": "sort",
-									"value": "text",
+									"value": "text:asc",
 									"disabled": true
 								},
 								{
-									"key": "price",
-									"value": null,
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								},
-								{
-									"key": "price[gte]",
-									"value": "123123"
+									"key": "filter",
+									"value": "price:123123"
 								}
 							]
 						}
@@ -908,7 +902,7 @@
 	],
 	"variable": [
 		{
-			"id": "c58e9b5b-64c5-4f6d-9886-4e3c69266386",
+			"id": "1e085384-b1da-4699-8544-0f143351c3aa",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDgwMTU5NSwiZXhwIjoxNjgwODAyNDk1fQ.AhZdqy0DDeVNq_VgB8PDI7oHiU1oD0gOTUV6spHeFYo"
 		}
