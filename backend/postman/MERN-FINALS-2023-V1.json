@@ -28,7 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"gabz@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
+									"raw": "{\r\n    \"email\": \"heinrich@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}/login"
 							},
@@ -870,7 +870,7 @@
 	],
 	"variable": [
 		{
-			"id": "6658d5a9-40e5-421a-93d2-f48dd4998a75",
+			"id": "8b1dc341-0f26-4fb2-ac43-0436c9576b1d",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImdhYkBnbWFpbC5jb20iLCJyb2xlcyI6WyJBZG1pbiIsIkVtcGxveWVlIl19LCJpYXQiOjE2ODA3OTEzNTksImV4cCI6MTY4MDc5MjI1OX0.95FgoPW-g8BML-VuSrWNF8uMrO9ZiK7WwIaWpwHD4Ls"
 		}
