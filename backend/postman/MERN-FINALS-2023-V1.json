@@ -538,7 +538,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}cameras?page=1&limit=1",
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=20",
 							"host": [
 								"{{URI}}{{V1}}cameras"
 							],
@@ -549,7 +549,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "1"
+									"value": "20"
 								}
 							]
 						}
@@ -870,7 +870,7 @@
 	],
 	"variable": [
 		{
-			"id": "5c456196-1786-4c0a-84d8-6b521b9634c6",
+			"id": "c9fda1d6-0555-4e02-8046-bdb247b34d4d",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6Im5ld2N1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODA3OTYwNjEsImV4cCI6MTY4MDc5Njk2MX0.TaX87vbhH0jmQgQtA-mytG5sLz5CptERg7l_GCjPOG4"
 		}
