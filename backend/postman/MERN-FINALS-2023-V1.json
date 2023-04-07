@@ -1005,7 +1005,7 @@
 	],
 	"variable": [
 		{
-			"id": "38208a74-2cab-41eb-bfb3-fc27d4e3f43d",
+			"id": "240d3137-ecf1-4efc-a8e2-339ff4aed8cd",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
