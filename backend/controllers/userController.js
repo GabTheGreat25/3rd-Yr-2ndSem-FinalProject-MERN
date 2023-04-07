@@ -37,18 +37,31 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const limit = parseInt(req.query.limit) || 10
+  const search = req.query.search
+  const sort = req.query.sort
+  const filter = req.query.filter
 
-  const users = await usersService.getAllUsersData(page, limit)
+  const usersQuery = usersService.getAllUsersData(
+    page,
+    limit,
+    search,
+    sort,
+    filter,
+  )
+  const users = await usersQuery.lean()
 
-  return !users?.length
-    ? next(new ErrorHandler('No users found'))
-    : SuccessHandler(
-        res,
-        `Users with names ${users
-          .map((u) => u.name)
-          .join(', ')} and IDs ${users.map((u) => u._id).join(', ')} retrieved`,
-        users,
-      )
+  if (!users.length) {
+    return next(new ErrorHandler('No users found'))
+  }
+
+  const userNames = users.map((u) => u.name).join(', ')
+  const userIds = users.map((u) => u._id).join(', ')
+
+  return SuccessHandler(
+    res,
+    `Users with names ${userNames} and IDs ${userIds} retrieved`,
+    users,
+  )
 })
 
 exports.getSingleUser = asyncHandler(async (req, res, next) => {
