@@ -708,17 +708,17 @@
 								},
 								{
 									"key": "name",
-									"value": "Canon 600D",
+									"value": "Canon 60F",
 									"type": "text"
 								},
 								{
 									"key": "text",
-									"value": "Good Camera",
+									"value": "Nice camera",
 									"type": "text"
 								},
 								{
 									"key": "price",
-									"value": "1000",
+									"value": "34534",
 									"type": "text"
 								},
 								{
@@ -1005,7 +1005,7 @@
 	],
 	"variable": [
 		{
-			"id": "49885225-b6ab-4aaa-a231-21e5896732ae",
+			"id": "f4dbf53c-1aae-475e-a3c2-f4c79e9ee409",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
