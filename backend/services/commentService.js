@@ -2,17 +2,38 @@ const Comment = require('../models/Comment')
 const ErrorHandler = require('../utils/errorHandler')
 const mongoose = require('mongoose')
 
-exports.getAllCommentsData = (page, limit) => {
+exports.getAllCommentsData = async (page, limit, search, sort, filter) => {
   const skip = (page - 1) * limit
 
-  const comments = Comment.find()
+  let commentsQuery = Comment.find()
+
+  // Apply search option
+  if (search) {
+    commentsQuery = commentsQuery.where('text').regex(new RegExp(search, 'i'))
+  }
+
+  // Apply sort option
+  if (sort) {
+    const [field, order] = sort.split(':')
+    commentsQuery = commentsQuery.sort({ [field]: order === 'asc' ? 1 : -1 })
+  } else {
+    commentsQuery = commentsQuery.sort({ createdAt: -1 })
+  }
+
+  // Apply filter option
+  if (filter) {
+    const [field, value] = filter.split(':')
+    commentsQuery = commentsQuery.where(field).equals(value)
+  }
+
+  commentsQuery = commentsQuery
     .populate({ path: 'transaction', select: 'status' })
-    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .lean()
+    .exec()
 
-  return comments
+  return commentsQuery
 }
 
 exports.getSingleCommentData = async (id) => {
