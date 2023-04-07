@@ -8,22 +8,29 @@ const checkRequiredFields = require('../helpers/checkRequiredFields')
 exports.getAllComments = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const limit = parseInt(req.query.limit) || 10
+  const search = req.query.search
+  const sort = req.query.sort
+  const filter = req.query.filter
 
-  const commentsQuery = commentsService.getAllCommentsData(page, limit)
-  const comments = await commentsQuery
-
-  if (!comments.length) {
-    return next(new ErrorHandler('No comment found'))
-  }
-
-  const commentTexts = comments.map((u) => u.text).join(', ')
-  const commentIds = comments.map((u) => u._id).join(', ')
-
-  return SuccessHandler(
-    res,
-    `Comment with texts ${commentTexts} and IDs ${commentIds} retrieved`,
-    comments,
+  const comments = await commentsService.getAllCommentsData(
+    page,
+    limit,
+    search,
+    sort,
+    filter,
   )
+
+  return !comments?.length
+    ? next(new ErrorHandler('No comment found'))
+    : SuccessHandler(
+        res,
+        `Comment with texts ${comments
+          .map((u) => u.text)
+          .join(', ')} and IDs ${comments
+          .map((u) => u._id)
+          .join(', ')} retrieved`,
+        comments,
+      )
 })
 
 exports.getSingleComment = asyncHandler(async (req, res, next) => {
