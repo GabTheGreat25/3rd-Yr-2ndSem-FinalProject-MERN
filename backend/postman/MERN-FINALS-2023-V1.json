@@ -181,12 +181,12 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "heinrich",
+									"value": "newcustomer",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "heinrich@gmail.com",
+									"value": "newcustomer@gmail.com",
 									"type": "text"
 								},
 								{
@@ -196,7 +196,7 @@
 								},
 								{
 									"key": "roles",
-									"value": "Admin,Employee",
+									"value": "Customer",
 									"type": "text"
 								},
 								{
@@ -935,7 +935,7 @@
 	],
 	"variable": [
 		{
-			"id": "5ba06e82-99a6-4e91-a9d1-8e159307b0fb",
+			"id": "514473b0-6ea5-40a5-bb75-a42c3099da0a",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
