@@ -7,23 +7,31 @@ const checkRequiredFields = require('../helpers/checkRequiredFields')
 exports.getAllTransactions = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const limit = parseInt(req.query.limit) || 10
+  const search = req.query.search
+  const sort = req.query.sort
+  const filter = req.query.filter
 
-  const transactions = await transactionsService.getAllTransactionsData(
+  const transactionsQuery = transactionsService.getAllTransactionsData(
     page,
     limit,
+    search,
+    sort,
+    filter,
   )
+  const transactions = await transactionsQuery.lean()
 
-  return !transactions?.length
-    ? next(new ErrorHandler('No transactions found'))
-    : SuccessHandler(
-        res,
-        `Transactions with status ${transactions
-          .map((u) => u.status)
-          .join(', ')} and IDs ${transactions
-          .map((u) => u._id)
-          .join(', ')} retrieved`,
-        transactions,
-      )
+  if (!transactions.length) {
+    return next(new ErrorHandler('No transactions found'))
+  }
+
+  const transactionStatuses = transactions.map((u) => u.status).join(', ')
+  const transactionIds = transactions.map((u) => u._id).join(', ')
+
+  return SuccessHandler(
+    res,
+    `Transactions with status ${transactionStatuses} and IDs ${transactionIds} retrieved`,
+    transactions,
+  )
 })
 
 exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
