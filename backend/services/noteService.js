@@ -2,16 +2,34 @@ const Note = require('../models/Note')
 const ErrorHandler = require('../utils/errorHandler')
 const mongoose = require('mongoose')
 
-exports.getAllNotesData = async (page, limit) => {
+exports.getAllNotesData = async (page, limit, search, sort, filter) => {
   const skip = (page - 1) * limit
 
-  const notes = await Note.find()
+  let notesQuery = Note.find()
     .populate({ path: 'user', select: 'name' })
-    .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
-    .lean()
-    .exec()
+
+  // Apply search option
+  if (search) {
+    notesQuery = notesQuery.where('title').regex(new RegExp(search, 'i'))
+  }
+
+  // Apply sort option
+  if (sort) {
+    const [field, order] = sort.split(':')
+    notesQuery = notesQuery.sort({ [field]: order === 'asc' ? 1 : -1 })
+  } else {
+    notesQuery = notesQuery.sort({ createdAt: -1 })
+  }
+
+  // Apply filter option
+  if (filter) {
+    const [field, value] = filter.split(':')
+    notesQuery = notesQuery.where(field).equals(value)
+  }
+
+  const notes = await notesQuery.lean().exec()
 
   return notes
 }
