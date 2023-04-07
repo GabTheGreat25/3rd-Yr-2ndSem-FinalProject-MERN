@@ -339,7 +339,38 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}notes"
+						"url": {
+							"raw": "{{URI}}{{V1}}notes?page=1&limit=10",
+							"host": [
+								"{{URI}}{{V1}}notes"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "search",
+									"value": "Sesperez",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "title:asc",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "title:Sesperez",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -1005,7 +1036,7 @@
 	],
 	"variable": [
 		{
-			"id": "f4dbf53c-1aae-475e-a3c2-f4c79e9ee409",
+			"id": "610c4e29-1d2d-45d7-ab86-561ce2653148",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
