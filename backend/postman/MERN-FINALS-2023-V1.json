@@ -657,7 +657,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}cameras?page=1&limit=10&filter=price:123123",
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=10",
 							"host": [
 								"{{URI}}{{V1}}cameras"
 							],
@@ -683,7 +683,8 @@
 								},
 								{
 									"key": "filter",
-									"value": "price:123123"
+									"value": "price:123123",
+									"disabled": true
 								}
 							]
 						}
@@ -1036,7 +1037,7 @@
 	],
 	"variable": [
 		{
-			"id": "610c4e29-1d2d-45d7-ab86-561ce2653148",
+			"id": "3bea62fd-5039-4328-b1fd-b670302a7fd6",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
