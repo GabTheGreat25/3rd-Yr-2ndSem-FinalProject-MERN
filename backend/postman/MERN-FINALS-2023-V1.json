@@ -467,7 +467,37 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}comments"
+						"url": {
+							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&search=GG",
+							"host": [
+								"{{URI}}{{V1}}comments"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "text:desc",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "ratings:2",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "GG"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -960,7 +990,7 @@
 	],
 	"variable": [
 		{
-			"id": "f172abbe-e8fa-47f5-8abd-2d9b800c38c1",
+			"id": "65ef9f7f-0fca-4eb0-8f29-5b1f21564ad7",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
