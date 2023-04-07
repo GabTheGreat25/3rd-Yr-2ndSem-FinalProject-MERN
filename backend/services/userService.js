@@ -55,17 +55,33 @@ exports.isUserLoggedIn = (cookies) => {
   return !!cookies.jwt
 }
 
-exports.getAllUsersData = async (page, limit) => {
+exports.getAllUsersData = (page, limit, search, sort, filter) => {
   const skip = (page - 1) * limit
 
-  const users = await User.find()
-    .sort({ createdAt: -1 })
-    .skip(skip)
-    .limit(limit)
-    .lean()
-    .exec()
+  let usersQuery = User.find()
 
-  return users
+  // Apply search option
+  if (search) {
+    usersQuery = usersQuery.where('name').regex(new RegExp(search, 'i'))
+  }
+
+  // Apply sort option
+  if (sort) {
+    const [field, order] = sort.split(':')
+    usersQuery = usersQuery.sort({ [field]: order === 'asc' ? 1 : -1 })
+  } else {
+    usersQuery = usersQuery.sort({ createdAt: -1 })
+  }
+
+  // Apply filter option
+  if (filter) {
+    const [field, value] = filter.split(':')
+    usersQuery = usersQuery.where(field).equals(value)
+  }
+
+  usersQuery = usersQuery.skip(skip).limit(limit)
+
+  return usersQuery
 }
 
 exports.getSingleUserData = async (id) => {
