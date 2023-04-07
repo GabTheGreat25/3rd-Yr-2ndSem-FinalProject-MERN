@@ -542,7 +542,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"642ee5363a78564f9997ead5\",\r\n\"transservice\": \"Joyride\",\r\n    \"ratings\": 1,\r\n    \"text\": \"GG\"\r\n}"
+							"raw": "{\r\n    \"transaction\": \"6423025134c558e05cda6155\",\r\n\"transservice\": \"LBC\",\r\n    \"ratings\": 2,\r\n    \"text\": \"Nice Game\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -1005,7 +1005,7 @@
 	],
 	"variable": [
 		{
-			"id": "240d3137-ecf1-4efc-a8e2-339ff4aed8cd",
+			"id": "b4584241-461e-4e64-af49-ab120b4a7e5a",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
