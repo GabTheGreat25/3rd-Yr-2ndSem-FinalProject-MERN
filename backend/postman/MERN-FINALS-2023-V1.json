@@ -81,7 +81,32 @@
 							"response": []
 						}
 					],
-					"id": "4e313355-03cb-45fb-8158-247b61c83fbf"
+					"id": "4e313355-03cb-45fb-8158-247b61c83fbf",
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f8ab0a36-51bf-46ae-87ed-65886e051db8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "28e49008-d05d-41f1-8674-76d91f503ea4",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
 				},
 				{
 					"name": "GET ALL USERS",
@@ -935,7 +960,7 @@
 	],
 	"variable": [
 		{
-			"id": "514473b0-6ea5-40a5-bb75-a42c3099da0a",
+			"id": "1c9b709c-af1f-469d-bf17-4f971742a09d",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MDg4NzE2NywiZXhwIjoxNjgwODg4MDY3fQ.vbuH08rHvLkfwUgNT5leYYaeJ9Rf8jqxksCDDp1-gAQ"
 		}
