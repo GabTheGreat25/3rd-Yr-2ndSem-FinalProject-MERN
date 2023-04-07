@@ -7,8 +7,17 @@ const checkRequiredFields = require('../helpers/checkRequiredFields')
 exports.getAllNotes = asyncHandler(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1
   const limit = parseInt(req.query.limit) || 10
+  const search = req.query.search
+  const sort = req.query.sort
+  const filter = req.query.filter
 
-  const notesQuery = notesService.getAllNotesData(page, limit)
+  const notesQuery = notesService.getAllNotesData(
+    page,
+    limit,
+    search,
+    sort,
+    filter,
+  )
   const notes = await notesQuery
 
   if (!notes.length) {
