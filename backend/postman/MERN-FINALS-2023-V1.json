@@ -221,7 +221,7 @@
 								},
 								{
 									"key": "roles",
-									"value": "Admin, Customer",
+									"value": "Admin, Employee",
 									"type": "text"
 								},
 								{
@@ -1037,7 +1037,7 @@
 	],
 	"variable": [
 		{
-			"id": "ced4945a-3e26-49ac-9d74-c6b6dc716376",
+			"id": "26b91ccb-f0aa-45d1-a008-c20ad6be89b9",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MDkzMjYyMywiZXhwIjoxNjgwOTMzNTIzfQ.MT9O_jk5fhpg_xa-JyFEl3Ab88mxaVlXNo2LcDluTh0"
 		}
