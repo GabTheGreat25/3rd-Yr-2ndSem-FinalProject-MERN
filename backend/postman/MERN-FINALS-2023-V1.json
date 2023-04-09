@@ -280,13 +280,13 @@
 									"key": "image",
 									"type": "file",
 									"src": [
-										"/C:/Users/gabriel/Downloads/Images/johndoe.png",
-										"/C:/Users/gabriel/Downloads/Images/metamask-unscreen.gif"
+										"/C:/Users/gabriel/Downloads/Images/gab-1x1.jpg",
+										"/C:/Users/gabriel/Downloads/Images/gab-pic.jpg"
 									]
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}user/642288f0e3c4b5341107befa"
+						"url": "{{URI}}{{V1}}user/641704ecf5fb4eed11b7872b"
 					},
 					"response": []
 				},
@@ -1037,7 +1037,7 @@
 	],
 	"variable": [
 		{
-			"id": "021517cd-5f6c-4dda-a9de-097f20178d0b",
+			"id": "ebd3782b-f8a6-4ab9-b028-188d20cab6fd",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MDkzMjYyMywiZXhwIjoxNjgwOTMzNTIzfQ.MT9O_jk5fhpg_xa-JyFEl3Ab88mxaVlXNo2LcDluTh0"
 		}
