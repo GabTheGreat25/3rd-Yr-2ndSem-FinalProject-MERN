@@ -1018,7 +1018,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "9eaa50b7-c7f0-433d-b82e-8522b5da7d91",
+				"id": "d2b4a3e8-c5ec-4e9f-89cf-a5d2308109bb",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1028,7 +1028,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e169c3b5-22fa-45a6-a5cf-946e35fc4416",
+				"id": "79ef0a78-3dac-46a4-9c9a-b9d456f5e779",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1038,9 +1038,9 @@
 	],
 	"variable": [
 		{
-			"id": "eba73db5-bde5-490f-b076-5da5fe856f94",
+			"id": "123baaa1-8219-43b4-a96d-d21c5cef096c",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MDkzMjYyMywiZXhwIjoxNjgwOTMzNTIzfQ.MT9O_jk5fhpg_xa-JyFEl3Ab88mxaVlXNo2LcDluTh0"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIl19LCJpYXQiOjE2ODEyNjE5NjQsImV4cCI6MTY4MTI2Mjg2NH0.UG6qrxq6Wb0gxAi9Bz2kzi4GcTYicTSu0vF3XD_fyoE"
 		}
 	]
 }
