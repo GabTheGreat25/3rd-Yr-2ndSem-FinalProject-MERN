@@ -384,6 +384,39 @@
 						"url": "{{URI}}{{V1}}/forgotpassword"
 					},
 					"response": []
+				},
+				{
+					"name": "{{URI}}{{V1}}/reset Copy",
+					"id": "3ff03d68-b340-4392-a979-46b6a8471106",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"heinrichsorbaf02@gmail.com\"\r\n    \r\n} "
+						},
+						"url": "{{URI}}{{V1}}/forgotpassword"
+					},
+					"response": []
 				}
 			],
 			"id": "6e8c52fd-d244-469e-b7cb-faaba5f41690"
@@ -1084,7 +1117,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "1af60f6d-b523-4c63-b4a6-1c6ba789e6c0",
+				"id": "ec52cff8-5503-4bf1-b163-9ef030c71fbc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1094,7 +1127,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "627c6566-13d6-40d2-916f-444e6616b038",
+				"id": "8e182a17-ae84-483a-b686-33f18fbca963",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1104,9 +1137,9 @@
 	],
 	"variable": [
 		{
-			"id": "29f97336-0959-491b-9c8c-dea716d43b9b",
+			"id": "77bec6a0-5df6-4dd7-a272-cfcc7b1505ed",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ4NzMxMCwiZXhwIjoxNjgxNDg4MjEwfQ.CKfmZcLMMzii6bspZG28tAu3CMKtJMe7T61bEjM6b8M"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ4ODM4MCwiZXhwIjoxNjgxNDg5MjgwfQ.d7fqR7mNyzmWI2bYqZ5C1y67_X6PYhUpxooXVQTZpIw"
 		}
 	]
 }
