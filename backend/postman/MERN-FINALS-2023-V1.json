@@ -351,6 +351,39 @@
 						"url": "{{URI}}{{V1}}/forgotpassword"
 					},
 					"response": []
+				},
+				{
+					"name": "{{URI}}{{V1}}/reset",
+					"id": "a88679da-038f-46ae-ba0c-c1df5cdd3599",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{Bearer}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"heinrichsorbaf02@gmail.com\"\r\n    \r\n} "
+						},
+						"url": "{{URI}}{{V1}}/forgotpassword"
+					},
+					"response": []
 				}
 			],
 			"id": "6e8c52fd-d244-469e-b7cb-faaba5f41690"
@@ -1071,7 +1104,7 @@
 	],
 	"variable": [
 		{
-			"id": "250d4372-519b-47ec-95de-1cac642f5285",
+			"id": "b2fe56d6-182c-49d9-b9fb-d8016b8dd693",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ4NDEwNSwiZXhwIjoxNjgxNDg1MDA1fQ._dPnizN1Nh-LWjYC56RvAJubuD0_O8OFs2DPL69P08s"
 		}
