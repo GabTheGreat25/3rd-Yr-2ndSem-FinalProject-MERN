@@ -1,6 +1,8 @@
 import Home from "./Home";
-import Test from "./Test";
+import User from "./User";
 import UserLogin from "./UserLogin";
 import UserRegister from "./UserRegister";
+import GetPerUser from "./User/GetPerUser";
+import CreateUser from "./User/CreateUser";
 
-export { Home, Test, UserLogin, UserRegister };
+export { Home, User, UserLogin, UserRegister, GetPerUser, CreateUser };
