@@ -412,9 +412,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"heinrichsorbaf02@gmail.com\"\r\n    \r\n} "
+							"raw": "{\r\n \t\"oldPassword\": \"123456\",\r\n \t\"password\":\"password2\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}/forgotpassword"
+						"url": "{{URI}}{{V1}}/password/update"
 					},
 					"response": []
 				}
@@ -1137,12 +1137,12 @@
 	],
 	"variable": [
 		{
-			"id": "c40aa224-8eb4-4bb2-9f76-3d67db436cac",
+			"id": "b68a97cc-b463-4980-8daf-fb5cf4eb141e",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU"
 		},
 		{
-			"id": "2526ca39-9703-4094-be47-54ca1bac40bc",
+			"id": "6d57a143-f128-4fd4-bdd9-bfe88afc7287",
 			"key": "Jwt",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU",
 			"type": "string"
