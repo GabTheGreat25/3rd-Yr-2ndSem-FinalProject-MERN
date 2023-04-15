@@ -348,7 +348,7 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"email\" : \"heinrichsorbaf02@gmail.com\"\r\n    \r\n} "
 						},
-						"url": "{{URI}}{{V1}}/forgotpassword"
+						"url": "{{URI}}{{V1}}forgotpassword"
 					},
 					"response": []
 				},
@@ -1138,12 +1138,12 @@
 	],
 	"variable": [
 		{
-			"id": "16803c71-d81a-47b1-82ad-cb380ccd2ce8",
+			"id": "8f7f3c73-e83f-4ec6-add0-9fa57f33a0e2",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU"
 		},
 		{
-			"id": "385ce591-af06-4214-a594-bba9be5d9165",
+			"id": "38175046-5f22-4152-8975-c3b5e7b8eb58",
 			"key": "Jwt",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU",
 			"type": "string"
