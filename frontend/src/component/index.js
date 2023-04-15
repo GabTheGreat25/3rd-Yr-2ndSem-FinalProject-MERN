@@ -1,7 +1,8 @@
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import DashboardLayout from "./DashboardLayout";
 import SidebarLink from "./SidebarLink";
+import DataTable from "./DataTable";
+import Button from "./Button";
 
-export { Navbar, Sidebar, Footer, DashboardLayout, SidebarLink };
+export { Navbar, Sidebar, Footer, SidebarLink, DataTable, Button };
