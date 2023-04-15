@@ -1,17 +1,17 @@
 import React from "react";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import Breadcrumb from "./Breadcrumb";
+import Footer from "../component/Footer";
+import Navbar from "../component/Navbar";
+import Sidebar from "../component/Sidebar";
+import Breadcrumb from "../component/Breadcrumb";
 import Home from "@mui/icons-material/Home";
-import EventNote from "@mui/icons-material/EventNote";
+import PeopleAltSharp from "@mui/icons-material/PeopleAltSharp";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
+import { Outlet } from "react-router-dom";
 
 export default function (props) {
   const {
-    children,
     links = [
       {
         title: "Home",
@@ -19,9 +19,9 @@ export default function (props) {
         icon: <Home />,
       },
       {
-        title: "Test",
-        link: "/dashboard/test",
-        icon: <EventNote />,
+        title: "User",
+        link: "/dashboard/user",
+        icon: <PeopleAltSharp />,
       },
     ],
   } = props;
@@ -46,7 +46,7 @@ export default function (props) {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Breadcrumb />
-            {children}
+            <Outlet />
           </Container>
         </Box>
       </Box>
