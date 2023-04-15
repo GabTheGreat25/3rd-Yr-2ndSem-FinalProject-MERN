@@ -1,205 +1,217 @@
-const User = require('../models/user')
-const mongoose = require('mongoose')
-const ErrorHandler = require('../utils/errorHandler')
-const bcrypt = require('bcrypt')
-const token = require('../utils/token')
-const { cloudinary } = require('../utils/cloudinary')
+const User = require("../models/user");
+const mongoose = require("mongoose");
+const ErrorHandler = require("../utils/errorHandler");
+const bcrypt = require("bcrypt");
+const token = require("../utils/token");
+const { cloudinary } = require("../utils/cloudinary");
 
 exports.loginToken = async (email, password) => {
-  const foundUser = await User.findOne({ email }).select('+password').exec()
+  const foundUser = await User.findOne({ email }).select("+password").exec();
 
   if (!foundUser || !foundUser.active)
-    throw new ErrorHandler('Wrong Email Or Password')
+    throw new ErrorHandler("Wrong Email Or Password");
 
-  const match = await bcrypt.compare(password, foundUser.password)
+  const match = await bcrypt.compare(password, foundUser.password);
 
-  if (!match) throw new ErrorHandler('Wrong Password')
+  if (!match) throw new ErrorHandler("Wrong Password");
 
   const accessToken = token.generateAccessToken(
     foundUser.email,
-    foundUser.roles,
-  )
+    foundUser.roles
+  );
 
-  const refreshToken = token.generateRefreshToken(foundUser.email)
+  const refreshToken = token.generateRefreshToken(foundUser.email);
 
-  const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000
+  const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
 
-  return { accessToken, refreshToken, refreshTokenMaxAge }
-}
+  return { accessToken, refreshToken, refreshTokenMaxAge };
+};
 
 exports.refreshToken = async (refreshToken) => {
-  const decodedRefreshToken = token.verifyRefreshToken(refreshToken)
+  const decodedRefreshToken = token.verifyRefreshToken(refreshToken);
 
   const accessToken = token.generateAccessToken(
     decodedRefreshToken.email,
-    decodedRefreshToken.roles,
-  )
+    decodedRefreshToken.roles
+  );
 
-  return accessToken
-}
+  return accessToken;
+};
 
 exports.logoutUser = (cookies, res) => {
   return new Promise((resolve, reject) => {
     !cookies?.jwt
-      ? reject(new Error('You are not logged in'))
-      : (res.clearCookie('jwt', {
+      ? reject(new Error("You are not logged in"))
+      : (res.clearCookie("jwt", {
           httpOnly: true,
-          sameSite: 'None',
+          sameSite: "None",
           secure: true,
         }),
-        resolve())
-  })
-}
+        resolve());
+  });
+};
 
 exports.isUserLoggedIn = (cookies) => {
-  return !!cookies.jwt
-}
+  return !!cookies.jwt;
+};
 
 exports.getAllUsersData = (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * limit;
 
-  let usersQuery = User.find()
+  let usersQuery = User.find();
 
   // Apply search option
   if (search) {
-    usersQuery = usersQuery.where('name').regex(new RegExp(search, 'i'))
+    usersQuery = usersQuery.where("name").regex(new RegExp(search, "i"));
   }
 
   // Apply sort option
   if (sort) {
-    const [field, order] = sort.split(':')
-    usersQuery = usersQuery.sort({ [field]: order === 'asc' ? 1 : -1 })
+    const [field, order] = sort.split(":");
+    usersQuery = usersQuery.sort({ [field]: order === "asc" ? 1 : -1 });
   } else {
-    usersQuery = usersQuery.sort({ createdAt: -1 })
+    usersQuery = usersQuery.sort({ createdAt: -1 });
   }
 
   // Apply filter option
   if (filter) {
-    const [field, value] = filter.split(':')
-    usersQuery = usersQuery.where(field).equals(value)
+    const [field, value] = filter.split(":");
+    usersQuery = usersQuery.where(field).equals(value);
   }
 
-  usersQuery = usersQuery.skip(skip).limit(limit)
+  usersQuery = usersQuery.skip(skip).limit(limit);
 
-  return usersQuery
-}
+  return usersQuery;
+};
 
 exports.getSingleUserData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid user ID: ${id}`)
+    throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  const user = await User.findById(id).lean().exec()
+  const user = await User.findById(id).lean().exec();
 
-  if (!user) throw new ErrorHandler(`User not found with ID: ${id}`)
+  if (!user) throw new ErrorHandler(`User not found with ID: ${id}`);
 
-  return user
-}
+  return user;
+};
 
 exports.CreateUserData = async (req, res) => {
   const duplicateUser = await User.findOne({ name: req.body.name })
-    .collation({ locale: 'en' })
+    .collation({ locale: "en" })
     .lean()
-    .exec()
+    .exec();
 
-  if (duplicateUser) throw new ErrorHandler('Duplicate name')
+  if (duplicateUser) throw new ErrorHandler("Duplicate name");
 
-  const images = await Promise.all(
-    req.files.map(async (file) => {
-      const result = await cloudinary.uploader.upload(file.path, {
-        public_id: file.filename,
+  let images = [];
+  if (req.files && Array.isArray(req.files)) {
+    images = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await cloudinary.uploader.upload(file.path, {
+          public_id: file.filename,
+        });
+        return {
+          public_id: result.public_id,
+          url: result.url,
+          originalname: file.originalname,
+        };
       })
-      return {
-        public_id: result.public_id,
-        url: result.url,
-        originalname: file.originalname,
-      }
-    }),
-  )
+    );
+  }
+
+  if (images.length === 0)
+    throw new ErrorHandler("At least one image is required");
+
+  const roles = req.body.roles
+    ? Array.isArray(req.body.roles)
+      ? req.body.roles
+      : req.body.roles.split(", ")
+    : ["Customer"];
 
   const user = await User.create({
     name: req.body.name,
     email: req.body.email,
     password: await bcrypt.hash(
       req.body.password,
-      Number(process.env.SALT_NUMBER),
+      Number(process.env.SALT_NUMBER)
     ),
-    roles: req.body.roles.split(',') || ['Customer'],
+    roles: roles,
     image: images,
-  })
+  });
 
-  return user
-}
+  return user;
+};
 
 exports.updateUserData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid user ID: ${id}`)
+    throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  const existingUser = await User.findById(id).lean().exec()
+  const existingUser = await User.findById(id).lean().exec();
 
-  if (!existingUser) throw new ErrorHandler(`User not found with ID: ${id}`)
+  if (!existingUser) throw new ErrorHandler(`User not found with ID: ${id}`);
 
   const duplicateUser = await User.findOne({
     name: req.body.name,
     _id: { $ne: id },
   })
-    .collation({ locale: 'en' })
+    .collation({ locale: "en" })
     .lean()
-    .exec()
+    .exec();
 
-  if (duplicateUser) throw new ErrorHandler('Duplicate name')
+  if (duplicateUser) throw new ErrorHandler("Duplicate name");
 
-  let images
+  let images;
   if (req.files && req.files.length > 0) {
     images = await Promise.all(
       req.files.map(async (file) => {
         const result = await cloudinary.uploader.upload(file.path, {
           public_id: file.filename,
-        })
+        });
         return {
           public_id: result.public_id,
           url: result.url,
           originalname: file.originalname,
-        }
-      }),
-    )
+        };
+      })
+    );
     await cloudinary.api.delete_resources(
-      existingUser.image.map((image) => image.public_id),
-    )
-  } else images = existingUser.image || []
+      existingUser.image.map((image) => image.public_id)
+    );
+  } else images = existingUser.image || [];
 
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
       ...req.body,
-      roles: req.body.roles.split(','),
+      roles: req.body.roles.split(", "),
       image: images,
     },
     {
       new: true,
       runValidators: true,
-    },
+    }
   )
     .lean()
-    .exec()
+    .exec();
 
-  if (!updatedUser) throw new ErrorHandler(`User not found with ID: ${id}`)
+  if (!updatedUser) throw new ErrorHandler(`User not found with ID: ${id}`);
 
-  return updatedUser
-}
+  return updatedUser;
+};
 
 exports.deleteUserData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid user ID: ${id}`)
+    throw new ErrorHandler(`Invalid user ID: ${id}`);
 
-  const user = await User.findOne({ _id: id })
-  if (!user) throw new ErrorHandler(`User not found with ID: ${id}`)
+  const user = await User.findOne({ _id: id });
+  if (!user) throw new ErrorHandler(`User not found with ID: ${id}`);
 
-  const publicIds = user.image.map((image) => image.public_id)
+  const publicIds = user.image.map((image) => image.public_id);
 
   await Promise.all([
     User.deleteOne({ _id: id }).lean().exec(),
     cloudinary.api.delete_resources(publicIds),
-  ])
+  ]);
 
-  return user
-}
+  return user;
+};
