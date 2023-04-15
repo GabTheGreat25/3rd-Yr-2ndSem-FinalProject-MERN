@@ -9,7 +9,7 @@ const userRoutes = [
     method: METHOD.GET,
     path: PATH.USERS,
     roles: [ROLE.ADMIN],
-    middleware: [verifyJWT],
+    // middleware: [verifyJWT],
     handler: userController.getAllUsers,
   },
   {
@@ -21,21 +21,21 @@ const userRoutes = [
     method: METHOD.GET,
     path: PATH.USER_ID,
     roles: [ROLE.ADMIN],
-    middleware: [verifyJWT],
+    // middleware: [verifyJWT],
     handler: userController.getSingleUser,
   },
   {
     method: METHOD.PATCH,
     path: PATH.USER_ID,
     roles: [ROLE.ADMIN],
-    middleware: [verifyJWT],
+    // middleware: [verifyJWT],
     handler: userController.updateUser,
   },
   {
     method: METHOD.DELETE,
     path: PATH.USER_ID,
     roles: [ROLE.ADMIN],
-    middleware: [verifyJWT],
+    // middleware: [verifyJWT],
     handler: userController.deleteUser,
   },
 ];
