@@ -5,8 +5,15 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { RootLayout, NotFound, Welcome } from "@/layouts";
-import { Home, Test, UserLogin, UserRegister } from "@/page";
+import { RootLayout, NotFound, Welcome, DashboardLayout } from "@/layouts";
+import {
+  Home,
+  User,
+  UserLogin,
+  UserRegister,
+  GetPerUser,
+  CreateUser,
+} from "@/page";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,9 +24,11 @@ const router = createBrowserRouter(
       <Route path="register" element={<UserRegister />} />
       <Route path="*" element={<NotFound />} />
       {/*Private Routes*/}
-      <Route path="dashboard">
+      <Route path="dashboard" element={<DashboardLayout />}>
         <Route index element={<Home />} />
-        <Route path="test" element={<Test />} />
+        <Route path="user" element={<User />} />
+        <Route path="user/create" element={<CreateUser />} />
+        <Route path="user/:id" element={<GetPerUser />} />
       </Route>
     </Route>
   )
