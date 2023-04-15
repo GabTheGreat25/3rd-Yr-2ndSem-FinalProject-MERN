@@ -1138,12 +1138,12 @@
 	],
 	"variable": [
 		{
-			"id": "976e4f6e-35a9-4627-8689-3560f69d6d61",
+			"id": "16803c71-d81a-47b1-82ad-cb380ccd2ce8",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU"
 		},
 		{
-			"id": "7301cd91-f2ea-4d5d-9802-ba5377fd59a8",
+			"id": "385ce591-af06-4214-a594-bba9be5d9165",
 			"key": "Jwt",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTQ5MTU1NCwiZXhwIjoxNjgxNDkyNDU0fQ.b23PR_FVnO5XiSng57FNQ9lag4ZFzdl9aAyYf0jdjNU",
 			"type": "string"
