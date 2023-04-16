@@ -320,7 +320,7 @@
 					"response": []
 				},
 				{
-					"name": "{{URI}}{{V1}}/forgotpassword",
+					"name": "FORGOT PASSWORD",
 					"id": "94290fd3-defd-4af8-a89d-061645bde44b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -348,18 +348,18 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"email\" : \"heinrichsorbaf02@gmail.com\"\r\n    \r\n} "
 						},
-						"url": "{{URI}}{{V1}}forgotpassword"
+						"url": "{{URI}}{{V1}}Forgotpassword"
 					},
 					"response": []
 				},
 				{
-					"name": "{{URI}}{{V1}}/reset",
+					"name": "RESET PASSWORD",
 					"id": "a88679da-038f-46ae-ba0c-c1df5cdd3599",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -369,8 +369,7 @@
 							{
 								"key": "Accept",
 								"value": "application/json",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							},
 							{
 								"key": "Authorization",
@@ -380,20 +379,20 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"123456\",\r\n    \"confirmPassword\": \"123456\"\r\n}\r\n"
+							"raw": "{\r\n    \"newPassword\": \"123456\",\r\n    \"confirmPassword\": \"123456\" \r\n}\r\n"
 						},
-						"url": "{{URI}}{{V1}}password/reset/e0bbeeaf5b497801cb9ea2e0177588e0481836cf"
+						"url": "{{URI}}{{V1}}password/reset/31821079-80aa-446c-a60a-afaca4b5a93c"
 					},
 					"response": []
 				},
 				{
-					"name": "{{URI}}{{V1}}/reset Copy",
+					"name": "UPDATE A USER'S PASSWORD",
 					"id": "3ff03d68-b340-4392-a979-46b6a8471106",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -413,9 +412,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n \t\"oldPassword\": \"123456\",\r\n \t\"password\":\"password2\"\r\n}"
+							"raw": "{\r\n \t\"oldPassword\": \"12345678\",\r\n \t\"newPassword\":\"1234567\",\r\n    \"confirmPassword\":\"1234567\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}/password/update"
+						"url": "{{URI}}{{V1}}/updatePassword/64391efec821b5bd412e14fa"
 					},
 					"response": []
 				}
@@ -1118,7 +1117,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "82d7a540-7b3c-42fb-815a-e9ab973aa95a",
+				"id": "4b1c4342-8614-41f3-9565-a66493234a72",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1128,7 +1127,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "3855805b-0053-470f-a61f-741d3ae6ce03",
+				"id": "16b95479-fee2-459e-a013-9a43d82ae278",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1138,9 +1137,9 @@
 	],
 	"variable": [
 		{
-			"id": "0d4a2c47-e9b7-4fac-94b2-e0a2e7bd52b4",
+			"id": "6e7ee275-c704-4b7d-a325-1fd66af92d9b",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTU2OTg2MCwiZXhwIjoxNjgxNTcwNzYwfQ.-zXHDBlzsAacy30sJ3RUtRIZKM4s15re9fjshParQyM"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTYxNzI3OSwiZXhwIjoxNjgxNjE4MTc5fQ.jZS7qgyPAVAqCZ3l7yi_X476B5uklgyFBtJrrMLhIOE"
 		}
 	]
 }
