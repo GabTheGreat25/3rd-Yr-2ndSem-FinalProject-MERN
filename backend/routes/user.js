@@ -38,6 +38,24 @@ const userRoutes = [
     // middleware: [verifyJWT],
     handler: userController.deleteUser,
   },
+  {
+    method: METHOD.PUT,
+    path: PATH.FORGOT_PASSWORD,
+    // middleware: [],
+    handler: userController.forgotPassword,
+  },
+  {
+    method: METHOD.POST,
+    path: PATH.RESET_PASSWORD,
+    // middleware: [],
+    handler: userController.resetPassword,
+  },
+  {
+    method: METHOD.PATCH,
+    path: PATH.UPDATE_PASSWORD,
+    middleware: [verifyJWT],
+    handler: userController.updatePassword,
+  },
 ];
 
 userRoutes.forEach((route) => {
