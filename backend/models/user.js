@@ -47,6 +47,10 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
+  resetTokenUsed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model(RESOURCE.USER, userSchema);

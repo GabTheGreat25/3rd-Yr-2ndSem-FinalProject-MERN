@@ -4,6 +4,205 @@ const ErrorHandler = require("../utils/errorHandler");
 const bcrypt = require("bcrypt");
 const token = require("../utils/token");
 const { cloudinary } = require("../utils/cloudinary");
+const uuid = require("uuid");
+const { sendEmail } = require("../utils/sendEmail");
+
+exports.updatePassword = async (
+  id,
+  oldPassword,
+  newPassword,
+  confirmPassword
+) => {
+  const user = await User.findById(id).select("+password");
+
+  if (!user) throw new ErrorHandler("User not found");
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+  if (!isMatch) throw new ErrorHandler("Invalid old password");
+
+  if (newPassword !== confirmPassword)
+    throw new ErrorHandler("Passwords do not match");
+
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    Number(process.env.SALT_NUMBER)
+  );
+
+  user.password = hashedPassword;
+
+  await user.save();
+
+  return user;
+};
+
+exports.sendResetPassword = async (
+  resetToken,
+  newPassword,
+  confirmPassword
+) => {
+  const user = await User.findOne({ resetToken });
+
+  if (newPassword !== confirmPassword)
+    throw new ErrorHandler("Passwords don't match");
+
+  if (user.resetTokenUsed)
+    throw new ErrorHandler("Reset token has already been used");
+
+  const hashedPassword = await bcrypt.hash(
+    newPassword,
+    Number(process.env.SALT_NUMBER)
+  );
+  user.password = hashedPassword;
+  user.resetTokenUsed = true;
+  await user.save();
+
+  const emailOptions = {
+    to: user.email,
+    subject: "Password Reset Successful",
+    html: `<html>
+  <head>
+    <style>
+      /* Add styles to make the email look more visually appealing */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #444;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      a {
+        color: #fff;
+        background-color: #4caf50;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .bottom{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Password Reset Successful</h1>
+      <p>Your password has been successfully reset. If you did not perform this action, please contact support immediately.</p>
+    </div>
+  </body>
+</html>
+
+`,
+  };
+
+  await sendEmail(emailOptions);
+
+  return `Password updated successfully for user with email ${user.email}`;
+};
+
+exports.sendPasswordResetEmail = async (req, email) => {
+  if (!email) throw new ErrorHandler("Please provide an email");
+
+  const resetToken = uuid.v4();
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const user = await User.findOne({ email });
+
+  if (!user) throw new ErrorHandler("User not found");
+
+  user.resetTokenUsed = false;
+  await user.save();
+
+  const emailOptions = {
+    to: email,
+    subject: "Password Reset Request",
+    html: `<html>
+  <head>
+    <style>
+      /* Add styles to make the email look more visually appealing */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #444;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      p {
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      a {
+        color: #fff;
+        background-color: #4caf50;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .bottom{
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Password Reset Request</h1>
+      <p>You have requested to reset your password. Please click the following link to reset your password:</p>
+      <p class="center">
+        <a href="${resetUrl}">Reset Password</a>
+      </p>
+      <p class="bottom">If you did not request to reset your password, please ignore this email.</p>
+    </div>
+  </body>
+</html>
+
+`,
+  };
+
+  await sendEmail(emailOptions);
+
+  return `Reset password email sent successfully to ${email}`;
+};
 
 exports.loginToken = async (email, password) => {
   const foundUser = await User.findOne({ email }).select("+password").exec();

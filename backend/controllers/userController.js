@@ -6,6 +6,37 @@ const checkRequiredFields = require("../helpers/checkRequiredFields");
 const token = require("../utils/token");
 const { upload } = require("../utils/cloudinary");
 
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const updatedUser = await usersService.updatePassword(
+    req.params.id,
+    oldPassword,
+    newPassword,
+    confirmPassword
+  );
+  SuccessHandler(
+    res,
+    `Old Password ${oldPassword} Successfully Updated with ${newPassword}`,
+    updatedUser
+  );
+});
+
+exports.resetPassword = asyncHandler(async (req, res, next) => {
+  const { resetToken, newPassword, confirmPassword } = req.body;
+  const result = await usersService.sendResetPassword(
+    resetToken,
+    newPassword,
+    confirmPassword
+  );
+  SuccessHandler(res, `New Password ${newPassword} Was Successful`, result);
+});
+
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const { email } = req.body;
+  const details = await usersService.sendPasswordResetEmail(req, email);
+  SuccessHandler(res, "Emailed Successfully", details);
+});
+
 exports.login = [
   checkRequiredFields(["email", "password"]),
   asyncHandler(async (req, res, next) => {
