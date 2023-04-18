@@ -26,7 +26,7 @@ const userRoutes = [
   },
   {
     method: METHOD.PATCH,
-    path: PATH.USER_ID,
+    path: PATH.EDIT_USER_ID,
     roles: [ROLE.ADMIN],
     // middleware: [verifyJWT],
     handler: userController.updateUser,
