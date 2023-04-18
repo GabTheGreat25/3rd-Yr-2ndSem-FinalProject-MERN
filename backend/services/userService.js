@@ -359,8 +359,8 @@ exports.updateUserData = async (req, res, id) => {
 
   if (duplicateUser) throw new ErrorHandler("Duplicate name");
 
-  let images;
-  if (req.files && req.files.length > 0) {
+  let images = [];
+  if (req.files && Array.isArray(req.files)) {
     images = await Promise.all(
       req.files.map(async (file) => {
         const result = await cloudinary.uploader.upload(file.path, {
@@ -378,11 +378,17 @@ exports.updateUserData = async (req, res, id) => {
     );
   } else images = existingUser.image || [];
 
+  const roles = req.body.roles
+    ? Array.isArray(req.body.roles)
+      ? req.body.roles
+      : req.body.roles.split(", ")
+    : ["Customer"];
+
   const updatedUser = await User.findByIdAndUpdate(
     id,
     {
       ...req.body,
-      roles: req.body.roles.split(", "),
+      roles: roles,
       image: images,
     },
     {
