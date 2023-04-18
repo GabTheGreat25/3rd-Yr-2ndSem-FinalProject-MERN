@@ -14,6 +14,7 @@ import {
   GetPerUser,
   CreateUser,
   EditUser,
+  Dashboard,
 } from "@/page";
 
 const router = createBrowserRouter(
@@ -26,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="*" element={<NotFound />} />
       {/*Private Routes*/}
       <Route path="dashboard" element={<DashboardLayout />}>
-        <Route index element={<Home />} />
+        <Route index element={<Dashboard />} />
         <Route path="user" element={<User />} />
         <Route path="user/create" element={<CreateUser />} />
         <Route path="user/:id" element={<GetPerUser />} />
