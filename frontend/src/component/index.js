@@ -5,6 +5,7 @@ import SidebarLink from "./SidebarLink";
 import DataTable from "./DataTable";
 import Button from "./Button";
 import ImagePreview from "./ImagePreview";
+import ListData from "./ListData";
 
 export {
   Navbar,
@@ -14,4 +15,5 @@ export {
   DataTable,
   Button,
   ImagePreview,
+  ListData,
 };
