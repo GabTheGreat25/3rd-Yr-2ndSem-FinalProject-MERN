@@ -26,7 +26,7 @@ export default function () {
       name: data?.details?.name || "",
       email: data?.details?.email || "",
       roles: data?.details?.roles || [],
-      image: data?.details?.image,
+      image: data?.details?.image || [],
     },
     validationSchema: editUserValidation,
     onSubmit: async (values) => {
@@ -147,8 +147,6 @@ export default function () {
                   inputProps={{
                     multiple: true,
                   }}
-                  error={formik.touched.image && Boolean(formik.errors.image)}
-                  helperText={formik.touched.image && formik.errors.image}
                 />
                 {data.details.image.map((image) => (
                   <span key={image.public_id}>
