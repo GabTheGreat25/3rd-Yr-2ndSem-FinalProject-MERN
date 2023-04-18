@@ -29,9 +29,9 @@ export const add = (builder) => {
 
 export const updateById = (builder) => {
   return builder.mutation({
-    query: ({ id, ...payload }) => {
+    query: ({ id, payload }) => {
       return {
-        url: `${ROUTE.USER_ID_ROUTE.replace(":id", id)}`,
+        url: `${ROUTE.EDIT_USER_ID.replace(":id", id)}`,
         method: "PATCH",
         body: payload,
       };
