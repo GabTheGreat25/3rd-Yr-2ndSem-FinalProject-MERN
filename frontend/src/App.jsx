@@ -13,6 +13,7 @@ import {
   UserRegister,
   GetPerUser,
   CreateUser,
+  EditUser,
 } from "@/page";
 
 const router = createBrowserRouter(
@@ -29,6 +30,7 @@ const router = createBrowserRouter(
         <Route path="user" element={<User />} />
         <Route path="user/create" element={<CreateUser />} />
         <Route path="user/:id" element={<GetPerUser />} />
+        <Route path="user/edit/:id" element={<EditUser />} />
       </Route>
     </Route>
   )
