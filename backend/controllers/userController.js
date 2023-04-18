@@ -120,7 +120,7 @@ exports.createNewUser = [
 
 exports.updateUser = [
   upload.array("image"),
-  checkRequiredFields(["name", "email", "roles"]),
+  checkRequiredFields(["name", "email", "roles", "image"]),
   asyncHandler(async (req, res, next) => {
     const user = await usersService.updateUserData(req, res, req.params.id);
 
