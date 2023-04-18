@@ -54,7 +54,15 @@ export default function () {
     deleteUser(id);
   };
 
+  const handleEdit = (id) => {
+    navigate(`edit/${id}`);
+  };
+
   const actions = [
+    {
+      onClick: handleEdit,
+      title: "Edit",
+    },
     {
       onClick: handleDelete,
       title: "Delete",
