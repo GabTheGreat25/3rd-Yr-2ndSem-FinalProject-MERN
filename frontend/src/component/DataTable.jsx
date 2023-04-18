@@ -75,24 +75,24 @@ export default function (props) {
                 })}
                 {hasActions > 0 && (
                   <StyledTableCell align="center">
-                    <ButtonGroup
-                      variant="contained"
-                      aria-label="outlined primary button group"
-                    >
+                    <ButtonGroup>
                       {actions.map((action) => (
                         <Button
-                          key={generateKey(5)}
-                          onClick={() => {
-                            action.onClick(row["_id"]);
-                          }}
                           sx={{
                             backgroundColor: "#2c3e50",
+                            marginRight: " .5rem",
+                            color: "#dfe4ea",
                             "&:hover": {
                               backgroundColor: "#dfe4ea",
                               color: "#2c3e50",
                               transition: "transform 0.2s ease-in-out",
                               transform: "scale(1.1)",
+                              borderColor: "#2c3e50",
                             },
+                          }}
+                          key={generateKey(5)}
+                          onClick={() => {
+                            action.onClick(row["_id"]);
                           }}
                         >
                           {action.title}
