@@ -1,5 +1,13 @@
 import { useRef } from "react";
-import { TextField, Typography, Grid, Button, MenuItem } from "@mui/material";
+import {
+  TextField,
+  Typography,
+  Grid,
+  Button,
+  MenuItem,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import {
   useUpdateUserMutation,
   useGetUserByIdQuery,
@@ -27,6 +35,7 @@ export default function () {
       email: data?.details?.email || "",
       roles: data?.details?.roles || [],
       image: data?.details?.image || [],
+      active: data?.details?.active || true,
     },
     validationSchema: editUserValidation,
     onSubmit: async (values) => {
@@ -37,6 +46,7 @@ export default function () {
       Array.from(values.image).forEach((file) => {
         formData.append("image", file);
       });
+      formData.append("active", values.active.toString());
 
       updateUser({ id: data.details._id, payload: formData }).then(
         (response) => {
@@ -158,6 +168,21 @@ export default function () {
                     />
                   </span>
                 ))}
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formik.values.active}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      name="active"
+                      id="active"
+                      color="primary"
+                    />
+                  }
+                  label="Is This User Still Active?"
+                />
               </Grid>
             </Grid>
             <Button
