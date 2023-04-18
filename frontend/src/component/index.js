@@ -4,5 +4,14 @@ import Footer from "./Footer";
 import SidebarLink from "./SidebarLink";
 import DataTable from "./DataTable";
 import Button from "./Button";
+import ImagePreview from "./ImagePreview";
 
-export { Navbar, Sidebar, Footer, SidebarLink, DataTable, Button };
+export {
+  Navbar,
+  Sidebar,
+  Footer,
+  SidebarLink,
+  DataTable,
+  Button,
+  ImagePreview,
+};
