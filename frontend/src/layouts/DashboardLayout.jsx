@@ -5,6 +5,7 @@ import Sidebar from "../component/Sidebar";
 import Breadcrumb from "../component/Breadcrumb";
 import Home from "@mui/icons-material/Home";
 import PeopleAltSharp from "@mui/icons-material/PeopleAltSharp";
+import EventNote from "@mui/icons-material/EventNote";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
@@ -22,6 +23,11 @@ export default function (props) {
         title: "User",
         link: "/dashboard/user",
         icon: <PeopleAltSharp />,
+      },
+      {
+        title: "Note",
+        link: "/dashboard/note",
+        icon: <EventNote />,
       },
     ],
   } = props;
