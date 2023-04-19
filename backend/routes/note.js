@@ -4,7 +4,7 @@ const noteController = require("../controllers/noteController");
 const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
 const { METHOD, PATH, ROLE } = require("../constants/index");
 
-router.use(verifyJWT);
+// router.use(verifyJWT);
 
 const noteRoutes = [
   {
@@ -27,7 +27,7 @@ const noteRoutes = [
   },
   {
     method: METHOD.PATCH,
-    path: PATH.NOTE_ID,
+    path: PATH.EDIT_NOTE_ID,
     roles: [ROLE.ADMIN],
     handler: noteController.updateNote,
   },
