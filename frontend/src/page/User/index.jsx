@@ -91,7 +91,7 @@ export default function () {
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data.details}
+            data={data?.details}
           />
         )
       )}
