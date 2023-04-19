@@ -8,6 +8,7 @@ module.exports = {
   CAMERA_ID: "/camera/:id",
   NOTES: "/notes",
   NOTE_ID: "/note/:id",
+  EDIT_NOTE_ID: "/note/edit/:id",
   TRANSACTIONS: "/transactions",
   TRANSACTION_ID: "/transaction/:id",
   USERS: "/users",
