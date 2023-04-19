@@ -15,6 +15,10 @@ import {
   CreateUser,
   EditUser,
   Dashboard,
+  Note,
+  GetPerNote,
+  CreateNote,
+  EditNote,
 } from "@/page";
 
 const router = createBrowserRouter(
@@ -32,6 +36,10 @@ const router = createBrowserRouter(
         <Route path="user/create" element={<CreateUser />} />
         <Route path="user/:id" element={<GetPerUser />} />
         <Route path="user/edit/:id" element={<EditUser />} />
+        <Route path="note" element={<Note />} />
+        <Route path="note/create" element={<CreateNote />} />
+        <Route path="note/:id" element={<GetPerNote />} />
+        <Route path="note/edit/:id" element={<EditNote />} />
       </Route>
     </Route>
   )
