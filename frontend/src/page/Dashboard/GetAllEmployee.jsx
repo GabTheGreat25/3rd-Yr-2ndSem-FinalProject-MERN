@@ -8,7 +8,6 @@ import { PacmanLoader } from "react-spinners";
 export default function () {
   const { data, isLoading } = useGetUsersQuery();
   const users = data?.details ?? [];
-  console.log(users);
   const employees = users.filter((user) => user.roles.includes(USER.EMPLOYEE));
   const employeeCount = employees.length;
 
