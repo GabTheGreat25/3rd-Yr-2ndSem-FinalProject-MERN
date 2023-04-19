@@ -11,6 +11,10 @@ import GetAllAdmin from "./Dashboard/GetAllAdmin";
 import GetAllEmployee from "./Dashboard/GetAllEmployee";
 import GetAllCustomer from "./Dashboard/GetAllCustomer";
 import ShowActiveUser from "./Dashboard/ShowActiveUser";
+import Note from "./Notes";
+import GetPerNote from "./Notes/GetPerNote";
+import CreateNote from "./Notes/CreateNote";
+import EditNote from "./Notes/EditNote";
 
 export {
   Home,
@@ -26,4 +30,8 @@ export {
   GetAllEmployee,
   GetAllCustomer,
   ShowActiveUser,
+  Note,
+  GetPerNote,
+  CreateNote,
+  EditNote,
 };
