@@ -1,15 +1,5 @@
-export const splitKey = (key) => {
-  return key.split(".");
-};
+export const splitKey = (key) => key.split(".");
 
-export const deconstruct = (key, row) => {
-  let tempValue = row;
-  key.forEach((e) => {
-    tempValue = tempValue[e];
-  });
-  return tempValue;
-};
+export const deconstruct = (key, row) => key.reduce((a, b) => a[b], row);
 
-export const manipulate = (value, row, operation) => {
-  return operation(value, row);
-};
+export const manipulate = (value, row, operation) => operation(value, row);
