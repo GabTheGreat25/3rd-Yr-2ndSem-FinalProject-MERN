@@ -76,7 +76,7 @@
 									"mode": "file",
 									"file": {}
 								},
-								"url": "{{URI}}{{V1}}/logout"
+								"url": "{{URI}}{{V1}}/ogout"
 							},
 							"response": []
 						}
@@ -1136,7 +1136,7 @@
 	],
 	"variable": [
 		{
-			"id": "1d4a5777-8f7b-430f-9209-c82d5efea71a",
+			"id": "dd0f3fdf-fef2-477e-a199-34f41074f906",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InRlc3R6QGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MTk1NzY4MSwiZXhwIjoxNjgxOTU4NTgxfQ._71-VcBj7hx1-zbNgidWENEICi6ZlJBtVKHXN696Hlo"
 		}
