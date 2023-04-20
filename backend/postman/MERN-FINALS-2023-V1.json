@@ -445,14 +445,6 @@
 							],
 							"query": [
 								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								},
-								{
 									"key": "search",
 									"value": "Sesperez",
 									"type": "text",
@@ -467,6 +459,14 @@
 									"key": "filter",
 									"value": "title:Sesperez",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
 								}
 							]
 						}
@@ -488,7 +488,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
+						"url": "{{URI}}{{V1}}note/643f5cba884e3f868cb35a66"
 					},
 					"response": []
 				},
@@ -514,7 +514,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"642ee8969d2a48fff10cf9ea\",\r\n    \"title\": \"Sesperez\",\r\n    \"text\": \"Coding Is Fun\"\r\n}"
+							"raw": "{\r\n    \"user\": \"643f5f685f467b155d562982\",\r\n    \"title\": \"Wazzup\",\r\n    \"text\": \"Coding Is Fun\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}notes"
 					},
@@ -542,9 +542,9 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": true\r\n}"
+							"raw": "{\r\n    \"user\": \"643ed03db2e4679a31b440f4\",\r\n    \"title\": \"Asus\",\r\n    \"text\": \"Coding Is Life\",\r\n    \"completed\": false\r\n}"
 						},
-						"url": "{{URI}}{{V1}}note/640a6a80cae4fdc61e6f3937"
+						"url": "{{URI}}{{V1}}note/edit/643f48d8884e3f868cb35933"
 					},
 					"response": []
 				},
@@ -916,7 +916,7 @@
 								}
 							]
 						},
-						"url": "{{URI}}{{V1}}camera/642289e964d970c52537a66f"
+						"url": "{{URI}}{{V1}}camera/edit/642289e964d970c52537a66f"
 					},
 					"response": []
 				},
@@ -1136,7 +1136,7 @@
 	],
 	"variable": [
 		{
-			"id": "d513479e-89b0-4c47-b069-e6774a3cdfec",
+			"id": "fef3cde0-835c-4704-8585-232d458779aa",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImhlaW5yaWNoc29yYmFmMDJAZ21haWwuY29tIiwicm9sZXMiOlsiQWRtaW4iXX0sImlhdCI6MTY4MTYxNzI3OSwiZXhwIjoxNjgxNjE4MTc5fQ.jZS7qgyPAVAqCZ3l7yi_X476B5uklgyFBtJrrMLhIOE"
 		}
