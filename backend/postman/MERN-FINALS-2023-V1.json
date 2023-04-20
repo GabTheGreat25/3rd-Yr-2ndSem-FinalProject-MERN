@@ -30,7 +30,7 @@
 									"mode": "raw",
 									"raw": "{\r\n    \"email\": \"heinrichsorbaf02@gmail.com\",\r\n    \"password\": \"123456\"\r\n}"
 								},
-								"url": "{{URI}}{{V1}}/login"
+								"url": "{{URI}}{{V1}}login"
 							},
 							"response": []
 						},
@@ -1136,7 +1136,7 @@
 	],
 	"variable": [
 		{
-			"id": "b2311bfa-e974-4cc3-8ae3-82d6bc9daef5",
+			"id": "1d4a5777-8f7b-430f-9209-c82d5efea71a",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InRlc3R6QGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MTk1NzY4MSwiZXhwIjoxNjgxOTU4NTgxfQ._71-VcBj7hx1-zbNgidWENEICi6ZlJBtVKHXN696Hlo"
 		}
