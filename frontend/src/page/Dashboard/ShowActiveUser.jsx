@@ -9,9 +9,8 @@ import {
 } from "recharts";
 import { useGetUsersQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "@/constants";
-
-const COLORS = ["#0088FE", "#FFBB28"];
+import randomColor from "randomcolor";
+import { ERROR } from "../../constants";
 
 export default function () {
   const { data, isLoading, isError } = useGetUsersQuery();
@@ -27,6 +26,11 @@ export default function () {
     }
     return [];
   }, [data, isLoading, isError]);
+
+  const COLORS = React.useMemo(() => {
+    if (chartData.length === 0) return [];
+    return randomColor({ count: chartData.length, luminosity: "bright" });
+  }, [chartData]);
 
   return (
     <>
