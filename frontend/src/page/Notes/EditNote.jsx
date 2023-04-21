@@ -30,7 +30,7 @@ export default function () {
 
   const { data: getAllNote } = useGetUsersQuery();
   const users = getAllNote?.details ?? [];
-  const employees = users.filter((user) => user.roles.includes(USER.EMPLOYEE));
+  const employees = users.filter((user) => user.roles?.includes(USER.EMPLOYEE));
   const associatedUser = users.find(
     (user) => user?._id === data?.details?.user?._id
   );
