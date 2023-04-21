@@ -5,6 +5,7 @@ import GetAllAdmin from "./GetAllAdmin";
 import GetAllEmployee from "./GetAllEmployee";
 import GetAllCustomer from "./GetAllCustomer";
 import ShowActiveUser from "./ShowActiveUser";
+import AllUserCamera from "./AllUserCamera";
 
 export default function () {
   return (
@@ -23,6 +24,9 @@ export default function () {
       </Box>
       <Box sx={{ mb: "1rem", mt: ".5rem" }}>
         <ShowActiveUser />
+      </Box>
+      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+        <AllUserCamera />
       </Box>
     </>
   );
