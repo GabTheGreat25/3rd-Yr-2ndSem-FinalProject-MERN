@@ -1,6 +1,9 @@
 import React from "react";
 import { DataTable, Button } from "@/component";
-import { useGetUsersQuery, useDeleteUserMutation } from "@/state/api/reducer";
+import {
+  useGetCamerasQuery,
+  useDeleteCameraMutation,
+} from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
 import { Link } from "react-router-dom";
@@ -8,17 +11,23 @@ import { useNavigate } from "react-router-dom";
 
 export default function () {
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useGetUsersQuery();
+  const {
+    data,
+    isLoading,
+    isError: isCameraError,
+  } = useGetCamerasQuery({
+    populate: "user",
+  });
 
-  const [deleteUser, { isLoading: isDeleting, isError: isDeleteError }] =
-    useDeleteUserMutation();
+  const [deleteCameras, { isLoading: isDeleting, isError: isDeleteError }] =
+    useDeleteCameraMutation();
 
-  const headers = ["ID", "User Name", "Email", "Roles", "Images"];
+  const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
   const keys = [
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/user/${row._id}`} className="link">
+        <Link to={`/dashboard/camera/${row._id}`} className="link">
           {row._id}
         </Link>
       ),
@@ -27,11 +36,11 @@ export default function () {
       key: "name",
     },
     {
-      key: "email",
+      key: "text",
     },
     {
-      key: "roles",
-      operation: (value) => value.join(", "),
+      key: "price",
+      operation: (value, row) => `₱${value}`,
     },
     {
       key: "image",
@@ -48,11 +57,13 @@ export default function () {
         ));
       },
     },
+    {
+      key: "user.name",
+    },
   ];
 
-  const handleDelete = async (id) => {
-    await deleteUser(id);
-    window.location.reload();
+  const handleDelete = (id) => {
+    deleteCameras(id);
   };
 
   const handleEdit = (id) => {
@@ -73,19 +84,19 @@ export default function () {
   return (
     <>
       <Button
-        title="Add User"
+        title="Add Camera"
         onClick={() => {
-          navigate("/dashboard/user/create");
+          navigate("/dashboard/camera/create");
         }}
       />
       {isLoading || isDeleting ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
+      ) : isCameraError ? (
+        <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
       ) : isDeleteError ? (
-        <div className="errorMessage">{ERROR.DELETE_USER_ERROR}</div>
+        <div className="errorMessage">{ERROR.DELETE_CAMERA_ERROR}</div>
       ) : (
         data && (
           <DataTable

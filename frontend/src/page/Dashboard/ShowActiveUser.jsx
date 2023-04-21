@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { useGetUsersQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
+import { ERROR } from "@/constants";
 
 const COLORS = ["#0088FE", "#FFBB28"];
 

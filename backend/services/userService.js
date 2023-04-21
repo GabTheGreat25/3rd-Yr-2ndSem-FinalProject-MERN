@@ -1,5 +1,8 @@
 const User = require("../models/user");
 const mongoose = require("mongoose");
+const Camera = require("../models/camera");
+const Note = require("../models/note");
+const Transaction = require("../models/transaction");
 const ErrorHandler = require("../utils/errorHandler");
 const bcrypt = require("bcrypt");
 const token = require("../utils/token");
@@ -416,6 +419,9 @@ exports.deleteUserData = async (id) => {
   await Promise.all([
     User.deleteOne({ _id: id }).lean().exec(),
     cloudinary.api.delete_resources(publicIds),
+    Note.deleteMany({ user: id }).lean().exec(),
+    Camera.deleteMany({ user: id }).lean().exec(),
+    Transaction.deleteMany({ user: id }).lean().exec(),
   ]);
 
   return user;

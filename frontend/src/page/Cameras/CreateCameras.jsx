@@ -1,4 +1,4 @@
-import React from "react";
+import { useRef, useState } from "react";
 import {
   TextField,
   Typography,
@@ -7,82 +7,80 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
-import {
-  useUpdateNoteMutation,
-  useGetNoteByIdQuery,
-  useGetUsersQuery,
-} from "@/state/api/reducer";
+import { useAddCameraMutation, useGetUsersQuery } from "@/state/api/reducer";
 import { useFormik } from "formik";
-import { editNoteValidation } from "../../validation";
-import { useNavigate, useParams } from "react-router-dom";
-import { USER, ERROR } from "../../constants";
+import { createCameraValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
+import { ImagePreview } from "@/component";
+import { USER } from "@/constants";
 
 export default function () {
+  const fileInputRef = useRef();
   const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const { data, isLoading, isError } = useGetNoteByIdQuery(id);
-
-  const { data: getAllNote } = useGetUsersQuery();
-  const users = getAllNote?.details ?? [];
-  const employees = users.filter((user) => user.roles?.includes(USER.EMPLOYEE));
-  const associatedUser = users.find(
-    (user) => user?._id === data?.details?.user?._id
-  );
-
-  const [updateNote] = useUpdateNoteMutation();
+  const [addCamera, isLoading, isError] = useAddCameraMutation();
+  const { data } = useGetUsersQuery();
+  const users = data?.details ?? [];
+  const admins = users.filter((user) => user.roles.includes(USER.ADMIN));
 
   const formik = useFormik({
-    enableReinitialize: true,
     initialValues: {
-      title: data?.details?.title || "",
-      text: data?.details?.text || "",
-      user: associatedUser?._id || "",
-      completed: data?.details?.completed || false,
+      name: "",
+      text: "",
+      price: "",
+      image: [],
+      user: "",
     },
-    validationSchema: editNoteValidation,
+    validationSchema: createCameraValidation,
     onSubmit: (values) => {
-      updateNote({ id: data.details._id, payload: values }).then((response) => {
+      const formData = new FormData();
+
+      formData.append("name", values.name);
+      formData.append("text", values.text);
+      formData.append("price", values.price);
+      formData.append("user", values.user);
+      Array.from(values.image).forEach((file) => {
+        formData.append("image", file);
+      });
+
+      addCamera(formData).then((response) => {
         console.log("Response from API:", response);
-        navigate("/dashboard/note");
+        navigate("/dashboard/camera");
       });
     },
   });
 
   return (
     <>
-      {isLoading ? (
+      {!isLoading ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
       ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_NOTES_ERROR}</div>
+        <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
       ) : (
         <>
           <Typography variant="h6" gutterBottom>
-            Edit Note
+            Create Camera
           </Typography>
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <TextField
                   required
-                  id="title"
-                  name="title"
-                  label="Title"
+                  id="name"
+                  name="name"
+                  label="Name"
                   fullWidth
-                  autoComplete="title"
+                  autoComplete="name"
                   variant="standard"
-                  value={formik.values.title}
+                  value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  error={formik.touched.title && Boolean(formik.errors.title)}
-                  helperText={formik.touched.title && formik.errors.title}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
+                  helperText={formik.touched.name && formik.errors.name}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -102,6 +100,43 @@ export default function () {
                 />
               </Grid>
               <Grid item xs={12}>
+                <TextField
+                  required
+                  id="price"
+                  name="price"
+                  label="Price"
+                  fullWidth
+                  autoComplete="price"
+                  variant="standard"
+                  value={formik.values.price}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.price && Boolean(formik.errors.price)}
+                  helperText={formik.touched.price && formik.errors.price}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="image"
+                  name="image"
+                  type="file"
+                  ref={fileInputRef}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  accept="image/*"
+                  onChange={(event) =>
+                    formik.setFieldValue("image", event.currentTarget.files)
+                  }
+                  inputProps={{
+                    multiple: true,
+                  }}
+                />
+                {formik.values.image && (
+                  <ImagePreview images={Array.from(formik.values.image)} />
+                )}
+              </Grid>
+              <Grid item xs={12}>
                 <InputLabel id="user-label">Select User</InputLabel>
                 <Select
                   labelId="user-label"
@@ -115,10 +150,10 @@ export default function () {
                   displayEmpty
                 >
                   <MenuItem value="" disabled>
-                    Please select an employee
+                    Please select an owner
                   </MenuItem>
-                  {Array.isArray(employees) &&
-                    employees.map((user) => {
+                  {Array.isArray(admins) &&
+                    admins.map((user) => {
                       return (
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
@@ -131,21 +166,6 @@ export default function () {
                     {formik.errors.user}
                   </Typography>
                 )}
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={formik.values.completed}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      name="completed"
-                      id="completed"
-                      color="primary"
-                    />
-                  }
-                  label="Check This If You Completed Your Task"
-                />
               </Grid>
             </Grid>
             <Button

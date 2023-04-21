@@ -1,4 +1,4 @@
-const Note = require("../models/Note");
+const Note = require("../models/note");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
 

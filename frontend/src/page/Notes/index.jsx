@@ -12,7 +12,9 @@ export default function () {
     data,
     isLoading,
     isError: isNotesError,
-  } = useGetNotesQuery({ populate: "user" });
+  } = useGetNotesQuery({
+    populate: "user",
+  });
 
   const [deleteNote, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteNoteMutation();

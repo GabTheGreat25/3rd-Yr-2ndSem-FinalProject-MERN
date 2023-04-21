@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from "react-router-dom";
-import { RootLayout, NotFound, Welcome, DashboardLayout } from "@/layouts";
+} from 'react-router-dom'
+import { RootLayout, NotFound, Welcome, DashboardLayout } from '@/layouts'
 import {
   Home,
   User,
@@ -19,7 +19,11 @@ import {
   GetPerNote,
   CreateNote,
   EditNote,
-} from "@/page";
+  Camera,
+  GetPerCamera,
+  CreateCamera,
+  EditCamera,
+} from '@/page'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -40,11 +44,15 @@ const router = createBrowserRouter(
         <Route path="note/create" element={<CreateNote />} />
         <Route path="note/:id" element={<GetPerNote />} />
         <Route path="note/edit/:id" element={<EditNote />} />
+        <Route path="camera" element={<Camera />} />
+        <Route path="camera/create" element={<CreateCamera />} />
+        <Route path="camera/:id" element={<GetPerCamera />} />
+        <Route path="camera/edit/:id" element={<EditCamera />} />
       </Route>
-    </Route>
-  )
-);
+    </Route>,
+  ),
+)
 
 export default function () {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router} />
 }
