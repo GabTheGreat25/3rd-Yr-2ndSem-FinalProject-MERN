@@ -1,29 +1,31 @@
-import React from 'react'
-import { DataTable, Button } from '@/component'
+import React from "react";
+import { DataTable, Button } from "@/component";
 import {
-  useGetCameraByIdQuery,
+  useGetCamerasQuery,
   useDeleteCameraMutation,
-} from '@/state/api/reducer'
-import { PacmanLoader } from 'react-spinners'
-import { ERROR } from '../../constants'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+} from "@/state/api/reducer";
+import { PacmanLoader } from "react-spinners";
+import { ERROR } from "../../constants";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
-  const navigate = useNavigate()
-  const { data, isLoading, isError: isCamerasError } = useGetCameraByIdQuery({
-    populate: 'user',
-  })
+  const navigate = useNavigate();
+  const {
+    data,
+    isLoading,
+    isError: isCameraError,
+  } = useGetCamerasQuery({
+    populate: "user",
+  });
 
-  const [
-    deleteCameras,
-    { isLoading: isDeleting, isError: isDeleteError },
-  ] = useDeleteCameraMutation()
+  const [deleteCameras, { isLoading: isDeleting, isError: isDeleteError }] =
+    useDeleteCameraMutation();
 
-  const headers = ['ID', 'Name', 'Text', 'Price', 'Image', 'Actions']
+  const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
   const keys = [
     {
-      key: '_id',
+      key: "_id",
       operation: (value, row) => (
         <Link to={`/dashboard/camera/${row._id}`} className="link">
           {row._id}
@@ -31,66 +33,67 @@ export default function () {
       ),
     },
     {
-      key: 'name',
+      key: "name",
     },
     {
-      key: 'text',
+      key: "text",
     },
     {
-      key: 'price',
+      key: "price",
+      operation: (value, row) => `₱${value}`,
     },
     {
-      key: 'image',
+      key: "image",
       operation: (value) => {
         return value.map((image) => (
           <img
-            style={{ padding: '0 .5rem' }}
+            style={{ padding: "0 .5rem" }}
             height={60}
             width={75}
             src={image.url}
             alt={image.originalname}
             key={image.public_id}
           />
-        ))
+        ));
       },
     },
     {
-      key: 'user.name',
+      key: "user.name",
     },
-  ]
+  ];
 
   const handleDelete = (id) => {
-    deleteCameras(id)
-  }
+    deleteCameras(id);
+  };
 
   const handleEdit = (id) => {
-    navigate(`camera/${id}`)
-  }
+    navigate(`edit/${id}`);
+  };
 
   const actions = [
     {
       onClick: handleEdit,
-      title: 'Edit',
+      title: "Edit",
     },
     {
       onClick: handleDelete,
-      title: 'Delete',
+      title: "Delete",
     },
-  ]
+  ];
 
   return (
     <>
       <Button
-        title="Add Cameras"
+        title="Add Camera"
         onClick={() => {
-          navigate('/dashboard/camera/create')
+          navigate("/dashboard/camera/create");
         }}
       />
       {isLoading || isDeleting ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isCamerasError ? (
+      ) : isCameraError ? (
         <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_CAMERA_ERROR}</div>
@@ -105,5 +108,5 @@ export default function () {
         )
       )}
     </>
-  )
+  );
 }
