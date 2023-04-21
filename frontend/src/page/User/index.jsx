@@ -50,8 +50,9 @@ export default function () {
     },
   ];
 
-  const handleDelete = (id) => {
-    deleteUser(id);
+  const handleDelete = async (id) => {
+    await deleteUser(id);
+    window.location.reload();
   };
 
   const handleEdit = (id) => {
