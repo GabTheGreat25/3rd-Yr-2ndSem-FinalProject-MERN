@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState } from "react";
 import {
   TextField,
   Typography,
@@ -7,45 +7,50 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material'
-import { useAddCameraMutation, useGetUsersQuery } from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { createCameraValidation } from '../../validation'
-import { useNavigate } from 'react-router-dom'
-import { ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { ImagePreview } from '@/component'
-
-import { USER } from '@/constants'
+} from "@mui/material";
+import { useAddCameraMutation, useGetUsersQuery } from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { createCameraValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { ImagePreview } from "@/component";
+import { USER } from "@/constants";
 
 export default function () {
-  const fileInputRef = useRef()
-
-  const navigate = useNavigate()
-  const [addCamera, isLoading, isError] = useAddCameraMutation()
-  const { data } = useGetUsersQuery()
-  const users = data?.details ?? []
-  const employees = users.filter((user) => user.roles.includes(USER.EMPLOYEE))
+  const fileInputRef = useRef();
+  const navigate = useNavigate();
+  const [addCamera, isLoading, isError] = useAddCameraMutation();
+  const { data } = useGetUsersQuery();
+  const users = data?.details ?? [];
+  const admins = users.filter((user) => user.roles.includes(USER.ADMIN));
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      text: '',
-      price: '',
+      name: "",
+      text: "",
+      price: "",
       image: [],
-      user: '',
+      user: "",
     },
     validationSchema: createCameraValidation,
     onSubmit: (values) => {
-      addCamera(values).then((response) => {
-        console.log('Response from API:', response)
-        navigate('/dashboard/camera')
-        Array.from(values.image).forEach((file) => {
-          formData.append('image', file)
-        })
-      })
+      const formData = new FormData();
+
+      formData.append("name", values.name);
+      formData.append("text", values.text);
+      formData.append("price", values.price);
+      formData.append("user", values.user);
+      Array.from(values.image).forEach((file) => {
+        formData.append("image", file);
+      });
+
+      addCamera(formData).then((response) => {
+        console.log("Response from API:", response);
+        navigate("/dashboard/camera");
+      });
     },
-  })
+  });
 
   return (
     <>
@@ -106,8 +111,8 @@ export default function () {
                   value={formik.values.price}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  // error={formik.touched.price && Boolean(formik.errors.price)}
-                  // helperPrice={formik.touched.price && formik.errors.price}
+                  error={formik.touched.price && Boolean(formik.errors.price)}
+                  helperText={formik.touched.price && formik.errors.price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -121,7 +126,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue('image', event.currentTarget.files)
+                    formik.setFieldValue("image", event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -145,15 +150,15 @@ export default function () {
                   displayEmpty
                 >
                   <MenuItem value="" disabled>
-                    Please select an employee
+                    Please select an owner
                   </MenuItem>
-                  {Array.isArray(employees) &&
-                    employees.map((user) => {
+                  {Array.isArray(admins) &&
+                    admins.map((user) => {
                       return (
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
                         </MenuItem>
-                      )
+                      );
                     })}
                 </Select>
                 {formik.touched.user && formik.errors.user && (
@@ -168,7 +173,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: '1rem' }}
+              sx={{ mt: "1rem" }}
             >
               Submit
             </Button>
@@ -176,5 +181,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
