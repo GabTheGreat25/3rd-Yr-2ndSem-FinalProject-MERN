@@ -1,13 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { API_URL } from '../../env/index.js'
-import UserAPI from './routes/users'
-import NoteAPI from './routes/notes'
-import CameraAPI from './routes/cameras'
-import { API, TAGS } from '../../constants'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { API_URL } from "../../env/index.js";
+import UserAPI from "./routes/users";
+import NoteAPI from "./routes/notes";
+// import AuthAPI from "./routes/auth";
+import CameraAPI from "./routes/cameras";
+import { API, TAGS } from "../../constants";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-})
+});
 
 export const api = createApi({
   reducerPath: TAGS.API,
@@ -29,8 +30,9 @@ export const api = createApi({
     addCamera: CameraAPI.add(builder),
     updateCamera: CameraAPI.updateById(builder),
     deleteCamera: CameraAPI.deleteById(builder),
+    // login: AuthAPI.login(builder),
   }),
-})
+});
 
 export const {
   useGetUsersQuery,
@@ -48,4 +50,4 @@ export const {
   useAddCameraMutation,
   useUpdateCameraMutation,
   useDeleteCameraMutation,
-} = api
+} = api;
