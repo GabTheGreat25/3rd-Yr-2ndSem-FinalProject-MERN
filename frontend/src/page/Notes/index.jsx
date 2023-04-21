@@ -1,26 +1,28 @@
-import React from 'react'
-import { DataTable, Button } from '@/component'
-import { useGetNotesQuery, useDeleteNoteMutation } from '@/state/api/reducer'
-import { PacmanLoader } from 'react-spinners'
-import { ERROR } from '../../constants'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { DataTable, Button } from "@/component";
+import { useGetNotesQuery, useDeleteNoteMutation } from "@/state/api/reducer";
+import { PacmanLoader } from "react-spinners";
+import { ERROR } from "../../constants";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
-  const navigate = useNavigate()
-  const { data, isLoading, isError: isNotesError } = useGetNotesQuery({
-    populate: 'user',
-  })
+  const navigate = useNavigate();
+  const {
+    data,
+    isLoading,
+    isError: isNotesError,
+  } = useGetNotesQuery({
+    populate: "user",
+  });
 
-  const [
-    deleteNote,
-    { isLoading: isDeleting, isError: isDeleteError },
-  ] = useDeleteNoteMutation()
+  const [deleteNote, { isLoading: isDeleting, isError: isDeleteError }] =
+    useDeleteNoteMutation();
 
-  const headers = ['ID', 'Title', 'Text', 'Completed', 'Employee']
+  const headers = ["ID", "Title", "Text", "Completed", "Employee"];
   const keys = [
     {
-      key: '_id',
+      key: "_id",
       operation: (value, row) => (
         <Link to={`/dashboard/note/${row._id}`} className="link">
           {row._id}
@@ -28,45 +30,45 @@ export default function () {
       ),
     },
     {
-      key: 'title',
+      key: "title",
     },
     {
-      key: 'text',
+      key: "text",
     },
     {
-      key: 'completed',
-      operation: (value) => (value ? 'Yes' : 'No'),
+      key: "completed",
+      operation: (value) => (value ? "Yes" : "No"),
     },
     {
-      key: 'user.name',
+      key: "user.name",
     },
-  ]
+  ];
 
   const handleDelete = (id) => {
-    deleteNote(id)
-  }
+    deleteNote(id);
+  };
 
   const handleEdit = (id) => {
-    navigate(`edit/${id}`)
-  }
+    navigate(`edit/${id}`);
+  };
 
   const actions = [
     {
       onClick: handleEdit,
-      title: 'Edit',
+      title: "Edit",
     },
     {
       onClick: handleDelete,
-      title: 'Delete',
+      title: "Delete",
     },
-  ]
+  ];
 
   return (
     <>
       <Button
         title="Add Note"
         onClick={() => {
-          navigate('/dashboard/note/create')
+          navigate("/dashboard/note/create");
         }}
       />
       {isLoading || isDeleting ? (
@@ -88,5 +90,5 @@ export default function () {
         )
       )}
     </>
-  )
+  );
 }
