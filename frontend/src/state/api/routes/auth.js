@@ -1,6 +1,6 @@
 import { API, ROUTE } from "../../../constants/index";
 
-export const authenticate = (builder) => {
+export const login = (builder) => {
   return builder.mutation({
     query: (payload) => ({
       url: ROUTE.LOGIN_ROUTE,
@@ -10,4 +10,4 @@ export const authenticate = (builder) => {
   });
 };
 
-export default { authenticate };
+export default { login };

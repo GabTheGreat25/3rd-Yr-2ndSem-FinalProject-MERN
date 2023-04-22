@@ -10,27 +10,39 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
+import { useLoginMutation } from "../../state/api/reducer";
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import loginImg from "@/assets/camera-login.jpg";
+import { useFormik } from "formik";
+import { setToken } from "../../state/api/slice/authSlice";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(""),
-    [password, setPassword] = useState(""),
-    [showPassword, setShowPassword] = useState(false),
-    [rememberMe, setRememberMe] = useState(false);
+  const dispatch = useDispatch();
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const [loginUser] = useLoginMutation();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      console.log(values);
+      const response = await loginUser(values).unwrap();
+      dispatch(setToken(response?.details));
+      console.log(dispatch(setToken(response?.details)));
+      console.log("Response from API:", response);
+      // navigate("/dashboard");
+    },
+  });
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const handleSubmit = () => {
-    navigate(`/dashboard`);
   };
 
   const handleRegister = () => {
@@ -69,7 +81,7 @@ export default function Login() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             sx={{
               mt: 3,
               display: "flex",
@@ -84,31 +96,30 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email"
               name="email"
               autoComplete="email"
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
             <TextField
               margin="normal"
-              required
-              fullWidth
+              id="password"
               name="password"
               label="Password"
+              fullWidth
               type={showPassword ? "text" : "password"}
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="secret password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
+                    <IconButton onClick={handleClickShowPassword}>
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>

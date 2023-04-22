@@ -1,10 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const cameraController = require('../controllers/cameraController')
-const { verifyJWT, authorizeRoles } = require('../middleware/verifyJWT')
-const { METHOD, PATH, ROLE } = require('../constants/index')
+const express = require("express");
+const router = express.Router();
+const cameraController = require("../controllers/cameraController");
+const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
+const { METHOD, PATH, ROLE } = require("../constants/index");
 
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 const cameraRoutes = [
   {
@@ -37,11 +37,11 @@ const cameraRoutes = [
     roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: cameraController.deleteCamera,
   },
-]
+];
 
 cameraRoutes.forEach((route) => {
-  const { method, path, roles, handler } = route
-  router[method](path, authorizeRoles(...roles), handler)
-})
+  const { method, path, roles, handler } = route;
+  router[method](path, authorizeRoles(...roles), handler);
+});
 
-module.exports = router
+module.exports = router;

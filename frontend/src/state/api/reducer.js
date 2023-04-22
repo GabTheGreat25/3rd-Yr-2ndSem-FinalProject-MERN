@@ -2,12 +2,21 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "../../env/index.js";
 import UserAPI from "./routes/users";
 import NoteAPI from "./routes/notes";
-// import AuthAPI from "./routes/auth";
+import AuthAPI from "./routes/auth";
 import CameraAPI from "./routes/cameras";
 import { API, TAGS } from "../../constants";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.token;
+    console.log(getState());
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+
+    return headers;
+  },
 });
 
 export const api = createApi({
@@ -30,7 +39,7 @@ export const api = createApi({
     addCamera: CameraAPI.add(builder),
     updateCamera: CameraAPI.updateById(builder),
     deleteCamera: CameraAPI.deleteById(builder),
-    // login: AuthAPI.login(builder),
+    login: AuthAPI.login(builder),
   }),
 });
 
@@ -50,4 +59,5 @@ export const {
   useAddCameraMutation,
   useUpdateCameraMutation,
   useDeleteCameraMutation,
+  useLoginMutation,
 } = api;

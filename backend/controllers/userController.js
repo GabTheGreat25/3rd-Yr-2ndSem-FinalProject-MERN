@@ -46,7 +46,7 @@ exports.login = [
     const setCookie = token.setRefreshTokenCookie(refreshTokenMaxAge);
     setCookie(res, refreshToken);
 
-    SuccessHandler(res, "Token Generated", { accessToken });
+    SuccessHandler(res, "Token Generated", accessToken);
   }),
 ];
 
