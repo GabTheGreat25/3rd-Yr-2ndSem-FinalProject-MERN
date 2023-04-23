@@ -20,6 +20,8 @@ import GetPerCamera from "./Cameras/GetPerCameras";
 import CreateCamera from "./Cameras/CreateCameras";
 import EditCamera from "./Cameras/EditCameras";
 import AllUserCamera from "./Dashboard/AllUserCamera";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 export {
   Home,
@@ -44,4 +46,6 @@ export {
   CreateCamera,
   EditCamera,
   AllUserCamera,
+  ForgotPassword,
+  ResetPassword,
 };
