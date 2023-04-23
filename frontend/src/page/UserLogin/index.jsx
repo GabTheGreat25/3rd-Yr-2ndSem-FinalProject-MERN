@@ -45,6 +45,10 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
+  const handleForgotPassword = () => {
+    navigate(`/Forgotpassword`);
+  };
+
   const handleRegister = () => {
     navigate(`/register`);
   };
@@ -148,7 +152,7 @@ export default function Login() {
               />
               <Button
                 type="button"
-                // onClick={handleForgotPassword}
+                onClick={handleForgotPassword}
                 variant="text"
                 color="error"
                 sx={{ alignSelf: "flex-start" }}
