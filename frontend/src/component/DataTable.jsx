@@ -12,6 +12,7 @@ import ButtonGroup from '@mui/material/ButtonGroup'
 import Pagination from '@mui/material/Pagination'
 import { generateKey } from '../services/generateKey'
 import { splitKey, deconstruct, manipulate } from '../services/dataTable'
+import { Fragment } from 'react'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,85 +36,133 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function (props) {
   const { headers = [], data = [], keys = [], actions = [] } = props
   const [page, setPage] = React.useState(1)
+  const [searchQuery, setSearchQuery] = React.useState('')
   const rowsPerPage = 2
 
   const hasActions = actions.length > 0
+
+  const filteredData =
+    data?.filter((row) => {
+      return Object.values(row).some((column) => {
+        if (typeof column !== 'string') {
+          return false
+        }
+        return column.toLowerCase().includes(searchQuery.toLowerCase())
+      })
+    }) ?? []
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
 
   const startIndex = (page - 1) * rowsPerPage
   const endIndex = startIndex + rowsPerPage
-  const paginatedData = data.slice(startIndex, endIndex)
+  const paginatedData = filteredData && filteredData.slice(startIndex, endIndex)
+
+  const handleSearch = () => {
+    // Reset to first page when searching
+    setPage(1)
+  }
 
   return (
     <TableContainer component={Paper}>
+      <div>
+        <input
+          type="text"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+        />
+        <Button variant="contained" onClick={handleSearch}>
+          Search
+        </Button>
+      </div>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            {headers.map((header) => (
-              <StyledTableCell key={generateKey(5)} align="center">
-                {header}
-              </StyledTableCell>
-            ))}
+        {headers && headers.length > 0 && (
+          <TableHead>
+            <TableRow>
+              {headers.map((header) => (
+                <StyledTableCell key={generateKey(5)} align="center">
+                  {header}
+                </StyledTableCell>
+              ))}
 
-            {hasActions && (
-              <StyledTableCell align="center">Actions</StyledTableCell>
-            )}
-          </TableRow>
-        </TableHead>
+              {hasActions && (
+                <StyledTableCell align="center">Actions</StyledTableCell>
+              )}
+            </TableRow>
+          </TableHead>
+        )}
+
         <TableBody>
-          {paginatedData.map((row) => {
-            return (
-              <StyledTableRow key={generateKey(5)}>
-                {keys.map((e) => {
-                  const { key, operation } = e
-                  const splitted = splitKey(key)
-                  const hasOperation = operation
-                  let tempValue = row[key]
+          {filteredData &&
+            filteredData.map((row) => {
+              const rowKeys =
+                keys.length > 0 ? splitKey(generateKey(), keys) : null
+              const rowData = deconstruct(row, headers, rowKeys)
+              return (
+                <Fragment key={generateKey(5)}>
+                  {paginatedData.map((paginatedRow) => {
+                    return (
+                      <StyledTableRow key={generateKey(5)}>
+                        {keys.map((e) => {
+                          const { key, operation } = e
+                          const splitted = splitKey(key)
+                          const hasOperation = operation
+                          let tempValue = paginatedRow[key]
 
-                  if (splitted.length > 1)
-                    tempValue = deconstruct(splitted, row)
+                          if (splitted.length > 1)
+                            tempValue = deconstruct(splitted, paginatedRow)
 
-                  return (
-                    <StyledTableCell key={generateKey(5)} align="center">
-                      {hasOperation
-                        ? manipulate(tempValue, row, hasOperation)
-                        : tempValue}
-                    </StyledTableCell>
-                  )
-                })}
-                {hasActions && (
-                  <StyledTableCell align="center">
-                    <ButtonGroup>
-                      {actions.map((action) => (
-                        <Button
-                          sx={{
-                            backgroundColor: '#2c3e50',
-                            marginRight: ' .5rem',
-                            color: '#dfe4ea',
-                            '&:hover': {
-                              backgroundColor: '#dfe4ea',
-                              color: '#2c3e50',
-                              transition: 'transform 0.2s ease-in-out',
-                              transform: 'scale(1.1)',
-                              borderColor: '#2c3e50',
-                            },
-                          }}
-                          key={generateKey(5)}
-                          onClick={() => {
-                            action.onClick(row['_id'])
-                          }}
-                        >
-                          {action.title}
-                        </Button>
-                      ))}
-                    </ButtonGroup>
-                  </StyledTableCell>
-                )}
-              </StyledTableRow>
-            )
-          })}
+                          return (
+                            <StyledTableCell
+                              key={generateKey(5)}
+                              align="center"
+                            >
+                              {hasOperation
+                                ? manipulate(
+                                    tempValue,
+                                    paginatedRow,
+                                    hasOperation,
+                                  )
+                                : tempValue}
+                            </StyledTableCell>
+                          )
+                        })}
+                        {hasActions && (
+                          <StyledTableCell align="center">
+                            <ButtonGroup>
+                              {actions.map((action) => (
+                                <Button
+                                  sx={{
+                                    backgroundColor: '#2c3e50',
+                                    marginRight: ' .5rem',
+                                    color: '#dfe4ea',
+                                    '&:hover': {
+                                      backgroundColor: '#dfe4ea',
+                                      color: '#2c3e50',
+                                      transition: 'transform 0.2s ease-in-out',
+                                      transform: 'scale(1.1)',
+                                      borderColor: '#2c3e50',
+                                    },
+                                  }}
+                                  key={generateKey(5)}
+                                  onClick={() => {
+                                    action.onClick(paginatedRow['_id'])
+                                  }}
+                                >
+                                  {action.title}
+                                </Button>
+                              ))}
+                            </ButtonGroup>
+                          </StyledTableCell>
+                        )}
+                      </StyledTableRow>
+                    )
+                  })}
+                </Fragment>
+              )
+            })}
         </TableBody>
       </Table>
       <Pagination
