@@ -50,4 +50,35 @@ export const deleteById = (builder) => {
   });
 };
 
-export default { get, getById, add, updateById, deleteById };
+export const forgotPassword = (builder) => {
+  return builder.mutation({
+    query: (email) => ({
+      url: `${ROUTE.FORGOT_PASSWORD}`,
+      method: API.PUT,
+      body: { email },
+    }),
+  });
+};
+
+export const resetPassword = (builder) => {
+  return builder.mutation({
+    query: ({ resetToken, newPassword, confirmPassword }) => {
+      return {
+        url: `${ROUTE.RESET_PASSWORD}`,
+        method: API.POST,
+        body: { resetToken, newPassword, confirmPassword },
+      };
+    },
+    invalidatesTags: [TAGS.USERS],
+  });
+};
+
+export default {
+  get,
+  getById,
+  add,
+  updateById,
+  deleteById,
+  forgotPassword,
+  resetPassword,
+};
