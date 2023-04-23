@@ -40,6 +40,8 @@ export const api = createApi({
     updateCamera: CameraAPI.updateById(builder),
     deleteCamera: CameraAPI.deleteById(builder),
     login: AuthAPI.login(builder),
+    forgotPassword: UserAPI.forgotPassword(builder),
+    resetPassword: UserAPI.resetPassword(builder),
   }),
 });
 
@@ -60,4 +62,6 @@ export const {
   useUpdateCameraMutation,
   useDeleteCameraMutation,
   useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
 } = api;
