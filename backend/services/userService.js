@@ -44,6 +44,8 @@ exports.sendResetPassword = async (
   newPassword,
   confirmPassword
 ) => {
+  const loginUrl = `http://localhost:6969/login`;
+
   const user = await User.findOne({ resetToken });
 
   if (newPassword !== confirmPassword)
@@ -112,6 +114,9 @@ exports.sendResetPassword = async (
     <div class="container">
       <h1>Password Reset Successful</h1>
       <p>Your password has been successfully reset. If you did not perform this action, please contact support immediately.</p>
+      <p class="center">
+        <a href="${loginUrl}">Go Back To The Login Page</a>
+      </p>
     </div>
   </body>
 </html>
@@ -128,9 +133,7 @@ exports.sendPasswordResetEmail = async (req, email) => {
   if (!email) throw new ErrorHandler("Please provide an email");
 
   const resetToken = uuid.v4();
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/password/reset/${resetToken}`;
+  const resetUrl = `http://localhost:6969/password/reset/${resetToken}`;
 
   const user = await User.findOne({ email });
 
