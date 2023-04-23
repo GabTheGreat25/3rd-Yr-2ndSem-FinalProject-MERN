@@ -36,20 +36,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function (props) {
   const { headers = [], data = [], keys = [], actions = [] } = props
   const [page, setPage] = React.useState(1)
+  const [filteredData, setFilteredData] = React.useState(data)
   const [searchQuery, setSearchQuery] = React.useState('')
   const rowsPerPage = 2
 
   const hasActions = actions.length > 0
 
-  const filteredData =
-    data?.filter((row) => {
+  const filter = (query) => {
+    const newData = data.filter((row) => {
       return Object.values(row).some((column) => {
         if (typeof column !== 'string') {
           return false
         }
-        return column.toLowerCase().includes(searchQuery.toLowerCase())
+        return column.toLowerCase().includes(query.toLowerCase())
       })
-    }) ?? []
+    })
+
+    setFilteredData(newData)
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -62,6 +66,9 @@ export default function (props) {
   const handleSearch = () => {
     // Reset to first page when searching
     setPage(1)
+
+    // Filter the data based on the search query
+    filter(searchQuery)
   }
 
   return (
