@@ -1,5 +1,7 @@
 export default {
   LOGIN_ROUTE: "/login",
+  FORGOT_PASSWORD: "/Forgotpassword",
+  RESET_PASSWORD: "/password/reset/:id",
   USERS_ROUTE: "users",
   USER_ID_ROUTE: "user/:id",
   EDIT_USER_ID: "user/edit/:id",
