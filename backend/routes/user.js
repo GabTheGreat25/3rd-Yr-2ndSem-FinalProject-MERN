@@ -53,7 +53,7 @@ const userRoutes = [
   {
     method: METHOD.PATCH,
     path: PATH.UPDATE_PASSWORD,
-    middleware: [verifyJWT],
+    // middleware: [verifyJWT],
     handler: userController.updatePassword,
   },
 ];
