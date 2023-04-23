@@ -16,13 +16,14 @@ import { ROLES, ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const fileInputRef = useRef();
   const navigate = useNavigate();
   const [addUser, isLoading, isError] = useAddUserMutation();
   const [showPassword, setShowPassword] = useState(false);
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -43,10 +44,19 @@ export default function () {
         formData.append("image", file);
       });
 
-      addUser(formData).then((response) => {
-        console.log("Response from API:", response);
-        navigate("/dashboard/user");
-      });
+      addUser(formData)
+        .then((response) => {
+          console.log("Response from API:", response);
+          navigate("/dashboard/user");
+          toast.success("User created successfully!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        })
+        .catch((error) => {
+          console.error("Error while creating user:", error);
+          toast.error("Failed to create user.");
+        });
     },
   });
 
