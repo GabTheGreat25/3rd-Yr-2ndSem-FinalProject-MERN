@@ -11,6 +11,7 @@ import { useResetPasswordMutation } from "../../state/api/reducer";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { resetPasswordValidation } from "../../validation";
 
 export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +23,7 @@ export default function ResetPassword() {
       newPassword: "",
       confirmPassword: "",
     },
+    validationSchema: resetPasswordValidation,
     onSubmit: (values) => {
       const { newPassword, confirmPassword } = values;
       resetPassword({ newPassword, confirmPassword }).then((response) => {
