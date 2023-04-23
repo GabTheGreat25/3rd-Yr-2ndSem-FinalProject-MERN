@@ -1,9 +1,11 @@
-import createUserValidation from './createUser'
-import editUserValidation from './editUser'
-import createNoteValidation from './createNote'
-import editNoteValidation from './editNote'
-import createCameraValidation from './createCamera'
-import editCameraValidation from './editCamera'
+import createUserValidation from "./createUser";
+import editUserValidation from "./editUser";
+import createNoteValidation from "./createNote";
+import editNoteValidation from "./editNote";
+import createCameraValidation from "./createCamera";
+import editCameraValidation from "./editCamera";
+import forgotPasswordValidation from "./forgotpassword";
+import resetPasswordValidation from "./resetPassword";
 
 export {
   createUserValidation,
@@ -12,4 +14,6 @@ export {
   editNoteValidation,
   createCameraValidation,
   editCameraValidation,
-}
+  forgotPasswordValidation,
+  resetPasswordValidation,
+};
