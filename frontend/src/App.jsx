@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
-} from 'react-router-dom'
-import { RootLayout, NotFound, Welcome, DashboardLayout } from '@/layouts'
+} from "react-router-dom";
+import { RootLayout, NotFound, Welcome, DashboardLayout } from "@/layouts";
 import {
   Home,
   User,
@@ -23,7 +23,9 @@ import {
   GetPerCamera,
   CreateCamera,
   EditCamera,
-} from '@/page'
+  ForgotPassword,
+  ResetPassword,
+} from "@/page";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +35,8 @@ const router = createBrowserRouter(
       <Route path="login" element={<UserLogin />} />
       <Route path="register" element={<UserRegister />} />
       <Route path="*" element={<NotFound />} />
+      <Route path="Forgotpassword" element={<ForgotPassword />} />
+      <Route path="password/reset/:id" element={<ResetPassword />} />
       {/*Private Routes*/}
       <Route path="dashboard" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
@@ -49,10 +53,10 @@ const router = createBrowserRouter(
         <Route path="camera/:id" element={<GetPerCamera />} />
         <Route path="camera/edit/:id" element={<EditCamera />} />
       </Route>
-    </Route>,
-  ),
-)
+    </Route>
+  )
+);
 
 export default function () {
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }
