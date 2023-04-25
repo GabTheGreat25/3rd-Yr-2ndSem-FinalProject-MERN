@@ -1,5 +1,4 @@
 const allowedOrigins = require("./allowedOrigins");
-const { STATUSCODE } = require("../constants/index");
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -10,8 +9,6 @@ const corsOptions = {
     }
   },
   credentials: true,
-  preflightContinue: true,
-  optionsSuccessStatus: STATUSCODE.SUCCESS,
 };
 
 module.exports = corsOptions;

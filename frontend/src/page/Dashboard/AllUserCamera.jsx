@@ -65,6 +65,8 @@ export default function AllFarmerCameras() {
 
   if (isLoading) return <div>Loading...</div>;
 
+  if (!data || !data.success || groupedData.length === 0) return null;
+
   return (
     <BarChart
       width={600}
