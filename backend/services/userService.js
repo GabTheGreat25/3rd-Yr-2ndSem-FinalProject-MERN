@@ -9,6 +9,7 @@ const token = require("../utils/token");
 const { cloudinary } = require("../utils/cloudinary");
 const uuid = require("uuid");
 const { sendEmail } = require("../utils/sendEmail");
+const blacklistedTokens = [];
 
 exports.updatePassword = async (
   id,
@@ -229,8 +230,6 @@ exports.loginToken = async (email, password) => {
 
   return { user: foundUser, accessToken, accessTokenMaxAge };
 };
-
-const blacklistedTokens = [];
 
 exports.logoutUser = (cookies, res) => {
   return new Promise((resolve, reject) => {
