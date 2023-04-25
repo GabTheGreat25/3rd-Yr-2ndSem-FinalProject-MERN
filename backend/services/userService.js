@@ -229,7 +229,7 @@ exports.loginToken = async (email, password) => {
 
   const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
 
-  return { accessToken, refreshToken, refreshTokenMaxAge };
+  return { user: foundUser, accessToken, refreshToken, refreshTokenMaxAge };
 };
 
 exports.refreshToken = async (refreshToken) => {

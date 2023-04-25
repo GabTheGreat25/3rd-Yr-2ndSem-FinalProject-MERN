@@ -40,13 +40,13 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 exports.login = [
   checkRequiredFields(["email", "password"]),
   asyncHandler(async (req, res, next) => {
-    const { accessToken, refreshToken, refreshTokenMaxAge } =
+    const { user, accessToken, refreshToken, refreshTokenMaxAge } =
       await usersService.loginToken(req.body.email, req.body.password);
 
     const setCookie = token.setRefreshTokenCookie(refreshTokenMaxAge);
     setCookie(res, refreshToken);
 
-    SuccessHandler(res, "Token Generated", { accessToken });
+    SuccessHandler(res, "Token Generated", { user, accessToken });
   }),
 ];
 
