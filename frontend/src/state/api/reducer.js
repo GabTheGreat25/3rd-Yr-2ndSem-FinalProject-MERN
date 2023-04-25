@@ -31,6 +31,8 @@ export const api = createApi({
     addUser: UserAPI.add(builder),
     updateUser: UserAPI.updateById(builder),
     deleteUser: UserAPI.deleteById(builder),
+    forgotPassword: UserAPI.forgotPassword(builder),
+    resetPassword: UserAPI.resetPassword(builder),
     getNotes: NoteAPI.get(builder),
     getNoteById: NoteAPI.getById(builder),
     addNote: NoteAPI.add(builder),
@@ -42,8 +44,7 @@ export const api = createApi({
     updateCamera: CameraAPI.updateById(builder),
     deleteCamera: CameraAPI.deleteById(builder),
     login: AuthAPI.login(builder),
-    forgotPassword: UserAPI.forgotPassword(builder),
-    resetPassword: UserAPI.resetPassword(builder),
+    logout: AuthAPI.logout(builder),
   }),
 });
 
@@ -66,4 +67,5 @@ export const {
   useLoginMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useLogoutMutation,
 } = api;

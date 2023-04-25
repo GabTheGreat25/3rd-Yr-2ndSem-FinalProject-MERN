@@ -30,6 +30,7 @@ export default function Login() {
     },
     onSubmit: async (values) => {
       await loginUser(values).unwrap();
+      navigate("/dashboard");
       console.log("Response from API:", values);
     },
   });

@@ -2,22 +2,28 @@ const { verifyAccessToken } = require("../utils/token");
 const ErrorHandler = require("../utils/errorHandler");
 const { isUserLoggedIn } = require("../services/userService");
 
-exports.verifyJWT = (req, res, next) => {
-  if (!isUserLoggedIn(req.cookies))
-    throw new ErrorHandler("You are not logged in.");
+exports.verifyJWT = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.match(/^Bearer\s+(.*)$/))
+      throw new ErrorHandler("Please Log In First");
 
-  if (!authHeader?.match(/^Bearer\s+(.*)$/))
-    throw new ErrorHandler("Please Log In First");
+    const token = authHeader?.match(/^Bearer\s+(.*)$/)[1];
 
-  const token = authHeader.match(/^Bearer\s+(.*)$/)[1];
+    const decoded = verifyAccessToken(token);
+    req.user = decoded?.UserInfo?.email;
+    req.roles = decoded?.UserInfo?.roles;
 
-  const decoded = verifyAccessToken(token);
-  req.user = decoded.UserInfo.email;
-  req.roles = decoded.UserInfo.roles;
+    // const isLoggedIn = isUserLoggedIn(req.cookies);
+    // if (!isLoggedIn) {
+    //   throw new ErrorHandler("You are not logged in.");
+    // }
 
-  next();
+    next();
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.authorizeRoles =

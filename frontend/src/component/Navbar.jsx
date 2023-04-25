@@ -7,7 +7,8 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
+import { useDispatch } from "react-redux";
+import { logout } from "@/state/auth/authReducer";
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -28,10 +29,16 @@ const AppBar = styled(MuiAppBar, {
 
 export default function (props) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { open, toggleDrawer } = props;
 
   const handleLogout = () => {
-    navigate(`/login`);
+    try {
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
