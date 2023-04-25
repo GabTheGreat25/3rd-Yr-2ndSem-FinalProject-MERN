@@ -17,6 +17,8 @@ import { editUserValidation } from "../../validation";
 import { useNavigate, useParams } from "react-router-dom";
 import { ROLES, ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const fileInputRef = useRef();
@@ -48,13 +50,22 @@ export default function () {
       });
       formData.append("active", values.active.toString());
 
-      updateUser({ id: data.details._id, payload: formData }).then(
-        (response) => {
-          console.log(values);
+      updateUser({ id: data.details._id, payload: formData })
+        .then((response) => {
           console.log("Response from API:", response);
           navigate("/dashboard/user");
-        }
-      );
+          toast.success("User edited successfully!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        })
+        .catch((error) => {
+          console.error("Error while editing user:", error);
+          toast.error("Failed to edit user.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        });
     },
   });
   const handleRoleChange = (value) => {

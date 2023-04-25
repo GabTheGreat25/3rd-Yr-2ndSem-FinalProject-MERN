@@ -5,6 +5,8 @@ import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
@@ -51,8 +53,20 @@ export default function () {
   ];
 
   const handleDelete = async (id) => {
-    await deleteUser(id);
-    window.location.reload();
+    try {
+      await deleteUser(id);
+      window.location.reload();
+      toast.success("User deleted successfully!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to create user.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    }
   };
 
   const handleEdit = (id) => {

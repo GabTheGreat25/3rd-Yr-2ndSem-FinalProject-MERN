@@ -55,7 +55,10 @@ export default function () {
         })
         .catch((error) => {
           console.error("Error while creating user:", error);
-          toast.error("Failed to create user.");
+          toast.error("Failed to create user.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
         });
     },
   });

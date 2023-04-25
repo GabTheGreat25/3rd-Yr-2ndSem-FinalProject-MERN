@@ -9,6 +9,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useDispatch } from "react-redux";
 import { logout } from "@/state/auth/authReducer";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -32,12 +35,20 @@ export default function (props) {
   const dispatch = useDispatch();
   const { open, toggleDrawer } = props;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      dispatch(logout());
+      await dispatch(logout());
       navigate("/login");
-    } catch (err) {
-      console.error(err);
+      toast.success("Logout successful!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Logout failed. Please try again.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     }
   };
 
