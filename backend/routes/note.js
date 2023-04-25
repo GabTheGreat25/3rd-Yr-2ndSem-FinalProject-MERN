@@ -4,7 +4,7 @@ const noteController = require("../controllers/noteController");
 const { verifyJWT, authorizeRoles } = require("../middleware/verifyJWT");
 const { METHOD, PATH, ROLE } = require("../constants/index");
 
-// router.use(verifyJWT);
+router.use(verifyJWT);
 
 const noteRoutes = [
   {
