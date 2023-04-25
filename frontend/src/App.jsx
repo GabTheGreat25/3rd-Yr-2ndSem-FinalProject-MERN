@@ -26,6 +26,8 @@ import {
   ForgotPassword,
   ResetPassword,
 } from "@/page";
+import { ProtectedRoute } from "./component";
+import { USER } from "./constants";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,7 +41,14 @@ const router = createBrowserRouter(
       <Route path="password/reset/:id" element={<ResetPassword />} />
       {/*Private Routes*/}
       <Route path="dashboard" element={<DashboardLayout />}>
-        <Route index element={<Dashboard />} />
+        <Route
+          index
+          element={
+            <ProtectedRoute roles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="user" element={<User />} />
         <Route path="user/create" element={<CreateUser />} />
         <Route path="user/:id" element={<GetPerUser />} />

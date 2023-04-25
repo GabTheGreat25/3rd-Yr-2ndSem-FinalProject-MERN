@@ -6,6 +6,7 @@ import DataTable from "./DataTable";
 import Button from "./Button";
 import ImagePreview from "./ImagePreview";
 import ListData from "./ListData";
+import ProtectedRoute from "./ProtectedRoute";
 
 export {
   Navbar,
@@ -16,4 +17,5 @@ export {
   Button,
   ImagePreview,
   ListData,
+  ProtectedRoute,
 };
