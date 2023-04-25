@@ -36,6 +36,7 @@ const router = createBrowserRouter(
       <Route index element={<Welcome />} />
       <Route path="login" element={<UserLogin />} />
       <Route path="register" element={<UserRegister />} />
+      <Route path="user/create" element={<CreateUser />} />
       <Route path="*" element={<NotFound />} />
       <Route path="Forgotpassword" element={<ForgotPassword />} />
       <Route path="password/reset/:id" element={<ResetPassword />} />
@@ -44,23 +45,105 @@ const router = createBrowserRouter(
         <Route
           index
           element={
-            <ProtectedRoute roles={[USER.ADMIN, USER.EMPLOYEE]}>
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
               <Dashboard />
             </ProtectedRoute>
           }
         />
-        <Route path="user" element={<User />} />
-        <Route path="user/create" element={<CreateUser />} />
-        <Route path="user/:id" element={<GetPerUser />} />
-        <Route path="user/edit/:id" element={<EditUser />} />
-        <Route path="note" element={<Note />} />
-        <Route path="note/create" element={<CreateNote />} />
-        <Route path="note/:id" element={<GetPerNote />} />
-        <Route path="note/edit/:id" element={<EditNote />} />
-        <Route path="camera" element={<Camera />} />
-        <Route path="camera/create" element={<CreateCamera />} />
-        <Route path="camera/:id" element={<GetPerCamera />} />
-        <Route path="camera/edit/:id" element={<EditCamera />} />
+        <Route
+          path="user"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN]}>
+              <User />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="user/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN]}>
+              <GetPerUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="user/edit/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <EditUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="note"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <Note />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="note/create"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN]}>
+              <CreateNote />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="note/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <GetPerNote />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="note/edit/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN]}>
+              <EditNote />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="camera"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <Camera />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="camera/create"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <CreateCamera />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="camera/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <GetPerCamera />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="camera/edit/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <EditCamera />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Route>
   )
