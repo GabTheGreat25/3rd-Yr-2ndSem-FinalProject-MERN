@@ -58,7 +58,8 @@ export default function () {
       },
     },
     {
-      key: "user.name",
+      key: "user",
+      operation: (value) => (value ? value.name : ""),
     },
   ];
 

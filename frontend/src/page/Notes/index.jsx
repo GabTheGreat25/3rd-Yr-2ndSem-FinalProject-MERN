@@ -20,6 +20,7 @@ export default function () {
     useDeleteNoteMutation();
 
   const headers = ["ID", "Title", "Text", "Completed", "Employee"];
+
   const keys = [
     {
       key: "_id",
@@ -40,7 +41,8 @@ export default function () {
       operation: (value) => (value ? "Yes" : "No"),
     },
     {
-      key: "user.name",
+      key: "user",
+      operation: (value) => (value ? value.name : ""),
     },
   ];
 
