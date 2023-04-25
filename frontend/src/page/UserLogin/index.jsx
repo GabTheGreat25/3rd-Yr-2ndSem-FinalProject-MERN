@@ -15,12 +15,9 @@ import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import loginImg from "@/assets/camera-login.jpg";
 import { useFormik } from "formik";
-import { setToken } from "../../state/api/slice/authSlice";
-import { useDispatch } from "react-redux";
 
 export default function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -32,12 +29,8 @@ export default function Login() {
       password: "",
     },
     onSubmit: async (values) => {
-      console.log(values);
-      const response = await loginUser(values).unwrap();
-      dispatch(setToken(response?.details));
-      console.log(dispatch(setToken(response?.details)));
-      console.log("Response from API:", response);
-      // navigate("/dashboard");
+      await loginUser(values).unwrap();
+      console.log("Response from API:", values);
     },
   });
 
