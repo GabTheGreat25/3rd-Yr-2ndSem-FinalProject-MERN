@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   Container,
@@ -15,12 +14,16 @@ import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import loginImg from "@/assets/camera-login.jpg";
 import { useFormik } from "formik";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { USER } from "@/constants";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Login() {
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-
+  const auth = useSelector((state) => state?.auth);
   const [loginUser] = useLoginMutation();
 
   const formik = useFormik({
@@ -28,12 +31,34 @@ export default function Login() {
       email: "",
       password: "",
     },
-    onSubmit: async (values) => {
-      await loginUser(values).unwrap();
-      navigate("/dashboard");
-      console.log("Response from API:", values);
+    onSubmit: (values) => {
+      loginUser(values)
+        .then(() => {
+          console.log("Response from API:", values);
+          toast.success("Login successful!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Login failed. Please try again.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        });
     },
   });
+
+  if (auth?.authenticated === true) {
+    if (
+      auth.user.roles.includes(USER.ADMIN) ||
+      auth.user.roles.includes(USER.EMPLOYEE)
+    ) {
+      return <Navigate to={"/dashboard"} replace={true} />;
+    }
+    return <Navigate to={"/"} replace={true} />;
+  }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
