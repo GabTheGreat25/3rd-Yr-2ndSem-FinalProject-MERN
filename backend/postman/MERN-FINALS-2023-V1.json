@@ -176,7 +176,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}user/642183bde96f00a61b997312"
+						"url": "{{URI}}{{V1}}user/644756f30319f053a1f80105"
 					},
 					"response": []
 				},
@@ -1136,7 +1136,7 @@
 	],
 	"variable": [
 		{
-			"id": "7edadb3c-76ed-4394-89a5-aa93ba6a0cee",
+			"id": "dc9703ba-0aa1-40dd-9725-c8d73ba877c5",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImFkbWluZ2FiQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MjM5Njg3NywiZXhwIjoxNjgzMDAxNjc3fQ.VRVUvgaPOjxuNAJ3fp4o4qU6e-nWofibWJplhR2V8iA"
 		}
