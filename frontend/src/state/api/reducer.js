@@ -6,23 +6,25 @@ import AuthAPI from "./routes/auth";
 import CameraAPI from "./routes/cameras";
 import { API, TAGS } from "../../constants";
 
+const prepareHeaders = (headers, { getState }) => {
+  if (getState().auth.authenticated) {
+    headers.set("authorization", `Bearer ${getState().auth.token || ""}`);
+  }
+  headers.set("accept", `application/json`);
+  return headers;
+};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-  prepareHeaders: (headers, { getState }) => {
-    const token = getState().auth.token;
-    console.log(getState());
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-
-    return headers;
-  },
+  credentials: "include",
+  prepareHeaders,
 });
 
 export const api = createApi({
   reducerPath: TAGS.API,
   baseQuery,
   tagTypes: API.TAGS,
+  keepUnusedDataFor: 0,
   endpoints: (builder) => ({
     getUsers: UserAPI.get(builder),
     getUserById: UserAPI.getById(builder),
