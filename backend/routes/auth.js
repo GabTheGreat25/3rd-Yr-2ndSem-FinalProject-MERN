@@ -12,12 +12,6 @@ const authRoutes = [
     handler: userController.login,
   },
   {
-    method: METHOD.GET,
-    path: PATH.REFRESH,
-    middleware: [],
-    handler: userController.refresh,
-  },
-  {
     method: METHOD.POST,
     path: PATH.LOGOUT,
     middleware: [],

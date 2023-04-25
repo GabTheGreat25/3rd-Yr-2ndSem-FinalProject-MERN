@@ -225,29 +225,19 @@ exports.loginToken = async (email, password) => {
     foundUser.roles
   );
 
-  const refreshToken = token.generateRefreshToken(foundUser.email);
+  const accessTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
 
-  const refreshTokenMaxAge = 7 * 24 * 60 * 60 * 1000;
-
-  return { user: foundUser, accessToken, refreshToken, refreshTokenMaxAge };
+  return { user: foundUser, accessToken, accessTokenMaxAge };
 };
 
-exports.refreshToken = async (refreshToken) => {
-  const decodedRefreshToken = token.verifyRefreshToken(refreshToken);
-
-  const accessToken = token.generateAccessToken(
-    decodedRefreshToken.email,
-    decodedRefreshToken.roles
-  );
-
-  return accessToken;
-};
+const blacklistedTokens = [];
 
 exports.logoutUser = (cookies, res) => {
   return new Promise((resolve, reject) => {
     !cookies?.jwt
       ? reject(new Error("You are not logged in"))
-      : (res.clearCookie("jwt", {
+      : (blacklistedTokens.push(cookies.jwt), // add token to blacklist array
+        res.clearCookie("jwt", {
           httpOnly: true,
           sameSite: "None",
           secure: true,
@@ -256,8 +246,8 @@ exports.logoutUser = (cookies, res) => {
   });
 };
 
-exports.isUserLoggedIn = (cookies) => {
-  return !!cookies.jwt;
+exports.getBlacklistedTokens = () => {
+  return blacklistedTokens;
 };
 
 exports.getAllUsersData = (page, limit, search, sort, filter) => {

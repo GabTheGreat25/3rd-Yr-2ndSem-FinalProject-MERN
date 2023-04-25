@@ -1,14 +1,5 @@
 const jwt = require("jsonwebtoken");
 
-exports.generateRefreshToken = (email) => {
-  const refreshToken = jwt.sign(
-    { email: email },
-    process.env.REFRESH_TOKEN_SECRET,
-    { expiresIn: "7d" }
-  );
-  return refreshToken;
-};
-
 exports.generateAccessToken = (email, roles) => {
   const accessToken = jwt.sign(
     {
@@ -28,18 +19,13 @@ exports.verifyAccessToken = (accessToken) => {
   return decoded;
 };
 
-exports.verifyRefreshToken = (refreshToken) => {
-  const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-  return decoded;
-};
-
-exports.setRefreshTokenCookie = (refreshTokenMaxAge) => {
-  return (res, refreshToken) => {
-    res.cookie("jwt", refreshToken, {
+exports.setAccessTokenCookie = (accessTokenMaxAge) => {
+  return (res, accessToken) => {
+    res.cookie("jwt", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "None",
-      maxAge: refreshTokenMaxAge,
+      maxAge: accessTokenMaxAge,
     });
   };
 };

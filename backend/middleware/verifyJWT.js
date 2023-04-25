@@ -1,6 +1,6 @@
 const { verifyAccessToken } = require("../utils/token");
 const ErrorHandler = require("../utils/errorHandler");
-const { isUserLoggedIn } = require("../services/userService");
+const { getBlacklistedTokens } = require("../services/userService");
 
 exports.verifyJWT = async (req, res, next) => {
   try {
@@ -11,14 +11,13 @@ exports.verifyJWT = async (req, res, next) => {
 
     const token = authHeader?.match(/^Bearer\s+(.*)$/)[1];
 
+    if (getBlacklistedTokens().includes(token)) {
+      throw new ErrorHandler("Invalid Token");
+    }
+
     const decoded = verifyAccessToken(token);
     req.user = decoded?.UserInfo?.email;
     req.roles = decoded?.UserInfo?.roles;
-
-    // const isLoggedIn = isUserLoggedIn(req.cookies);
-    // if (!isLoggedIn) {
-    //   throw new ErrorHandler("You are not logged in.");
-    // }
 
     next();
   } catch (error) {
