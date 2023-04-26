@@ -41,8 +41,35 @@ export default function (props) {
   const [filteredData, setFilteredData] = React.useState(data)
   const [searchQuery, setSearchQuery] = React.useState('')
   const rowsPerPage = 2
-
+  const [sorting, setSorting] = React.useState({
+    column: null,
+    key: null,
+    direction: null,
+  })
   const hasActions = actions.length > 0
+
+  const handleClickHeader = (column) => {
+    const isAscending = sorting.column === column && sorting.direction === 'asc'
+    setSorting({ column, direction: isAscending ? 'desc' : 'asc' })
+    const newFilteredData = filteredData.sort((a, b) => {
+      if (isAscending) {
+        return a[column] > b[column] ? -1 : 1
+      } else {
+        return a[column] > b[column] ? 1 : -1
+      }
+    })
+
+    sorting.sort((a, b) => {
+      if (a[key] < b[key]) {
+        return direction === 'asc' ? -1 : 1
+      }
+      if (a[key] > b[key]) {
+        return direction === 'asc' ? 1 : -1
+      }
+      return 0
+    })
+    setFilteredData(newFilteredData)
+  }
 
   const filter = (query) => {
     const newData = data.filter((row) => {
@@ -100,8 +127,15 @@ export default function (props) {
           <TableHead>
             <TableRow>
               {headers.map((header) => (
-                <StyledTableCell key={generateKey(5)} align="center">
+                <StyledTableCell
+                  key={generateKey(5)}
+                  align="center"
+                  onClick={() => handleClickHeader(header)}
+                >
                   {header}
+                  {sorting && sorting.column === header && (
+                    <span>{sorting.direction === 'asc' ? ' ▲' : ' ▼'}</span>
+                  )}
                 </StyledTableCell>
               ))}
 
