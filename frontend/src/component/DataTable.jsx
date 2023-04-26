@@ -38,7 +38,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function (props) {
   const { headers = [], data = [], keys = [], actions = [] } = props
   const [page, setPage] = React.useState(1)
-  const [filteredData, setFilteredData] = React.useState(data)
+  const [filteredData, setFilteredData] = React.useState(data || [])
+
   const [searchQuery, setSearchQuery] = React.useState('')
   const rowsPerPage = 2
   const [sorting, setSorting] = React.useState({
@@ -59,7 +60,7 @@ export default function (props) {
       }
     })
 
-    sorting.sort((a, b) => {
+    newFilteredData.sort((a, b) => {
       if (a[key] < b[key]) {
         return direction === 'asc' ? -1 : 1
       }
@@ -106,7 +107,7 @@ export default function (props) {
         <Autocomplete
           freeSolo
           disableClearable
-          options={data.map((row) => Object.values(row).join(' '))}
+          options={[]}
           renderInput={(params) => (
             <TextField
               {...params}
