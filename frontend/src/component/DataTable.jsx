@@ -13,6 +13,8 @@ import Pagination from '@mui/material/Pagination'
 import { generateKey } from '../services/generateKey'
 import { splitKey, deconstruct, manipulate } from '../services/dataTable'
 import { Fragment } from 'react'
+import { Autocomplete } from '@mui/material'
+import TextField from '@mui/material/TextField'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,15 +76,24 @@ export default function (props) {
   return (
     <TableContainer component={Paper}>
       <div>
-        <input
-          type="text"
-          placeholder="Search"
+        <Autocomplete
+          freeSolo
+          disableClearable
+          options={data.map((row) => Object.values(row).join(' '))}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search"
+              variant="outlined"
+              onChange={(event) => setSearchQuery(event.target.value)}
+              onInput={(event) => {
+                setSearchQuery(event.target.value)
+                filter(event.target.value)
+              }}
+            />
+          )}
           value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
         />
-        <Button variant="contained" onClick={handleSearch}>
-          Search
-        </Button>
       </div>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         {headers && headers.length > 0 && (
