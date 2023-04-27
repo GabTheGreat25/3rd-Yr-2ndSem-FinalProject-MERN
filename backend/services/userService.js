@@ -235,11 +235,11 @@ exports.logoutUser = (cookies, res) => {
   return new Promise((resolve, reject) => {
     !cookies?.jwt
       ? reject(new Error("You are not logged in"))
-      : (blacklistedTokens.push(cookies.jwt), // add token to blacklist array
+      : (blacklistedTokens.push(cookies.jwt),
         res.clearCookie("jwt", {
           httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
           sameSite: "None",
-          secure: true,
         }),
         resolve());
   });
@@ -254,12 +254,10 @@ exports.getAllUsersData = (page, limit, search, sort, filter) => {
 
   let usersQuery = User.find();
 
-  // Apply search option
   if (search) {
     usersQuery = usersQuery.where("name").regex(new RegExp(search, "i"));
   }
 
-  // Apply sort option
   if (sort) {
     const [field, order] = sort.split(":");
     usersQuery = usersQuery.sort({ [field]: order === "asc" ? 1 : -1 });
@@ -267,7 +265,6 @@ exports.getAllUsersData = (page, limit, search, sort, filter) => {
     usersQuery = usersQuery.sort({ createdAt: -1 });
   }
 
-  // Apply filter option
   if (filter) {
     const [field, value] = filter.split(":");
     usersQuery = usersQuery.where(field).equals(value);
@@ -373,11 +370,12 @@ exports.updateUserData = async (req, res, id) => {
     );
   } else images = existingUser.image || [];
 
-  const roles = req.body.roles
-    ? Array.isArray(req.body.roles)
+  let roles = existingUser.roles;
+  if (req.body.roles) {
+    roles = Array.isArray(req.body.roles)
       ? req.body.roles
-      : req.body.roles.split(", ")
-    : ["Customer"];
+      : req.body.roles.split(", ");
+  }
 
   const updatedUser = await User.findByIdAndUpdate(
     id,
