@@ -15,6 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { USER } from "@/constants";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
@@ -34,6 +36,18 @@ export default function () {
       addNote(values).then((response) => {
         console.log("Response from API:", response);
         navigate("/dashboard/note");
+        toast
+          .success("User created successfully!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          })
+          .catch((error) => {
+            console.error("Error while creating user:", error);
+            toast.error("Failed to create user.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          });
       });
     },
   });

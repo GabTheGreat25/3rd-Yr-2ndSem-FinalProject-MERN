@@ -5,6 +5,8 @@ import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
@@ -46,8 +48,22 @@ export default function () {
     },
   ];
 
-  const handleDelete = (id) => {
-    deleteNote(id);
+  const handleDelete = async (id) => {
+    try {
+      if (window.confirm("Are you sure?")) {
+        await deleteNote(id);
+        toast.success("Note deleted successfully!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete note.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    }
   };
 
   const handleEdit = (id) => {
