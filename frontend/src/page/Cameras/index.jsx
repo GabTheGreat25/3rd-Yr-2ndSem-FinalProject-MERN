@@ -63,8 +63,22 @@ export default function () {
     },
   ];
 
-  const handleDelete = (id) => {
-    deleteCameras(id);
+  const handleDelete = async (id) => {
+    try {
+      if (window.confirm("Are you sure?")) {
+        await deleteCamera(id);
+        toast.success("Camera deleted successfully!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete camera.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    }
   };
 
   const handleEdit = (id) => {

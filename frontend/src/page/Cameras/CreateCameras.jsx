@@ -16,6 +16,8 @@ import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
 import { USER } from "@/constants";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const fileInputRef = useRef();
@@ -48,6 +50,18 @@ export default function () {
       addCamera(formData).then((response) => {
         console.log("Response from API:", response);
         navigate("/dashboard/camera");
+        toast
+          .success("Camera created successfully!", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          })
+          .catch((error) => {
+            console.error("Error while creating camera:", error);
+            toast.error("Failed to create camera.", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 5000,
+            });
+          });
       });
     },
   });
