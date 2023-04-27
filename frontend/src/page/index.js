@@ -22,6 +22,8 @@ import EditCamera from "./Cameras/EditCameras";
 import AllUserCamera from "./Dashboard/AllUserCamera";
 import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
+import UpdatePassword from "./User/UpdatePassword";
+import UpdateUserInfo from "./User/UpdateUserInfo";
 
 export {
   Home,
@@ -48,4 +50,6 @@ export {
   AllUserCamera,
   ForgotPassword,
   ResetPassword,
+  UpdatePassword,
+  UpdateUserInfo,
 };
