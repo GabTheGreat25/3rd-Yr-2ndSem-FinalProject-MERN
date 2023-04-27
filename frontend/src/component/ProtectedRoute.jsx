@@ -6,7 +6,7 @@ export default function ({ children, userRoles = [] }) {
   const location = useLocation();
 
   const isAuth =
-    auth.authenticated === false ||
+    !auth.authenticated ||
     (userRoles.length > 0 &&
       !userRoles.some((role) => auth.user.roles.includes(role)));
 
