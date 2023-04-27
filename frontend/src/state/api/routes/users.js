@@ -50,6 +50,19 @@ export const deleteById = (builder) => {
   });
 };
 
+export const updatePasswordById = (builder) => {
+  return builder.mutation({
+    query: ({ id, oldPassword, newPassword, confirmPassword }) => {
+      return {
+        url: `${ROUTE.UPDATE_PASSWORD.replace(":id", id)}`,
+        method: API.PATCH,
+        body: { oldPassword, newPassword, confirmPassword },
+      };
+    },
+    invalidatesTags: [TAGS.USERS],
+  });
+};
+
 export const forgotPassword = (builder) => {
   return builder.mutation({
     query: (email) => ({
@@ -81,4 +94,5 @@ export default {
   deleteById,
   forgotPassword,
   resetPassword,
+  updatePasswordById,
 };
