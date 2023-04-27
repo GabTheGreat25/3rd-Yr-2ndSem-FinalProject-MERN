@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function () {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function () {
 
   const [deleteUser, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteUserMutation();
+
+  const auth = useSelector((state) => state.auth);
 
   const headers = ["ID", "User Name", "Email", "Roles", "Images"];
   const keys = [
@@ -40,7 +43,7 @@ export default function () {
       operation: (value) => {
         return value.map((image) => (
           <img
-            style={{ padding: "0 .5rem" }}
+            style={{ padding: "0.5rem" }}
             height={60}
             width={75}
             src={image.url}
@@ -54,15 +57,16 @@ export default function () {
 
   const handleDelete = async (id) => {
     try {
-      await deleteUser(id);
-      window.location.reload();
-      toast.success("User deleted successfully!", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
-      });
+      if (window.confirm("Are you sure?")) {
+        await deleteUser(id);
+        toast.success("User deleted successfully!", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        });
+      }
     } catch (error) {
       console.log(error);
-      toast.error("Failed to create user.", {
+      toast.error("Failed to delete user.", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
       });
@@ -84,6 +88,10 @@ export default function () {
     },
   ];
 
+  const filteredData = data?.details?.filter(
+    (user) => user._id !== auth.user._id
+  );
+
   return (
     <>
       <Button
@@ -101,12 +109,12 @@ export default function () {
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_USER_ERROR}</div>
       ) : (
-        data && (
+        filteredData && (
           <DataTable
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data?.details}
+            data={filteredData}
           />
         )
       )}
