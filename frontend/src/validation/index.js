@@ -6,6 +6,7 @@ import createCameraValidation from "./createCamera";
 import editCameraValidation from "./editCamera";
 import forgotPasswordValidation from "./forgotpassword";
 import resetPasswordValidation from "./resetPassword";
+import updatePasswordValidation from "./updatePassword";
 
 export {
   createUserValidation,
@@ -16,4 +17,5 @@ export {
   editCameraValidation,
   forgotPasswordValidation,
   resetPasswordValidation,
+  updatePasswordValidation,
 };
