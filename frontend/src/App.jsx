@@ -25,6 +25,8 @@ import {
   EditCamera,
   ForgotPassword,
   ResetPassword,
+  UpdatePassword,
+  UpdateUserInfo,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -81,6 +83,26 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="updatePassword/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="userDetails/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <UpdateUserInfo />
             </ProtectedRoute>
           }
         />
