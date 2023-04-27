@@ -1,15 +1,19 @@
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
-export default function ({ userRoles = [] }) {
+export default function ({ children, unprotected = false }) {
   const auth = useSelector((state) => state.auth);
 
-  const isAuth =
-    auth.authenticated &&
-    (userRoles.length === 0 ||
-      userRoles.some((role) => auth.user.roles.includes(role)));
+  const isAdmin = auth.user?.roles?.includes("Admin");
+  const isEmployee = auth.user?.roles?.includes("Employee");
+
+  const isAuth = auth.authenticated && (isAdmin || isEmployee);
 
   const path = isAuth ? "/dashboard" : "/customer";
 
-  return <Navigate to={path} replace />;
+  return unprotected || !auth.authenticated ? (
+    children
+  ) : (
+    <Navigate to={path} replace />
+  );
 }
