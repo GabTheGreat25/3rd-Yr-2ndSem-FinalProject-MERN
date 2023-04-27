@@ -26,20 +26,54 @@ import {
   ForgotPassword,
   ResetPassword,
 } from "@/page";
-import { ProtectedRoute } from "./component";
+import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       {/*Public Routes*/}
-      <Route index element={<Welcome />} />
-      <Route path="login" element={<UserLogin />} />
-      <Route path="register" element={<UserRegister />} />
-      <Route path="user/create" element={<CreateUser />} />
       <Route path="*" element={<NotFound />} />
-      <Route path="Forgotpassword" element={<ForgotPassword />} />
-      <Route path="password/reset/:id" element={<ResetPassword />} />
+      <Route
+        index
+        element={
+          <UnprotectedRoute>
+            <Welcome />
+          </UnprotectedRoute>
+        }
+      />
+      <Route
+        path="login"
+        element={
+          <UnprotectedRoute>
+            <UserLogin />
+          </UnprotectedRoute>
+        }
+      />
+      <Route
+        path="register"
+        element={
+          <UnprotectedRoute>
+            <UserRegister />
+          </UnprotectedRoute>
+        }
+      />
+      <Route
+        path="Forgotpassword"
+        element={
+          <UnprotectedRoute>
+            <ForgotPassword />
+          </UnprotectedRoute>
+        }
+      />
+      <Route
+        path="password/reset/:id"
+        element={
+          <UnprotectedRoute>
+            <ResetPassword />
+          </UnprotectedRoute>
+        }
+      />
       {/*Private Routes*/}
       <Route path="dashboard" element={<DashboardLayout />}>
         <Route
@@ -55,6 +89,14 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute userRoles={[USER.ADMIN]}>
               <User />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="user/create"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN]}>
+              <CreateUser />
             </ProtectedRoute>
           }
         />
