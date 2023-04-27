@@ -7,6 +7,7 @@ import Button from "./Button";
 import ImagePreview from "./ImagePreview";
 import ListData from "./ListData";
 import ProtectedRoute from "./ProtectedRoute";
+import UnprotectedRoute from "./UnprotectedRoute";
 
 export {
   Navbar,
@@ -18,4 +19,5 @@ export {
   ImagePreview,
   ListData,
   ProtectedRoute,
+  UnprotectedRoute,
 };
