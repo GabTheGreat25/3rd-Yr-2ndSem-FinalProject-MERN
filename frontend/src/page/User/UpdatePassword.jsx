@@ -82,7 +82,7 @@ export default function () {
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
       ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
+        <div className="errorMessage">{ERROR.USERS_PASSWORD_ERROR}</div>
       ) : (
         <>
           <Container maxWidth="sm">

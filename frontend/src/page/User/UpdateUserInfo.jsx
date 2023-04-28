@@ -1,13 +1,5 @@
 import { useRef } from "react";
-import {
-  TextField,
-  Typography,
-  Grid,
-  Button,
-  MenuItem,
-  FormControlLabel,
-  Checkbox,
-} from "@mui/material";
+import { TextField, Typography, Grid, Button } from "@mui/material";
 import {
   useUpdateUserMutation,
   useGetUserByIdQuery,
@@ -15,7 +7,7 @@ import {
 import { useFormik } from "formik";
 import { editUserValidation } from "../../validation";
 import { useNavigate } from "react-router-dom";
-import { ROLES, ERROR } from "../../constants";
+import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -73,7 +65,7 @@ export default function () {
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
       ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
+        <div className="errorMessage">{ERROR.USER_DETAILS_ERROR}</div>
       ) : (
         <>
           <Typography variant="h6" gutterBottom>
