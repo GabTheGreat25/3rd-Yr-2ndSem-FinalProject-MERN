@@ -8,7 +8,7 @@ export default function ({ children, userRoles = [] }) {
   const isAuth =
     !auth.authenticated ||
     (userRoles.length > 0 &&
-      !userRoles.some((role) => auth.user.roles.includes(role)));
+      !userRoles?.some((role) => auth?.user?.roles?.includes(role)));
 
   return isAuth ? (
     <Navigate to="/login" state={{ from: location }} replace />
