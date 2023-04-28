@@ -1,44 +1,28 @@
 import React from "react";
-import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import MuiDrawer from "@mui/material/Drawer";
 import SidebarLink from "./SidebarLink";
 import { generateKey } from "@/services/generateKey";
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open, backgroundColor }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    whiteSpace: "nowrap",
-    width: 240,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    ...(!open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-    zIndex: 1,
-    backgroundColor: "#f1f2f6",
-  },
-}));
+import Drawer from "./drawer";
+import { useDispatch, useSelector } from "react-redux";
+import { USER, LINKS } from "@/constants";
+import { changeLinks } from "@/state/sidebar/authSideBar";
 
 export default function (props) {
-  const { open, toggleDrawer, links = [] } = props;
+  const { open, toggleDrawer } = props;
+  const dispatch = useDispatch();
+
+  const sideBar = useSelector((state) => state.sideBar);
+  const auth = useSelector((state) => state.auth);
+
+  if (auth?.user?.roles?.includes(USER.ADMIN)) {
+    dispatch(changeLinks({ links: LINKS.ADMIN }));
+  } else auth?.user?.roles?.includes(USER.EMPLOYEE);
+  dispatch(changeLinks({ links: LINKS.EMPLOYEE }));
+
   return (
     <>
       <Drawer variant="permanent" open={open}>
@@ -56,7 +40,7 @@ export default function (props) {
         </Toolbar>
         <Divider />
         <List component="nav">
-          {links.map((e) => {
+          {sideBar?.links?.map((e) => {
             return (
               <div key={generateKey(5)}>
                 <SidebarLink title={e.title} link={e.link} icon={e.icon} />
