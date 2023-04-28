@@ -4,5 +4,7 @@ import API from "./api";
 import ERROR from "./error";
 import ROLES from "./roles";
 import USER from "./user";
+import ICONS from "./icons";
+import LINKS from "./links";
 
-export { TAGS, ROUTE, API, ERROR, ROLES, USER };
+export { TAGS, ROUTE, API, ERROR, ROLES, USER, ICONS, LINKS };
