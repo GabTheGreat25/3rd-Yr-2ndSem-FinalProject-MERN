@@ -1,6 +1,7 @@
 export default {
-  API: 'api',
-  USERS: 'Users',
-  NOTES: 'Notes',
-  CAMERAS: 'Cameras',
-}
+  API: "api",
+  AUTH: "auth",
+  USERS: "Users",
+  NOTES: "Notes",
+  CAMERAS: "Cameras",
+};
