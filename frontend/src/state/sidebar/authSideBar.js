@@ -8,7 +8,6 @@ export const sideBarSlice = createSlice({
   reducers: {
     changeLinks(state, action) {
       state.links = action.payload.links;
-      console.log(action.payload.links);
     },
   },
 });
