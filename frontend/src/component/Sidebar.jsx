@@ -20,8 +20,9 @@ export default function (props) {
 
   if (auth?.user?.roles?.includes(USER.ADMIN)) {
     dispatch(changeLinks({ links: LINKS.ADMIN }));
-  } else auth?.user?.roles?.includes(USER.EMPLOYEE);
-  dispatch(changeLinks({ links: LINKS.EMPLOYEE }));
+  } else if (auth?.user?.roles?.includes(USER.EMPLOYEE)) {
+    dispatch(changeLinks({ links: LINKS.EMPLOYEE }));
+  }
 
   return (
     <>
