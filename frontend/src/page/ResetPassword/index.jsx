@@ -12,13 +12,12 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { resetPasswordValidation } from "../../validation";
-import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [resetPassword, { isLoading, isError }] = useResetPasswordMutation();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -28,11 +27,30 @@ export default function () {
     validationSchema: resetPasswordValidation,
     onSubmit: (values) => {
       const { newPassword, confirmPassword } = values;
-      resetPassword({ newPassword, confirmPassword }).then((response) => {
-        const url = `https://mailtrap.io/inboxes/1656145/messages`;
-        window.open(url, "_blank");
-        console.log("Response from API:", response);
-      });
+      resetPassword({ newPassword, confirmPassword })
+        .then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          };
+          if (response?.data?.success) {
+            window.open(
+              `https://mailtrap.io/inboxes/1656145/messages`,
+              "_blank"
+            );
+            toast.success("Emailed Reset Password successfully!", toastProps);
+          } else {
+            toast.error("Email wasn't sent to the user.", toastProps);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Email wasn't sent to the user.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        });
     },
   });
 
@@ -50,8 +68,6 @@ export default function () {
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
       ) : (
         <>
           <Container maxWidth="sm">
