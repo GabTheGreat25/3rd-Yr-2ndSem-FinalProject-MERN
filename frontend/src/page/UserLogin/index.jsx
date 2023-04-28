@@ -17,29 +17,37 @@ import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { USER } from "@/constants";
-import { useNavigate, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { PacmanLoader } from "react-spinners";
+import { loginUserValidation } from "../../validation";
 
-export default function Login() {
+export default function () {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const auth = useSelector((state) => state?.auth);
-  const [loginUser] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    validationSchema: loginUserValidation,
     onSubmit: (values) => {
       loginUser(values)
-        .then(() => {
-          console.log("Response from API:", values);
-          toast.success("Login successful!", {
+        .then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
+          };
+          response?.data?.success === true
+            ? (toast.success("Login successful!", toastProps),
+              response?.user?.roles?.includes(USER.ADMIN) ||
+              response?.user?.roles?.includes(USER.EMPLOYEE)
+                ? navigate("/dashboard")
+                : navigate("/"))
+            : toast.error("Login failed. Please try again.", toastProps);
         })
         .catch((error) => {
           console.log(error);
@@ -50,16 +58,6 @@ export default function Login() {
         });
     },
   });
-
-  if (auth?.authenticated === true) {
-    if (
-      auth.user.roles.includes(USER.ADMIN) ||
-      auth.user.roles.includes(USER.EMPLOYEE)
-    ) {
-      return <Navigate to={"/dashboard"} replace={true} />;
-    }
-    return <Navigate to={"/"} replace={true} />;
-  }
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -74,174 +72,190 @@ export default function Login() {
   };
 
   return (
-    <Container
-      sx={{
-        mt: 5,
-        mb: 5,
-        display: "grid",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "90vh",
-      }}
-      disableGutters
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ width: "60%" }}>
-          <img
-            src={loginImg}
-            alt="loginImg"
-            style={{ width: "100%", borderRadius: ".5rem" }}
-          />
-        </Box>
-        <Box sx={{ width: "50%" }} align="center">
-          <Typography variant="h4" gutterBottom>
-            Sign in to your account
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={formik.handleSubmit}
+    <>
+      {isLoading ? (
+        <div className="loader">
+          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+        </div>
+      ) : (
+        <>
+          <Container
             sx={{
-              mt: 3,
-              display: "flex",
-              flexDirection: "column",
+              mt: 5,
+              mb: 5,
+              display: "grid",
+              justifyContent: "center",
               alignItems: "center",
-              maxWidth: "400px",
-              width: "100%",
+              height: "90vh",
             }}
+            disableGutters
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              margin="normal"
-              id="password"
-              name="password"
-              label="Password"
-              fullWidth
-              type={showPassword ? "text" : "password"}
-              autoComplete="secret password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleClickShowPassword}>
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
             <Box
               sx={{
                 display: "flex",
+                justifyContent: "center",
                 alignItems: "center",
-                justifyContent: "space-between",
-                mt: 2,
-                width: "100%",
               }}
             >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                  />
-                }
-                label="Remember me"
-                labelPlacement="end"
-                sx={{ alignSelf: "flex-start" }}
-              />
-              <Button
-                type="button"
-                onClick={handleForgotPassword}
-                variant="text"
-                color="error"
-                sx={{ alignSelf: "flex-start" }}
-              >
-                {
-                  <span
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: "1.15rem",
-                      marginBottom: ".25rem",
-                    }}
-                  >
-                    Forgot Password
-                  </span>
-                }
-              </Button>
-            </Box>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              {
-                <span
-                  style={{
-                    textTransform: "capitalize",
-                    fontSize: "1.15rem",
+              <Box sx={{ width: "60%" }}>
+                <img
+                  src={loginImg}
+                  alt="loginImg"
+                  style={{ width: "100%", borderRadius: ".5rem" }}
+                />
+              </Box>
+              <Box sx={{ width: "50%" }} align="center">
+                <Typography variant="h4" gutterBottom>
+                  Sign in to your account
+                </Typography>
+                <Box
+                  component="form"
+                  onSubmit={formik.handleSubmit}
+                  sx={{
+                    mt: 3,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    maxWidth: "400px",
+                    width: "100%",
                   }}
                 >
-                  Log In
-                </span>
-              }
-            </Button>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                mt: 3,
-                width: "100%",
-              }}
-            >
-              <Typography variant="h6" gutterBottom>
-                Not a member
-              </Typography>
-
-              <Button
-                type="button"
-                onClick={handleRegister}
-                variant="text"
-                color="success"
-              >
-                {
-                  <span
-                    style={{
-                      textTransform: "capitalize",
-                      fontSize: "1.15rem",
-                      marginBottom: ".25rem",
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    name="email"
+                    autoComplete="email"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                  />
+                  <TextField
+                    margin="normal"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    fullWidth
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="secret password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleClickShowPassword}>
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mt: 2,
+                      width: "100%",
                     }}
                   >
-                    Register Here
-                  </span>
-                }
-              </Button>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={rememberMe}
+                          onChange={(e) => setRememberMe(e.target.checked)}
+                        />
+                      }
+                      label="Remember me"
+                      labelPlacement="end"
+                      sx={{ alignSelf: "flex-start" }}
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleForgotPassword}
+                      variant="text"
+                      color="error"
+                      sx={{ alignSelf: "flex-start" }}
+                    >
+                      {
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                            fontSize: "1.15rem",
+                            marginBottom: ".25rem",
+                          }}
+                        >
+                          Forgot Password
+                        </span>
+                      }
+                    </Button>
+                  </Box>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    {
+                      <span
+                        style={{
+                          textTransform: "capitalize",
+                          fontSize: "1.15rem",
+                        }}
+                      >
+                        Log In
+                      </span>
+                    }
+                  </Button>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      mt: 3,
+                      width: "100%",
+                    }}
+                  >
+                    <Typography variant="h6" gutterBottom>
+                      Not a member
+                    </Typography>
+
+                    <Button
+                      type="button"
+                      onClick={handleRegister}
+                      variant="text"
+                      color="success"
+                    >
+                      {
+                        <span
+                          style={{
+                            textTransform: "capitalize",
+                            fontSize: "1.15rem",
+                            marginBottom: ".25rem",
+                          }}
+                        >
+                          Register Here
+                        </span>
+                      }
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
             </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Container>
+          </Container>
+        </>
+      )}
+    </>
   );
 }
