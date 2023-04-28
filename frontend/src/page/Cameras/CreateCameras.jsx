@@ -47,22 +47,27 @@ export default function () {
         formData.append("image", file);
       });
 
-      addCamera(formData).then((response) => {
-        console.log("Response from API:", response);
-        navigate("/dashboard/camera");
-        toast
-          .success("Camera created successfully!", {
+      addCamera(formData)
+        .then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          })
-          .catch((error) => {
-            console.error("Error while creating camera:", error);
-            toast.error("Failed to create camera.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
+          };
+          if (response?.data?.success) {
+            navigate("/dashboard/camera");
+            toast.success("Camera created successfully!", toastProps);
+          } else {
+            toast.error("Error while creating camera.", toastProps);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error while creating camera.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
           });
-      });
+        });
     },
   });
 

@@ -19,7 +19,7 @@ export default function () {
     populate: "user",
   });
 
-  const [deleteCameras, { isLoading: isDeleting, isError: isDeleteError }] =
+  const [deleteCamera, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteCameraMutation();
 
   const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
@@ -66,10 +66,15 @@ export default function () {
   const handleDelete = async (id) => {
     try {
       if (window.confirm("Are you sure?")) {
-        await deleteCamera(id);
-        toast.success("Camera deleted successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+        await deleteCamera(id).then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          };
+          response?.data?.success === true
+            ? toast.success("Camera deleted successfully!", toastProps)
+            : toast.error("Failed to delete camera.", toastProps);
         });
       }
     } catch (error) {
