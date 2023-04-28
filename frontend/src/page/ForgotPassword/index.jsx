@@ -11,11 +11,10 @@ import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import ClearIcon from "@mui/icons-material/Clear";
 import { forgotPasswordValidation } from "../../validation";
-import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
-  const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -23,11 +22,30 @@ export default function () {
     },
     validationSchema: forgotPasswordValidation,
     onSubmit: (values) => {
-      forgotPassword(values.email).then((response) => {
-        console.log("Response from API:", response);
-        const url = `https://mailtrap.io/inboxes/1656145/messages`;
-        window.open(url, "_blank");
-      });
+      forgotPassword(values.email)
+        .then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          };
+          if (response?.data?.success) {
+            window.open(
+              `https://mailtrap.io/inboxes/1656145/messages`,
+              "_blank"
+            );
+            toast.success("Password reset successfully!", toastProps);
+          } else {
+            toast.error("Password reset failed.", toastProps);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Password reset failed.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          });
+        });
     },
   });
 
@@ -37,8 +55,6 @@ export default function () {
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
       ) : (
         <>
           <Container maxWidth="xs">
