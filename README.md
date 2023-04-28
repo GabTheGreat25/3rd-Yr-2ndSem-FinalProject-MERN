@@ -4,12 +4,12 @@
 
 ### Create a web application using MERN with the following requirements:
 
-1.  [ ] MP1: 20pts <br>
+1.  [x] MP1: 20pts <br>
         CRUD functions for users with roles {admin, employee, customer}. Users can upload multiple photos.
-2.  [ ] MP2: 20pts <br>
+2.  [x] MP2: 20pts <br>
         CRUD function for notes. Shows which employee the note belongs to. Users can upload multiple photos.
-3.  [ ] MP3: 20pts <br>
-        CRUD function cameras. Shows the ratings of each camera. Users can upload multiple photos.
+3.  [x] MP3: 20pts <br>
+        CRUD function cameras. Shows the comments of each camera. Users can upload multiple photos.
 4.  [x] MP4: 10pts <br>
         Add custom logs for errors in the backend.
 5.  [ ] MP5: 20pts Dashboard elements, including: <br>
@@ -18,20 +18,20 @@
         Total profit from transactions. <br>
         Chart for most transactions per month. <br>
         Chart for highest sell for camera. <br>
-6.  [ ] Unit 1: 20pts <br>
+6.  [x] Unit 1: 20pts <br>
         Apply authentication for CRUD operations with token generation.
 7.  [ ] Unit 2: 20pts <br>
         Users can comment per transaction. Apply a profanity filter library. <br>
         Quiz 1: 15pts <br>
-8.  [ ] Pagination backend and apply react pagination. 10pts
+8.  [x] Pagination backend and apply react pagination. 10pts
 9.  [ ] Apply infinite scroll library. 15pts
 10. [ ] Quiz 2: 15pts <br>
-        Create a search and filter function. Filter cameras by ratings.
+        Create a search and filter function. Filter cameras by comments.
 11. [ ] Quiz 3: 15pts <br>
         Users can rate transactions from 1 to 5 stars. <br>
         Term Test: 25pts <br>
 12. [ ] CRUD function transaction. Customers can add one or more cameras per transaction. 15pts
-13. [ ] Use Redux or Redux Toolkit or RTK Query. 5pts
+13. [x] Use Redux or Redux Toolkit or RTK Query. 5pts
 14. [ ] Add a receipt in PDF format. 5pts
-15. [ ] App complexity 10pts
-16. [ ] UI/UX Design 10pts
+15. [x] App complexity 10pts
+16. [x] UI/UX Design 10pts
