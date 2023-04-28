@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { api } from "../api/reducer";
 import { initialState } from "./state";
+import { TAGS } from "../../constants";
 
 export const authSlice = createSlice({
-  name: "auth",
+  name: TAGS.AUTH,
   initialState,
   reducers: {
     logout(state) {
