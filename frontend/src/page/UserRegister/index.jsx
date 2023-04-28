@@ -17,14 +17,14 @@ import { useFormik } from "formik";
 import { createUserValidation } from "../../validation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ROLES, ERROR } from "../../constants";
+import { ROLES } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
 
 export default function () {
   const fileInputRef = useRef();
   const navigate = useNavigate();
-  const [addUser, isLoading, isError] = useAddUserMutation();
+  const [addUser, isLoading] = useAddUserMutation();
   const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
@@ -49,15 +49,17 @@ export default function () {
       addUser(formData)
         .then((response) => {
           console.log("Response from API:", response);
-          navigate("/login");
-          toast.success("User created successfully!", {
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
+          };
+          response?.data?.success === true
+            ? toast.success("User created successfully!", toastProps)
+            : toast.error("Error while creating user.", toastProps);
         })
         .catch((error) => {
-          console.error("Error while creating user:", error);
-          toast.error("Failed to create user.", {
+          console.log(error);
+          toast.error("Error while creating user.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });
@@ -90,8 +92,6 @@ export default function () {
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
       ) : (
         <>
           <Container sx={{ mt: 7.5, mb: 5 }} disableGutters>
