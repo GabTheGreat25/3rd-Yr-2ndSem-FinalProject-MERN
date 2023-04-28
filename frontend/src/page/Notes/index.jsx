@@ -52,10 +52,15 @@ export default function () {
   const handleDelete = async (id) => {
     try {
       if (window.confirm("Are you sure?")) {
-        await deleteNote(id);
-        toast.success("Note deleted successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+        await deleteNote(id).then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          };
+          response?.data?.success === true
+            ? toast.success("Note deleted successfully!", toastProps)
+            : toast.error("Failed to delete note.", toastProps);
         });
       }
     } catch (error) {

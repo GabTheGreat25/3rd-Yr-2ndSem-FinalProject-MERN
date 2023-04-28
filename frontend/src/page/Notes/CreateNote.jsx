@@ -33,22 +33,27 @@ export default function () {
     },
     validationSchema: createNoteValidation,
     onSubmit: (values) => {
-      addNote(values).then((response) => {
-        console.log("Response from API:", response);
-        navigate("/dashboard/note");
-        toast
-          .success("User created successfully!", {
+      addNote(values)
+        .then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          })
-          .catch((error) => {
-            console.error("Error while creating user:", error);
-            toast.error("Failed to create user.", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 5000,
-            });
+          };
+          if (response?.data?.success) {
+            navigate("/dashboard/note");
+            toast.success("User created successfully!", toastProps);
+          } else {
+            toast.error("Error while creating user.", toastProps);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error while creating user.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
           });
-      });
+        });
     },
   });
 
