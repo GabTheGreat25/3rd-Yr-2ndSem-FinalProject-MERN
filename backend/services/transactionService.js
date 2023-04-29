@@ -73,14 +73,27 @@ exports.CreateTransactionData = async (data) => {
     throw new Error('User is required')
   }
 
-  const transaction = await Transaction.create({
-    user,
-    cameras,
-    status,
-    date,
-  })
+  const transactions = []
+  for (const cameraId of cameras) {
+    const transaction = await Transaction.create({
+      user,
+      cameras: [{ _id: cameraId }],
+      status,
+      date,
+    })
+    transactions.push(transaction)
+  }
 
-  return transaction
+  // Return only the last transaction for each camera ID
+  return transactions.reduce((acc, curr) => {
+    const existingTransaction = acc.find(
+      (t) => t.cameras[0]._id === curr.cameras[0]._id,
+    )
+    if (!existingTransaction) {
+      acc.push(curr)
+    }
+    return acc
+  }, [])
 }
 
 exports.updateTransactionData = async (req, res, id) => {
