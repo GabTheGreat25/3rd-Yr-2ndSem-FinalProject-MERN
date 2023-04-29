@@ -40,4 +40,16 @@ export default {
       icon: ICONS.SYMBOL.CAMERA,
     },
   ],
+  CUSTOMER: [
+    {
+      title: "Home",
+      link: "/dashboard",
+      icon: ICONS.SYMBOL.HOME,
+    },
+    {
+      title: "Comments",
+      link: "/dashboard/comment",
+      icon: ICONS.SYMBOL.COMMENT,
+    },
+  ],
 };
