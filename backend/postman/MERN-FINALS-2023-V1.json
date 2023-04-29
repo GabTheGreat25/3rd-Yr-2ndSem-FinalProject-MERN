@@ -1046,7 +1046,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"642ee8969d2a48fff10cf9ea\",\r\n    \"camera\": \"6423025134c558e05cda6155\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-04-06\"\r\n}"
+							"raw": "{\r\n    \"user\": \"644ab1eb062f51f07006dfcd\",\r\n    \r\n    \"camera\": \"644ab2bd062f51f07006dfdc\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-04-06\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -1164,7 +1164,7 @@
 	],
 	"variable": [
 		{
-			"id": "d13a481f-5512-4547-a8f0-ca94d807abd5",
+			"id": "df935ba7-2acc-4b54-b4de-f30f785fc723",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MjcwNzE5MSwiZXhwIjoxNjgzMzExOTkxfQ.xwV51p1zs4b7ZDLcpoxRo6tqWJYeII2nwaKQxF21tHk"
 		}
