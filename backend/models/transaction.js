@@ -9,16 +9,9 @@ const transactionSchema = new mongoose.Schema({
   },
   cameras: [
     {
-      camera: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Camera',
-      },
-      quantity: {
-        type: Number,
-        required: true,
-        min: 1,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Camera',
     },
   ],
   status: {
