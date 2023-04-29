@@ -1033,35 +1033,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transaction/644cbfdb02abdee4cd5c3568"
-					},
-					"response": []
-				},
-				{
-					"name": "CREATE A TRANSACTION",
-					"id": "87bcd060-d324-4679-aa0c-eabd2b980784",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{Bearer}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"644cbae6f43dae676162633c\",\r\n    \r\n    \"camera\": \"644cbb2af43dae6761626342\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-04-06\"\r\n}"
-						},
-						"url": "{{URI}}{{V1}}transactions"
+						"url": "{{URI}}{{V1}}transaction/644cc6e35f84e661587b3ef3"
 					},
 					"response": []
 				},
@@ -1087,7 +1059,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2023-04-06\"\r\n}\r\n"
+							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2066-04-06\"\r\n}\r\n"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -1177,7 +1149,7 @@
 	],
 	"variable": [
 		{
-			"id": "c4de2150-74fc-49b5-afd6-88234c1b0755",
+			"id": "2a2d9bac-b280-4d59-965b-a5650facac55",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
