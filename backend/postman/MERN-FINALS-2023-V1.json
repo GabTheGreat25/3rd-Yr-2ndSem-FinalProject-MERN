@@ -88,7 +88,8 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": "{{URI}}{{V1}}/auth/facebook"
 							},
 							"response": []
 						}
@@ -1176,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "692cb4fa-03ce-479a-a75e-2019298bb4ec",
+			"id": "bec77dcd-c706-47b0-a8af-cf57fee62808",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MjcwNzE5MSwiZXhwIjoxNjgzMzExOTkxfQ.xwV51p1zs4b7ZDLcpoxRo6tqWJYeII2nwaKQxF21tHk"
 		}
