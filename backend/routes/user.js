@@ -8,7 +8,7 @@ const userRoutes = [
   {
     method: METHOD.GET,
     path: PATH.USERS,
-    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
     middleware: [verifyJWT],
     handler: userController.getAllUsers,
   },
@@ -22,7 +22,7 @@ const userRoutes = [
   {
     method: METHOD.GET,
     path: PATH.USER_ID,
-    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
     middleware: [verifyJWT],
     handler: userController.getSingleUser,
   },
