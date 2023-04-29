@@ -6,28 +6,37 @@ import GetAllEmployee from "./GetAllEmployee";
 import GetAllCustomer from "./GetAllCustomer";
 import ShowActiveUser from "./ShowActiveUser";
 import AllUserCamera from "./AllUserCamera";
+import { useSelector } from "react-redux";
 
 export default function () {
+  const auth = useSelector((state) => state.auth);
+
   return (
     <>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <GetAllUser />
-      </Box>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <GetAllAdmin />
-      </Box>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <GetAllEmployee />
-      </Box>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <GetAllCustomer />
-      </Box>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <ShowActiveUser />
-      </Box>
-      <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-        <AllUserCamera />
-      </Box>
+      {(auth?.user?.roles?.includes("Admin") ||
+        auth?.user?.roles?.includes("Employee")) && (
+        <>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <GetAllUser />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <GetAllAdmin />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <GetAllEmployee />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <GetAllCustomer />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <ShowActiveUser />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <AllUserCamera />
+          </Box>
+        </>
+      )}
+      {auth?.user?.roles?.includes("Customer") && <div>For Customer</div>}
     </>
   );
 }
