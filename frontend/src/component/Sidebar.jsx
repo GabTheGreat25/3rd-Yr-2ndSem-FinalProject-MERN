@@ -18,11 +18,13 @@ export default function (props) {
   const sideBar = useSelector((state) => state.sideBar);
   const auth = useSelector((state) => state.auth);
 
-  if (auth?.user?.roles?.includes(USER.ADMIN)) {
-    dispatch(changeLinks({ links: LINKS.ADMIN }));
-  } else if (auth?.user?.roles?.includes(USER.EMPLOYEE)) {
-    dispatch(changeLinks({ links: LINKS.EMPLOYEE }));
-  }
+  auth?.user?.roles?.includes(USER.ADMIN)
+    ? dispatch(changeLinks({ links: LINKS.ADMIN }))
+    : auth?.user?.roles?.includes(USER.EMPLOYEE)
+    ? dispatch(changeLinks({ links: LINKS.EMPLOYEE }))
+    : auth?.user?.roles?.includes(USER.CUSTOMER)
+    ? dispatch(changeLinks({ links: LINKS.CUSTOMER }))
+    : null;
 
   return (
     <>
