@@ -17,12 +17,21 @@ import { PacmanLoader } from "react-spinners";
 import { USER } from "@/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function () {
   const navigate = useNavigate();
   const [addNote, isLoading, isError] = useAddNoteMutation();
   const { data } = useGetUsersQuery();
-  const users = data?.details ?? [];
+
+  const auth = useSelector((state) => state.auth);
+
+  const filteredData = data?.details?.filter(
+    (user) => user._id !== auth.user._id
+  );
+
+  const users = filteredData ?? [];
+
   const employees = users.filter((user) => user.roles.includes(USER.EMPLOYEE));
 
   const formik = useFormik({
@@ -40,16 +49,16 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          if (response?.data?.success) {
+          if (response?.data?.success === true) {
             navigate("/dashboard/note");
-            toast.success("User created successfully!", toastProps);
+            toast.success("Note created successfully!", toastProps);
           } else {
-            toast.error("Error while creating user.", toastProps);
+            toast.error("Error while creating note.", toastProps);
           }
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Error while creating user.", {
+          toast.error("Error while creating note.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });
