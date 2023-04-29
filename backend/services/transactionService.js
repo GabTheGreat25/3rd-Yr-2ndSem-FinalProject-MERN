@@ -55,10 +55,11 @@ exports.getSingleTransactionData = async (id) => {
         select: 'name',
       },
       {
-        path: 'camera',
+        path: 'cameras', // change to 'cameras' instead of 'camera'
         select: 'name',
       },
     ])
+
     .lean()
     .exec()
 
