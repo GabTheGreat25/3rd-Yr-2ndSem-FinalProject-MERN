@@ -65,7 +65,7 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          if (response?.data?.success) {
+          if (response?.data?.success === true) {
             navigate("/dashboard/camera");
             toast.success("Camera edited successfully!", toastProps);
           } else {

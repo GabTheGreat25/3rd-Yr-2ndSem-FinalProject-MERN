@@ -56,16 +56,16 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          if (response?.data?.success) {
+          if (response?.data?.success === true) {
             navigate("/dashboard/note");
-            toast.success("User edited successfully!", toastProps);
+            toast.success("Note edited successfully!", toastProps);
           } else {
-            toast.error("Error while editing user.", toastProps);
+            toast.error("Error while editing note.", toastProps);
           }
         })
         .catch((error) => {
           console.log(error);
-          toast.error("Error while editing user.", {
+          toast.error("Error while editing note.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });
