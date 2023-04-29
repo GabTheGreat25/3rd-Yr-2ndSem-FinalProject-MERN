@@ -608,7 +608,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&search=GG",
+							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&search=Nice Game",
 							"host": [
 								"{{URI}}{{V1}}comments"
 							],
@@ -634,7 +634,7 @@
 								},
 								{
 									"key": "search",
-									"value": "GG"
+									"value": "Nice Game"
 								}
 							]
 						}
@@ -1146,7 +1146,7 @@
 	],
 	"variable": [
 		{
-			"id": "0d886ab4-f50b-4c60-8735-e08de95efd1d",
+			"id": "89c9f919-b88f-4fa1-9df8-c51a83d0a264",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
