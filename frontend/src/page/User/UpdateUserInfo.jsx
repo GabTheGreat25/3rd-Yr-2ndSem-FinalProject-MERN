@@ -42,15 +42,20 @@ export default function () {
       updateUser({ id: data.details._id, payload: formData })
         .then((response) => {
           console.log("Response from API:", response);
-          navigate("/dashboard");
-          toast.success("User edited successfully!", {
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
+          };
+          if (response?.data?.success === true) {
+            navigate("/dashboard");
+            toast.success("User updated successfully!", toastProps);
+          } else {
+            toast.error("Error while editing user.", toastProps);
+          }
         })
         .catch((error) => {
-          console.error("Error while editing user:", error);
-          toast.error("Failed to edit user.", {
+          console.log(error);
+          toast.error("Error while editing user.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });

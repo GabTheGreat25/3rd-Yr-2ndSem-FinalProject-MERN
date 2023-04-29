@@ -47,15 +47,20 @@ export default function () {
       addUser(formData)
         .then((response) => {
           console.log("Response from API:", response);
-          navigate("/dashboard/user");
-          toast.success("User created successfully!", {
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
+          };
+          if (response?.data?.success === true) {
+            navigate("/dashboard/user");
+            toast.success("User created successfully!", toastProps);
+          } else {
+            toast.error("Error while creating user.", toastProps);
+          }
         })
         .catch((error) => {
-          console.error("Error while creating user:", error);
-          toast.error("Failed to create user.", {
+          console.log(error);
+          toast.error("Error while creating user.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });

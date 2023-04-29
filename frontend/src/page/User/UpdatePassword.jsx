@@ -47,15 +47,20 @@ export default function () {
       })
         .then((response) => {
           console.log("Response from API:", response);
-          navigate("/dashboard");
-          toast.success("Password updated successfully!", {
+          const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
+          };
+          if (response?.data?.success === true) {
+            navigate("/dashboard");
+            toast.success("Password updated successfully!", toastProps);
+          } else {
+            toast.error("Error while editing password.", toastProps);
+          }
         })
         .catch((error) => {
-          console.error("Error while editing password:", error);
-          toast.error("Failed to update user's password.", {
+          console.log(error);
+          toast.error("Error while editing password.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           });

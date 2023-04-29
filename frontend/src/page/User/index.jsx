@@ -58,10 +58,15 @@ export default function () {
   const handleDelete = async (id) => {
     try {
       if (window.confirm("Are you sure?")) {
-        await deleteUser(id);
-        toast.success("User deleted successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+        await deleteUser(id).then((response) => {
+          console.log("Response from API:", response);
+          const toastProps = {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+          };
+          response?.data?.success === true
+            ? toast.success("User deleted successfully!", toastProps)
+            : toast.error("Failed to delete user.", toastProps);
         });
       }
     } catch (error) {

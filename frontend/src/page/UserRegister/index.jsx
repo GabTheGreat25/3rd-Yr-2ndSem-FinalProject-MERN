@@ -53,9 +53,12 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          response?.data?.success === true
-            ? toast.success("User created successfully!", toastProps)
-            : toast.error("Error while creating user.", toastProps);
+          if (response?.data?.success === true) {
+            navigate("/login");
+            toast.success("Camera created successfully!", toastProps);
+          } else {
+            toast.error("Error while creating camera.", toastProps);
+          }
         })
         .catch((error) => {
           console.log(error);
