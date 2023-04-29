@@ -11,7 +11,7 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
       select: 'name',
     },
     {
-      path: 'camera',
+      path: 'cameras',
       select: 'name',
     },
   ])
