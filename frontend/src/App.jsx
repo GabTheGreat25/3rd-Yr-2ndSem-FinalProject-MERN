@@ -27,6 +27,7 @@ import {
   ResetPassword,
   UpdatePassword,
   UpdateUserInfo,
+  Comments,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -81,7 +82,9 @@ const router = createBrowserRouter(
         <Route
           index
           element={
-            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
               <Dashboard />
             </ProtectedRoute>
           }
@@ -205,6 +208,16 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
               <EditCamera />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="comment"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <Comments />
             </ProtectedRoute>
           }
         />
