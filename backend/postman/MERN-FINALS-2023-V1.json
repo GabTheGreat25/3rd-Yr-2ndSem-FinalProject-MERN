@@ -1033,7 +1033,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transaction/644cc1e857b6b47268a87498"
+						"url": "{{URI}}{{V1}}transaction/640bced47f37478158e52bdd"
 					},
 					"response": []
 				},
@@ -1177,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "94603571-13b9-4511-9b87-b99d8f073649",
+			"id": "393a7b77-5f9b-4390-a19a-b25355ed3f6c",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTAzNjAsImV4cCI6MTY4MzM1NTE2MH0.EbNcOKtYjZz95oZN8jaVBawxUwEYHXmkKDNf4bLKnlc"
 		}
