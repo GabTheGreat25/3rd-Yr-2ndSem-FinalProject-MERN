@@ -34,7 +34,7 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          if (response?.data?.success) {
+          if (response?.data?.success === true) {
             window.open(
               `https://mailtrap.io/inboxes/1656145/messages`,
               "_blank"

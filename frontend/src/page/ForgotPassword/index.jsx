@@ -12,6 +12,8 @@ import { useFormik } from "formik";
 import ClearIcon from "@mui/icons-material/Clear";
 import { forgotPasswordValidation } from "../../validation";
 import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
@@ -34,7 +36,7 @@ export default function () {
               `https://mailtrap.io/inboxes/1656145/messages`,
               "_blank"
             );
-            toast.success("Password reset successfully!", toastProps);
+            toast.success("Password reset sent successfully!", toastProps);
           } else {
             toast.error("Password reset failed.", toastProps);
           }
