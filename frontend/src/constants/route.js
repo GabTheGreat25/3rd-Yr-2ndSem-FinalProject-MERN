@@ -13,4 +13,10 @@ export default {
   CAMERAS_ROUTE: "cameras",
   CAMERA_ID_ROUTE: "camera/:id",
   EDIT_CAMERA_ID: "camera/edit/:id",
+  TRANSACTIONS_ROUTE: "transactions",
+  TRANSACTION_ID_ROUTE: "transaction/:id",
+  EDIT_TRANSACTION_ID: "transaction/edit/:id",
+  COMMENTS_ROUTE: "comments",
+  COMMENT_ID_ROUTE: "comment/:id",
+  EDIT_COMMENT_ID: "comment/edit/:id",
 };
