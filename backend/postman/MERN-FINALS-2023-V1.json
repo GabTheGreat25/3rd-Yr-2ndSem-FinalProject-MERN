@@ -28,7 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}"
+									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"asdasd123\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}login"
 							},
@@ -1177,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "693eb7d8-5678-4a9e-a1eb-3fc79a61cbe0",
+			"id": "830c52c6-c9bb-4314-bc44-1bb2aa8c20cb",
 			"key": "Bearer",
 			"value": ""
 		}
