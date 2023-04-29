@@ -5,6 +5,8 @@ export default {
   DELETE_NOTE_ERROR: "Error deleting note.",
   GET_CAMERAS_ERROR: "Can't receive camera data.",
   DELETE_CAMERA_ERROR: "Error deleting camera.",
+  GET_COMMENTS_ERROR: "Can't receive comment data.",
+  DELETE_COMMENT_ERROR: "Error deleting comment.",
   USER_DETAILS_ERROR: "Error updating user details",
   USERS_PASSWORD_ERROR: "Error updating user password",
 };
