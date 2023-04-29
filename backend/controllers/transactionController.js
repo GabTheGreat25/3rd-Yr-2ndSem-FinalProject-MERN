@@ -49,8 +49,10 @@ exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
 })
 exports.createNewTransaction = [
   asyncHandler(async (req, res, next) => {
-    const { user, cameras, status, date } = req.body
-    if (!user || !cameras || !status || !date) {
+    const { user, status, date } = req.body
+    const cameras = req.body.cameras || [] // provide default value as empty array
+
+    if (!user || !status || !date) {
       return ErrorHandler(res, 400, 'Missing required fields')
     }
 
@@ -59,7 +61,7 @@ exports.createNewTransaction = [
     for (const camera of cameras) {
       const transaction = await transactionsService.CreateTransactionData({
         user,
-        camera,
+        cameras: [camera], // wrap camera ID in an array
         status,
         date,
       })
