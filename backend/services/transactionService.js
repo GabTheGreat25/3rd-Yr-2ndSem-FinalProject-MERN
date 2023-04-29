@@ -1,6 +1,7 @@
 const Transaction = require('../models/transaction')
 const ErrorHandler = require('../utils/errorHandler')
 const mongoose = require('mongoose')
+const { v4: uuidv4 } = require('uuid')
 
 exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
   const skip = (page - 1) * limit
@@ -74,27 +75,18 @@ exports.CreateTransactionData = async (data) => {
     throw new Error('User is required')
   }
 
-  const transactions = []
-  for (const cameraId of cameras) {
-    const transaction = await Transaction.create({
-      user,
-      cameras: [{ _id: cameraId }],
-      status,
-      date,
-    })
-    transactions.push(transaction)
-  }
+  const transaction = await Transaction.create({
+    user,
+    cameras,
+    status,
+    date,
+  })
 
-  // Return only the last transaction for each camera ID
-  return transactions.reduce((acc, curr) => {
-    const existingTransaction = acc.find(
-      (t) => t.cameras[0]._id === curr.cameras[0]._id,
-    )
-    if (!existingTransaction) {
-      acc.push(curr)
-    }
-    return acc
-  }, [])
+  return {
+    success: true,
+    message: `New transaction on ${date} was created with ID ${transaction._id}`,
+    transaction: transaction,
+  }
 }
 
 exports.updateTransactionData = async (req, res, id) => {
