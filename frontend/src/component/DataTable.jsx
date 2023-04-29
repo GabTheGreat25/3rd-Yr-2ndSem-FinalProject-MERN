@@ -118,6 +118,7 @@ export default function (props) {
                 setSearchQuery(event.target.value)
                 filter(event.target.value)
               }}
+              sx={{ marginTop: ".5rem" }}
             />
           )}
           value={searchQuery}
