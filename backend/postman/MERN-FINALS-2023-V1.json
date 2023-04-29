@@ -79,6 +79,18 @@
 								"url": "{{URI}}{{V1}}/logout"
 							},
 							"response": []
+						},
+						{
+							"name": "New Request",
+							"id": "84d31ca6-ccce-4be6-92f9-6ddb1f156179",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "4e313355-03cb-45fb-8158-247b61c83fbf",
@@ -1164,7 +1176,7 @@
 	],
 	"variable": [
 		{
-			"id": "df935ba7-2acc-4b54-b4de-f30f785fc723",
+			"id": "692cb4fa-03ce-479a-a75e-2019298bb4ec",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MjcwNzE5MSwiZXhwIjoxNjgzMzExOTkxfQ.xwV51p1zs4b7ZDLcpoxRo6tqWJYeII2nwaKQxF21tHk"
 		}
