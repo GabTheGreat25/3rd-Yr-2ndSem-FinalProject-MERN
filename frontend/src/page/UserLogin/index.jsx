@@ -16,7 +16,6 @@ import loginImg from "@/assets/camera-login.jpg";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { USER } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
 import { loginUserValidation } from "../../validation";
@@ -41,13 +40,12 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          response?.data?.success === true
-            ? (toast.success("Login successful!", toastProps),
-              response?.user?.roles?.includes(USER.ADMIN) ||
-              response?.user?.roles?.includes(USER.EMPLOYEE)
-                ? navigate("/dashboard")
-                : navigate("/"))
-            : toast.error("Login failed. Please try again.", toastProps);
+          if (response?.data?.success === true) {
+            navigate("/dashboard");
+            toast.success("Login successful!ly!", toastProps);
+          } else {
+            toast.error("Login failed. Please try again.", toastProps);
+          }
         })
         .catch((error) => {
           console.log(error);
