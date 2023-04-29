@@ -4,4 +4,6 @@ export default {
   USERS: "Users",
   NOTES: "Notes",
   CAMERAS: "Cameras",
+  TRANSACTIONS: "Transactions",
+  COMMENTS: "Comments",
 };
