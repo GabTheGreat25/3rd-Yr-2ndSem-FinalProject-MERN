@@ -91,15 +91,37 @@ export default function (props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Admin Dashboard
-          </Typography>
+          {auth?.user?.roles?.includes("Admin") ? (
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Admin Dashboard
+            </Typography>
+          ) : auth?.user?.roles?.includes("Employee") ? (
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Employee Dashboard
+            </Typography>
+          ) : (
+            <Typography
+              component="h1"
+              variant="h6"
+              color="inherit"
+              noWrap
+              sx={{ flexGrow: 1 }}
+            >
+              Customer Dashboard
+            </Typography>
+          )}
           <Button
             aria-controls="dropdown-menu"
             aria-haspopup="true"
