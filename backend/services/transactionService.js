@@ -1,110 +1,127 @@
-const SuccessHandler = require('../utils/successHandler')
+const Transaction = require('../models/transaction')
 const ErrorHandler = require('../utils/errorHandler')
-const transactionsService = require('../services/transactionService')
-const asyncHandler = require('express-async-handler')
-const checkRequiredFields = require('../helpers/checkRequiredFields')
+const mongoose = require('mongoose')
 
-exports.getAllTransactions = asyncHandler(async (req, res, next) => {
-  const page = parseInt(req.query.page) || 1
-  const limit = parseInt(req.query.limit) || 10
-  const search = req.query.search
-  const sort = req.query.sort
-  const filter = req.query.filter
+exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
+  const skip = (page - 1) * limit
 
-  const transactionsQuery = transactionsService.getAllTransactionsData(
-    page,
-    limit,
-    search,
-    sort,
-    filter,
-  )
-  const transactions = await transactionsQuery.lean()
+  let transactionsQuery = Transaction.find().populate([
+    {
+      path: 'user',
+      select: 'name',
+    },
+    {
+      path: 'cameras',
+      select: 'name',
+    },
+  ])
 
-  if (!transactions.length) {
-    return next(new ErrorHandler('No transactions found'))
+  // Apply search option
+  if (search) {
+    transactionsQuery = transactionsQuery
+      .where('status')
+      .equals(new RegExp(search, 'i'))
   }
 
-  const transactionStatuses = transactions.map((u) => u.status).join(', ')
-  const transactionIds = transactions.map((u) => u._id).join(', ')
+  // Apply sort option
+  if (sort) {
+    const [field, order] = sort.split(':')
+    transactionsQuery = transactionsQuery.sort({
+      [field]: order === 'asc' ? 1 : -1,
+    })
+  } else {
+    transactionsQuery = transactionsQuery.sort({ createdAt: -1 })
+  }
 
-  return SuccessHandler(
-    res,
-    `Transactions with status ${transactionStatuses} and IDs ${transactionIds} retrieved`,
-    transactions,
-  )
-})
+  // Apply filter option
+  if (filter) {
+    const [field, value] = filter.split(':')
+    transactionsQuery = transactionsQuery.where(field).equals(value)
+  }
 
-exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
-  const transaction = await transactionsService.getSingleTransactionData(
-    req.params.id,
-  )
+  transactionsQuery = transactionsQuery.skip(skip).limit(limit)
 
-  return !transaction
-    ? next(new ErrorHandler('No transaction found'))
-    : SuccessHandler(
-        res,
-        `Transaction with ID ${transaction.id} is ${transaction.status}`,
-        transaction,
-      )
-})
-exports.createNewTransaction = [
-  asyncHandler(async (req, res, next) => {
-    const { user, status, date } = req.body
-    const cameras = req.body.cameras || [] // provide default value as empty array
+  return transactionsQuery
+}
 
-    if (!user || !status || !date) {
-      return ErrorHandler(res, 400, 'Missing required fields')
+exports.getSingleTransactionData = async (id) => {
+  if (!mongoose.Types.ObjectId.isValid(id))
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
+
+  const transaction = await Transaction.findById(id)
+    .populate([
+      {
+        path: 'user',
+        select: 'name',
+      },
+      {
+        path: 'camera',
+        select: 'name',
+      },
+    ])
+    .lean()
+    .exec()
+
+  if (!transaction)
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
+
+  return transaction
+}
+exports.CreateTransactionData = async (data) => {
+  const { user, cameras, status, date } = data
+  if (!user) {
+    throw new Error('User is required')
+  }
+
+  const transactions = []
+  for (const cameraId of cameras) {
+    const transaction = await Transaction.create({
+      user,
+      cameras: [{ _id: cameraId }],
+      status,
+      date,
+    })
+    transactions.push(transaction)
+  }
+
+  // Return only the last transaction for each camera ID
+  return transactions.reduce((acc, curr) => {
+    const existingTransaction = acc.find(
+      (t) => t.cameras[0]._id === curr.cameras[0]._id,
+    )
+    if (!existingTransaction) {
+      acc.push(curr)
     }
+    return acc
+  }, [])
+}
 
-    const transactions = []
+exports.updateTransactionData = async (req, res, id) => {
+  if (!mongoose.Types.ObjectId.isValid(id))
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
 
-    for (const camera of cameras) {
-      const transaction = await transactionsService.CreateTransactionData({
-        user,
-        cameras: [camera], // wrap camera ID in an array
-        status,
-        date,
-      })
-      transactions.push(transaction)
-    }
+  const updatedTransaction = await Transaction.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  })
+    .lean()
+    .exec()
 
-    return SuccessHandler(
-      res,
-      `New transactions on ${date} were created with IDs ${transactions
-        .map((t) => t._id)
-        .join(', ')}`,
-      transactions,
-    )
-  }),
-]
+  if (!updatedTransaction)
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
 
-exports.updateTransaction = [
-  checkRequiredFields(['user', 'camera', 'status', 'date']),
-  asyncHandler(async (req, res, next) => {
-    const transaction = await transactionsService.updateTransactionData(
-      req,
-      res,
-      req.params.id,
-    )
+  return updatedTransaction
+}
 
-    return SuccessHandler(
-      res,
-      `Transaction on ${transaction.date} with ID ${transaction._id} is updated`,
-      transaction,
-    )
-  }),
-]
+exports.deleteTransactionData = async (id) => {
+  if (!mongoose.Types.ObjectId.isValid(id))
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
 
-exports.deleteTransaction = asyncHandler(async (req, res, next) => {
-  const transaction = await transactionsService.deleteTransactionData(
-    req.params.id,
-  )
+  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`)
 
-  return !transaction
-    ? next(new ErrorHandler('No transaction found'))
-    : SuccessHandler(
-        res,
-        `Transaction on ${transaction.date} with ID ${transaction._id} is deleted`,
-        transaction,
-      )
-})
+  const transaction = await Transaction.findOneAndDelete({ _id: id })
+    .lean()
+    .exec()
+
+  return transaction
+}
