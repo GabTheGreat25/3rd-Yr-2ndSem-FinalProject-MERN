@@ -28,7 +28,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"admingab@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}"
+									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}login"
 							},
@@ -1177,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "99416ce8-2780-4bad-bc0e-e4bf03fcb1fb",
+			"id": "5a8e2182-7312-4610-863c-27f9308cd2e3",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4Mjc0ODkyMywiZXhwIjoxNjgzMzUzNzIzfQ.n8P06D1G27eJzs35iruCcMlH02eDBoWH7aE7S37yRQw"
 		}
