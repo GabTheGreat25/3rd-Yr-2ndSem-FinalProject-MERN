@@ -24,6 +24,7 @@ import ForgotPassword from "./ForgotPassword";
 import ResetPassword from "./ResetPassword";
 import UpdatePassword from "./User/UpdatePassword";
 import UpdateUserInfo from "./User/UpdateUserInfo";
+import Comments from "./Comments";
 
 export {
   Home,
@@ -52,4 +53,5 @@ export {
   ResetPassword,
   UpdatePassword,
   UpdateUserInfo,
+  Comments,
 };
