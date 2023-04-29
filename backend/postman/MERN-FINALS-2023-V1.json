@@ -101,7 +101,8 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": "{{URI}}{{V1}}/auth/google/callback"
 							},
 							"response": []
 						}
@@ -1189,7 +1190,7 @@
 	],
 	"variable": [
 		{
-			"id": "ef16c9d2-b3bc-46f9-a133-6d062784f544",
+			"id": "3de6467d-da7d-446f-9e76-86c0ef0ef48d",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4MjcwNzE5MSwiZXhwIjoxNjgzMzExOTkxfQ.xwV51p1zs4b7ZDLcpoxRo6tqWJYeII2nwaKQxF21tHk"
 		}
