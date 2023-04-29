@@ -1038,7 +1038,7 @@
 					"response": []
 				},
 				{
-					"name": "CREATE A TRANSACTION Copy",
+					"name": "CREATE A TRANSACTION",
 					"id": "b0d22e00-c376-4b88-a70d-74a876ade334",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1149,7 +1149,7 @@
 	],
 	"variable": [
 		{
-			"id": "2a2d9bac-b280-4d59-965b-a5650facac55",
+			"id": "e88c5b9a-2a76-46ad-9f6d-16d87fa9f238",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
