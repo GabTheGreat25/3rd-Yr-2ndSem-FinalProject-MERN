@@ -818,7 +818,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}camera/640acc877b7d9314b0a71af0"
+						"url": "{{URI}}{{V1}}camera/644ab74f0299ecd315a01f86"
 					},
 					"response": []
 				},
@@ -1177,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "40b92556-ff73-4975-8223-59b2849f617a",
+			"id": "5e7194c2-0aaa-47b6-b682-b06ea0f00280",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6InBvZ2lAZ21haWwuY29tIiwicm9sZXMiOlsiQ3VzdG9tZXIiXX0sImlhdCI6MTY4Mjc0OTYxNSwiZXhwIjoxNjgzMzU0NDE1fQ.EwigEhDzV241Q5wQcmYKZQSDbHGyg1TRZMnKYxYLY8I"
 		}
