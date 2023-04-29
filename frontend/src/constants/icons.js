@@ -4,5 +4,6 @@ export default {
     PEOPLE_ALT_SHARP: "PeopleAltSharp",
     EVENT_NOTE: "EventNote",
     CAMERA: "Camera",
+    COMMENT: "Comment",
   },
 };
