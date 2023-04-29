@@ -4,12 +4,14 @@ import UserAPI from "./routes/users";
 import NoteAPI from "./routes/notes";
 import AuthAPI from "./routes/auth";
 import CameraAPI from "./routes/cameras";
+import TransactionAPI from "./routes/transactions";
+import CommentAPI from "./routes/comments";
 import { API, TAGS } from "../../constants";
 
 const prepareHeaders = (headers, { getState }) => {
-  if (getState().auth.authenticated) {
+  if (getState().auth.authenticated)
     headers.set("authorization", `Bearer ${getState().auth.token || ""}`);
-  }
+
   headers.set("accept", `application/json`);
   return headers;
 };
@@ -46,6 +48,16 @@ export const api = createApi({
     deleteCamera: CameraAPI.deleteById(builder),
     login: AuthAPI.login(builder),
     logout: AuthAPI.logout(builder),
+    getTransactions: TransactionAPI.get(builder),
+    getTransactionById: TransactionAPI.getById(builder),
+    addTransaction: TransactionAPI.add(builder),
+    updateTransaction: TransactionAPI.updateById(builder),
+    deleteTransaction: TransactionAPI.deleteById(builder),
+    getComments: CommentAPI.get(builder),
+    getCommentById: CommentAPI.getById(builder),
+    addComment: CommentAPI.add(builder),
+    updateComment: CommentAPI.updateById(builder),
+    deleteComment: CommentAPI.deleteById(builder),
   }),
 });
 
@@ -70,4 +82,14 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useLogoutMutation,
+  useGetTransactionsQuery,
+  useGetTransactionByIdQuery,
+  useAddTransactionMutation,
+  useUpdateTransactionMutation,
+  useDeleteTransactionMutation,
+  useGetCommentsQuery,
+  useGetCommentByIdQuery,
+  useAddCommentMutation,
+  useUpdateCommentMutation,
+  useDeleteCommentMutation,
 } = api;
