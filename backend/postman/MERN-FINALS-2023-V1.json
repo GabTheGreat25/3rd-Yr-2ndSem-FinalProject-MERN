@@ -1087,7 +1087,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2023-04-06\"\r\n}\r\n"
+							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\", \"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2023-04-06\"\r\n}\r\n"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -1177,7 +1177,7 @@
 	],
 	"variable": [
 		{
-			"id": "2e48578f-b90f-470d-9c11-c1080ea62370",
+			"id": "7e12ca01-19fb-452d-ac98-8dfd84c8c3d9",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTAzNjAsImV4cCI6MTY4MzM1NTE2MH0.EbNcOKtYjZz95oZN8jaVBawxUwEYHXmkKDNf4bLKnlc"
 		}
