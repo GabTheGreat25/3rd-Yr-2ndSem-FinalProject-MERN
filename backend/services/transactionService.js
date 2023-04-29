@@ -4,46 +4,51 @@ const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
 
 exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * limit;
 
-  let transactionsQuery = Transaction.find().populate([
-    {
-      path: 'user',
-      select: 'name',
-    },
-    {
-      path: 'cameras',
-      select: 'name',
-    },
-  ])
+  let transactionsQuery = Transaction.find();
 
   // Apply search option
   if (search) {
-    transactionsQuery = transactionsQuery
-      .where('status')
-      .equals(new RegExp(search, 'i'))
+    transactionsQuery = transactionsQuery.where("status").equals(new RegExp(search, "i"));
   }
 
   // Apply sort option
   if (sort) {
-    const [field, order] = sort.split(':')
+    const [field, order] = sort.split(":");
     transactionsQuery = transactionsQuery.sort({
-      [field]: order === 'asc' ? 1 : -1,
-    })
+      [field]: order === "asc" ? 1 : -1,
+    });
   } else {
-    transactionsQuery = transactionsQuery.sort({ createdAt: -1 })
+    transactionsQuery = transactionsQuery.sort({ createdAt: -1 });
   }
 
   // Apply filter option
   if (filter) {
-    const [field, value] = filter.split(':')
-    transactionsQuery = transactionsQuery.where(field).equals(value)
+    const [field, value] = filter.split(":");
+    transactionsQuery = transactionsQuery.where(field).equals(value);
   }
 
-  transactionsQuery = transactionsQuery.skip(skip).limit(limit)
+  transactionsQuery = transactionsQuery
+    .populate({
+      path: "user",
+      select: "name",
+    })
+    .populate({
+      path: "cameras",
+      select: "name",
+      options: { sort: { name: 1 } },
+    })
+    .select({ cameras: 1 });
 
-  return transactionsQuery
-}
+  transactionsQuery = transactionsQuery.skip(skip).limit(limit);
+
+  return transactionsQuery.distinct("cameras").populate({
+    path: "user",
+    select: "name",
+  });
+};
+
 
 exports.getSingleTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
