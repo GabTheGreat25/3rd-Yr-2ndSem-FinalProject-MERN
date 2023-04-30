@@ -12,7 +12,6 @@ const cameraSchema = new mongoose.Schema({
     required: [true, "Please enter a camera"],
     maxLength: [30, "The camera name cannot exceed 30 characters"],
   },
-
   text: {
     type: String,
     required: [true, "Please enter a description of your camera"],
