@@ -608,7 +608,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&search=Nice Game",
+							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&",
 							"host": [
 								"{{URI}}{{V1}}comments"
 							],
@@ -633,8 +633,8 @@
 									"disabled": true
 								},
 								{
-									"key": "search",
-									"value": "Nice Game"
+									"key": "",
+									"value": null
 								}
 							]
 						}
@@ -656,7 +656,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}comment/640bd7afa91ce76df4479202"
+						"url": "{{URI}}{{V1}}comment/644e1a204b2726799722751c"
 					},
 					"response": []
 				},
@@ -682,7 +682,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"644e17bf4b27267997227506\",\r\n    \"transService\": \"LBC\",\r\n    \"ratings\": 5,\r\n    \"text\": \"Awesome\"\r\n}"
+							"raw": "{\r\n    \"transaction\": \"644d44a91f1ac67fa385430d\",\r\n    \"transService\": \"LBC\",\r\n    \"ratings\": 5,\r\n    \"text\": \"Cool Bro\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -1030,7 +1030,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transaction/644d44a91f1ac67fa385430d"
+						"url": "{{URI}}{{V1}}transaction/644e17bf4b27267997227506"
 					},
 					"response": []
 				},
@@ -1056,7 +1056,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2022-03-06\"\r\n}\r\n"
+							"raw": "{\r\n  \"user\": \"644d0c5f293d83890f748596\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2022-03-06\"\r\n}\r\n"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -1146,7 +1146,7 @@
 	],
 	"variable": [
 		{
-			"id": "98008c28-4ad4-4952-b12c-29f8a44153b2",
+			"id": "8fc61844-51f9-4cd2-a3a0-ab95aef375ea",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
