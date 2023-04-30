@@ -1,4 +1,5 @@
 const Camera = require("../models/camera");
+const Transaction = require("../models/transaction");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
 const { cloudinary } = require("../utils/cloudinary");
@@ -138,6 +139,7 @@ exports.deleteCameraData = async (id) => {
   await Promise.all([
     Camera.deleteOne({ _id: id }).lean().exec(),
     cloudinary.api.delete_resources(publicIds),
+    Transaction.deleteMany({ camera: id }).lean().exec(),
   ]);
 
   return camera;
