@@ -30,6 +30,8 @@ import EditComment from "./Comments/EditComment";
 import ShowAllComment from "./Comments/ShowAllComment";
 import Transactions from "./Transactions";
 import GetPerTransaction from "./Transactions/GetPerTransaction";
+import ShowAllTransaction from "./Transactions/ShowAllTransaction";
+import EditTransaction from "./Transactions/EditTransaction";
 
 export {
   Home,
@@ -64,4 +66,6 @@ export {
   ShowAllComment,
   Transactions,
   GetPerTransaction,
+  ShowAllTransaction,
+  EditTransaction,
 };
