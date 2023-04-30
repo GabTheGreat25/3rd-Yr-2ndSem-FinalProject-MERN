@@ -25,6 +25,8 @@ import ResetPassword from "./ResetPassword";
 import UpdatePassword from "./User/UpdatePassword";
 import UpdateUserInfo from "./User/UpdateUserInfo";
 import Comments from "./Comments";
+import GetPerComment from "./Comments/GetPerComment";
+import EditComment from "./Comments/EditComment";
 
 export {
   Home,
@@ -54,4 +56,6 @@ export {
   UpdatePassword,
   UpdateUserInfo,
   Comments,
+  GetPerComment,
+  EditComment,
 };
