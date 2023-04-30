@@ -5,5 +5,6 @@ export default {
     EVENT_NOTE: "EventNote",
     CAMERA: "Camera",
     COMMENT: "Comment",
+    TRANSACTION: "Transaction",
   },
 };
