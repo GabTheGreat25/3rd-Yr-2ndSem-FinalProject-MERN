@@ -64,24 +64,12 @@ export default function () {
     navigate(`edit/${id}`);
   };
 
-  const handleDelete = (id) => {
-    // perform delete operation
-  };
-
   const actions = [
-    auth.user.roles.includes("Customer")
-      ? {
-          onClick: handleEdit,
-          title: "Edit",
-        }
-      : null,
-    auth.user.roles.includes("Admin") || auth.user.roles.includes("Employee")
-      ? {
-          onClick: handleDelete,
-          title: "Delete",
-        }
-      : null,
-  ].filter((action) => action !== null);
+    {
+      onClick: handleEdit,
+      title: "Edit",
+    },
+  ];
 
   return (
     <>
