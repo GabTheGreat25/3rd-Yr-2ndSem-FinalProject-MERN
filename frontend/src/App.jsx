@@ -30,6 +30,7 @@ import {
   Comments,
   GetPerComment,
   EditComment,
+  ShowAllComment,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -220,6 +221,14 @@ const router = createBrowserRouter(
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <Comments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="allComment"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <ShowAllComment />
             </ProtectedRoute>
           }
         />
