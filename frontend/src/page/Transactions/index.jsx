@@ -3,13 +3,11 @@ import { DataTable } from "@/component";
 import { useGetTransactionsQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
 
 export default function () {
-  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
 
   const { data, isLoading, isError } = useGetTransactionsQuery({
@@ -21,6 +19,7 @@ export default function () {
   );
 
   const headers = ["ID", "Customer", "Cameras", "Status", "Date"];
+
   const keys = [
     {
       key: "_id",
