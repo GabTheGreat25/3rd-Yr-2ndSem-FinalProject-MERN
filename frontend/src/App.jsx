@@ -28,6 +28,8 @@ import {
   UpdatePassword,
   UpdateUserInfo,
   Comments,
+  GetPerComment,
+  EditComment,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -218,6 +220,24 @@ const router = createBrowserRouter(
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <Comments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="comment/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <GetPerComment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="comment/edit/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.CUSTOMER]}>
+              <EditComment />
             </ProtectedRoute>
           }
         />
