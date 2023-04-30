@@ -27,8 +27,8 @@ const commentRoutes = [
   },
   {
     method: METHOD.PATCH,
-    path: PATH.COMMENT_ID,
-    roles: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.CUSTOMER],
+    path: PATH.EDIT_COMMENT_ID,
+    roles: [ROLE.CUSTOMER],
     handler: commentController.updateComment,
   },
   {
