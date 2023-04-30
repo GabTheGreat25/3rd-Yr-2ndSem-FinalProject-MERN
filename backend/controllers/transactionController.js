@@ -18,7 +18,7 @@ exports.getAllTransactions = asyncHandler(async (req, res, next) => {
     sort,
     filter
   );
-  const transactions = await transactionsQuery.lean();
+  const transactions = await transactionsQuery.lean().exec();
 
   if (!transactions.length) {
     return next(new ErrorHandler("No transactions found"));
@@ -30,9 +30,7 @@ exports.getAllTransactions = asyncHandler(async (req, res, next) => {
   return SuccessHandler(
     res,
     `Transactions with status ${transactionStatuses} and IDs ${transactionIds} retrieved`,
-    transactions.map((transaction) => ({
-      transactions,
-    }))
+    transactions
   );
 });
 
@@ -49,6 +47,7 @@ exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
         transaction
       );
 });
+
 exports.createNewTransaction = [
   asyncHandler(async (req, res, next) => {
     const { user, status, date } = req.body;

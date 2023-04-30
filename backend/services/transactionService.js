@@ -1,16 +1,20 @@
-const Transaction = require('../models/transaction')
-const ErrorHandler = require('../utils/errorHandler')
-const mongoose = require('mongoose')
-const { v4: uuidv4 } = require('uuid')
+const Transaction = require("../models/transaction");
+const ErrorHandler = require("../utils/errorHandler");
+const mongoose = require("mongoose");
 
 exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
   const skip = (page - 1) * limit;
 
-  let transactionsQuery = Transaction.find();
+  let transactionsQuery = Transaction.find()
+    .populate({ path: "user", select: "name" })
+    .skip(skip)
+    .limit(limit);
 
   // Apply search option
   if (search) {
-    transactionsQuery = transactionsQuery.where("status").equals(new RegExp(search, "i"));
+    transactionsQuery = transactionsQuery
+      .where("status")
+      .equals(new RegExp(search, "i"));
   }
 
   // Apply sort option
@@ -38,46 +42,38 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
       path: "cameras",
       select: "name",
       options: { sort: { name: 1 } },
-    })
-    .select({ cameras: 1 });
+    });
 
-  transactionsQuery = transactionsQuery.skip(skip).limit(limit);
-
-  return transactionsQuery.distinct("cameras").populate({
-    path: "user",
-    select: "name",
-  });
+  return transactionsQuery;
 };
-
 
 exports.getSingleTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
 
   const transaction = await Transaction.findById(id)
     .populate([
       {
-        path: 'user',
-        select: 'name',
+        path: "user",
+        select: "name",
       },
       {
-        path: 'cameras', // change to 'cameras' instead of 'camera'
-        select: 'name',
+        path: "cameras",
+        select: "name",
       },
     ])
-
     .lean()
-    .exec()
+    .exec();
 
   if (!transaction)
-    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`);
 
-  return transaction
-}
+  return transaction;
+};
 exports.CreateTransactionData = async (data) => {
-  const { user, cameras, status, date } = data
+  const { user, cameras, status, date } = data;
   if (!user) {
-    throw new Error('User is required')
+    throw new Error("User is required");
   }
 
   const transaction = await Transaction.create({
@@ -85,41 +81,41 @@ exports.CreateTransactionData = async (data) => {
     cameras,
     status,
     date,
-  })
+  });
 
   return {
     success: true,
     message: `New transaction on ${date} was created with ID ${transaction._id}`,
     transaction: transaction,
-  }
-}
+  };
+};
 
 exports.updateTransactionData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
 
   const updatedTransaction = await Transaction.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
   })
     .lean()
-    .exec()
+    .exec();
 
   if (!updatedTransaction)
-    throw new ErrorHandler(`Transaction not found with ID: ${id}`)
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`);
 
-  return updatedTransaction
-}
+  return updatedTransaction;
+};
 
 exports.deleteTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid transaction ID: ${id}`)
+    throw new ErrorHandler(`Invalid transaction ID: ${id}`);
 
-  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`)
+  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`);
 
   const transaction = await Transaction.findOneAndDelete({ _id: id })
     .lean()
-    .exec()
+    .exec();
 
-  return transaction
-}
+  return transaction;
+};
