@@ -1,4 +1,5 @@
 const Transaction = require("../models/transaction");
+const Comment = require("../models/comment");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
 
@@ -105,11 +106,14 @@ exports.deleteTransactionData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
     throw new ErrorHandler(`Invalid transaction ID: ${id}`);
 
-  if (!id) throw new ErrorHandler(`Transaction not found with ID: ${id}`);
+  const transaction = await Transaction.findOne({ _id: id });
+  if (!transaction)
+    throw new ErrorHandler(`Transaction not found with ID: ${id}`);
 
-  const transaction = await Transaction.findOneAndDelete({ _id: id })
-    .lean()
-    .exec();
+  await Promise.all([
+    Transaction.deleteOne({ _id: id }).lean().exec(),
+    Comment.deleteMany({ transaction: id }).lean().exec(),
+  ]);
 
   return transaction;
 };
