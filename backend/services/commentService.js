@@ -74,4 +74,6 @@ exports.deleteCommentData = async (id) => {
   if (!id) throw new ErrorHandler(`Comment not found with ID: ${id}`);
 
   const comment = await Comment.findOneAndDelete({ _id: id }).lean().exec();
+
+  return comment;
 };
