@@ -27,6 +27,7 @@ import UpdateUserInfo from "./User/UpdateUserInfo";
 import Comments from "./Comments";
 import GetPerComment from "./Comments/GetPerComment";
 import EditComment from "./Comments/EditComment";
+import ShowAllComment from "./Comments/ShowAllComment";
 
 export {
   Home,
@@ -58,4 +59,5 @@ export {
   Comments,
   GetPerComment,
   EditComment,
+  ShowAllComment,
 };
