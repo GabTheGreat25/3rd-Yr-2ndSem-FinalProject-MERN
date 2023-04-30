@@ -8,6 +8,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import PasswordIcon from "@mui/icons-material/Password";
 import InfoIcon from "@mui/icons-material/Info";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
 import { useDispatch } from "react-redux";
 import { logout } from "@/state/auth/authReducer";
 import { toast } from "react-toastify";
@@ -59,6 +61,12 @@ export default function (props) {
 
   const handleUpdatePassword = async () => {
     navigate(`updatePassword/${auth.user._id}`);
+  };
+
+  const [cartCount, setCartCount] = useState(0);
+
+  const handleAddToCart = () => {
+    setCartCount(cartCount + 1);
   };
 
   return (
@@ -122,6 +130,28 @@ export default function (props) {
               Customer Dashboard
             </Typography>
           )}
+
+          {auth?.user?.roles?.includes("Customer") ? (
+            <IconButton
+              onClick={handleAddToCart}
+              sx={{
+                borderRadius: "0.5rem",
+                color: "#f1f2f6",
+                marginRight: "1rem",
+                "&:hover": {
+                  backgroundColor: "#f1f2f6",
+                  color: "#2c3e50",
+                  transition: "transform 0.2s ease-in-out",
+                  transform: "scale(1.1)",
+                },
+              }}
+            >
+              <Badge badgeContent={cartCount}>
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          ) : null}
+
           <Button
             aria-controls="dropdown-menu"
             aria-haspopup="true"
@@ -138,6 +168,11 @@ export default function (props) {
           >
             {selectedButton || `Welcome, ${auth?.user?.name}`}
           </Button>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          ></Menu>
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
