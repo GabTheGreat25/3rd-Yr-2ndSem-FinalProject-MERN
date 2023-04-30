@@ -27,6 +27,11 @@ export default {
       link: "/dashboard/allComment",
       icon: ICONS.SYMBOL.COMMENT,
     },
+    {
+      title: "Transactions",
+      link: "/dashboard/allTransaction",
+      icon: ICONS.SYMBOL.TRANSACTION,
+    },
   ],
   EMPLOYEE: [
     {
@@ -48,6 +53,11 @@ export default {
       title: "Comments",
       link: "/dashboard/allComment",
       icon: ICONS.SYMBOL.COMMENT,
+    },
+    {
+      title: "Transactions",
+      link: "/dashboard/allTransaction",
+      icon: ICONS.SYMBOL.TRANSACTION,
     },
   ],
   CUSTOMER: [
