@@ -14,9 +14,9 @@ const cameras = require("./routes/camera");
 const transactions = require("./routes/transaction");
 const comments = require("./routes/comment");
 const auth = require("./routes/auth");
-
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 4000;
+
 connectDB();
 app.use(logger);
 app.use(cors(corsOptions));

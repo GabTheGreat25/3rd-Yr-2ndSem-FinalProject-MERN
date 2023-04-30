@@ -8,20 +8,14 @@ exports.getAllCamerasData = (page, limit, search, sort, filter) => {
 
   let camerasQuery = Camera.find();
 
-  // Apply search option
-  if (search) {
+  if (search)
     camerasQuery = camerasQuery.where("name").regex(new RegExp(search, "i"));
-  }
 
-  // Apply sort option
   if (sort) {
     const [field, order] = sort.split(":");
     camerasQuery = camerasQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else {
-    camerasQuery = camerasQuery.sort({ createdAt: -1 });
-  }
+  } else camerasQuery = camerasQuery.sort({ createdAt: -1 });
 
-  // Apply filter option
   if (filter) {
     const [field, value] = filter.split(":");
     camerasQuery = camerasQuery.where(field).equals(value);

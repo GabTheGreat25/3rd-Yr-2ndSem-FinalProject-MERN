@@ -10,20 +10,14 @@ exports.getAllNotesData = async (page, limit, search, sort, filter) => {
     .skip(skip)
     .limit(limit);
 
-  // Apply search option
-  if (search) {
+  if (search)
     notesQuery = notesQuery.where("title").regex(new RegExp(search, "i"));
-  }
 
-  // Apply sort option
   if (sort) {
     const [field, order] = sort.split(":");
     notesQuery = notesQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else {
-    notesQuery = notesQuery.sort({ createdAt: -1 });
-  }
+  } else notesQuery = notesQuery.sort({ createdAt: -1 });
 
-  // Apply filter option
   if (filter) {
     const [field, value] = filter.split(":");
     notesQuery = notesQuery.where(field).equals(value);

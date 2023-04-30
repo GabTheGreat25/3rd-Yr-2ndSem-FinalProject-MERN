@@ -10,24 +10,18 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
     .skip(skip)
     .limit(limit);
 
-  // Apply search option
-  if (search) {
+  if (search)
     transactionsQuery = transactionsQuery
       .where("status")
       .equals(new RegExp(search, "i"));
-  }
 
-  // Apply sort option
   if (sort) {
     const [field, order] = sort.split(":");
     transactionsQuery = transactionsQuery.sort({
       [field]: order === "asc" ? 1 : -1,
     });
-  } else {
-    transactionsQuery = transactionsQuery.sort({ createdAt: -1 });
-  }
+  } else transactionsQuery = transactionsQuery.sort({ createdAt: -1 });
 
-  // Apply filter option
   if (filter) {
     const [field, value] = filter.split(":");
     transactionsQuery = transactionsQuery.where(field).equals(value);

@@ -7,20 +7,14 @@ exports.getAllCommentsData = async (page, limit, search, sort, filter) => {
 
   let commentsQuery = Comment.find();
 
-  // Apply search option
-  if (search) {
+  if (search)
     commentsQuery = commentsQuery.where("text").regex(new RegExp(search, "i"));
-  }
 
-  // Apply sort option
   if (sort) {
     const [field, order] = sort.split(":");
     commentsQuery = commentsQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else {
-    commentsQuery = commentsQuery.sort({ createdAt: -1 });
-  }
+  } else commentsQuery = commentsQuery.sort({ createdAt: -1 });
 
-  // Apply filter option
   if (filter) {
     const [field, value] = filter.split(":");
     commentsQuery = commentsQuery.where(field).equals(value);
