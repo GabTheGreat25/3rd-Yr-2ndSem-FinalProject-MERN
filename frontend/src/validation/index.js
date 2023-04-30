@@ -8,6 +8,7 @@ import forgotPasswordValidation from "./forgotpassword";
 import resetPasswordValidation from "./resetPassword";
 import updatePasswordValidation from "./updatePassword";
 import loginUserValidation from "./loginUser";
+import editCommentValidation from "./editComment.js";
 
 export {
   createUserValidation,
@@ -20,4 +21,5 @@ export {
   resetPasswordValidation,
   updatePasswordValidation,
   loginUserValidation,
+  editCommentValidation,
 };
