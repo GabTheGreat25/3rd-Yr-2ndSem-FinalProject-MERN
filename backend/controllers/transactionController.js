@@ -49,6 +49,7 @@ exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewTransaction = [
+  checkRequiredFields(["user", "camera", "status", "date"]),
   asyncHandler(async (req, res, next) => {
     const { user, status, date } = req.body;
     const cameras = req.body.cameras || [];
@@ -68,19 +69,12 @@ exports.createNewTransaction = [
       transactionData
     );
 
-    return SuccessHandler(res, transaction.message, {
-      user: transaction.transaction.user,
-      status: transaction.transaction.status,
-      date: transaction.transaction.date,
-      _id: transaction.transaction._id,
-      __v: transaction.transaction.__v,
-      cameras: transaction.transaction.cameras,
-    });
+    return SuccessHandler(res, transaction.message, transaction);
   }),
 ];
 
 exports.updateTransaction = [
-  checkRequiredFields(["user", "camera", "status", "date"]),
+  checkRequiredFields(["status", "date"]),
   asyncHandler(async (req, res, next) => {
     const transaction = await transactionsService.updateTransactionData(
       req,
