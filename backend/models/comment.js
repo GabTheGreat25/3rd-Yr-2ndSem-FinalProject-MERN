@@ -13,6 +13,10 @@ const commentSchema = new mongoose.Schema(
       required: true,
       ref: "Transaction",
     },
+    transService: {
+      type: String,
+      required: [true, "Please enter a service"],
+    },
     ratings: {
       type: Number,
       required: true,
