@@ -61,5 +61,10 @@ export default {
       link: "/dashboard/comment",
       icon: ICONS.SYMBOL.COMMENT,
     },
+    {
+      title: "Transactions",
+      link: "/dashboard/transaction",
+      icon: ICONS.SYMBOL.TRANSACTION,
+    },
   ],
 };
