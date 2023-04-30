@@ -6,14 +6,11 @@ import {
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const navigate = useNavigate();
-
   const { data, isLoading, isError } = useGetCommentsQuery({
     populate: "transaction",
   });
