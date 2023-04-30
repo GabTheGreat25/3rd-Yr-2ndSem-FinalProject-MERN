@@ -27,7 +27,7 @@ const transactionRoutes = [
   },
   {
     method: METHOD.PATCH,
-    path: PATH.TRANSACTION_ID,
+    path: PATH.EDIT_TRANSACTION_ID,
     roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: transactionController.updateTransaction,
   },
