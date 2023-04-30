@@ -33,6 +33,8 @@ import {
   ShowAllComment,
   Transactions,
   GetPerTransaction,
+  ShowAllTransaction,
+  EditTransaction,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -263,12 +265,28 @@ const router = createBrowserRouter(
           }
         />
         <Route
+          path="allTransaction"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <ShowAllTransaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="transaction/:id"
           element={
             <ProtectedRoute
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <GetPerTransaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="allTransaction/edit/:id"
+          element={
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
+              <EditTransaction />
             </ProtectedRoute>
           }
         />
