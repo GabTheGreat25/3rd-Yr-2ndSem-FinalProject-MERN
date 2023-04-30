@@ -682,7 +682,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"644d455f676e15d400e0b680\",\r\n    \"transService\": \"LBC\",\r\n    \"ratings\": 2,\r\n    \"text\": \"Nice Game\"\r\n}"
+							"raw": "{\r\n    \"transaction\": \"644e17bf4b27267997227506\",\r\n    \"transService\": \"LBC\",\r\n    \"ratings\": 5,\r\n    \"text\": \"Awesome\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -712,7 +712,7 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"transaction\": \"644d44a91f1ac67fa385430d\",\r\n    \"transService\": \"Grab\",\r\n    \"ratings\": 2,\r\n    \"text\": \"GG\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}comment/644de5d8273e9417f067e846"
+						"url": "{{URI}}{{V1}}comment/edit/644de5d8273e9417f067e846"
 					},
 					"response": []
 				},
@@ -986,14 +986,6 @@
 							],
 							"query": [
 								{
-									"key": "page",
-									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								},
-								{
 									"key": "search",
 									"value": "pending",
 									"disabled": true
@@ -1009,6 +1001,14 @@
 									"value": "status:paid",
 									"type": "text",
 									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
 								}
 							]
 						}
@@ -1056,7 +1056,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"user\": \"644d0c5f293d83890f748596\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2066-04-06\"\r\n}\r\n"
+							"raw": "{\r\n  \"user\": \"644cbae6f43dae676162633c\",\r\n  \"cameras\": [\"644cbb2af43dae6761626342\",\"644cbb47f43dae6761626346\"],\r\n  \"status\": \"pending\",\r\n  \"date\": \"2022-03-06\"\r\n}\r\n"
 						},
 						"url": "{{URI}}{{V1}}transactions"
 					},
@@ -1086,7 +1086,7 @@
 							"mode": "raw",
 							"raw": "{\r\n    \"user\": \"64093e01dc5af14a4dac1614\",\r\n    \"camera\": \"640acc877b7d9314b0a71af0\",\r\n    \"status\": \"pending\",\r\n    \"date\": \"2023-03-14\"\r\n}"
 						},
-						"url": "{{URI}}{{V1}}transaction/640bcf4cdd16e1f18eee6486"
+						"url": "{{URI}}{{V1}}transaction/edit/640bcf4cdd16e1f18eee6486"
 					},
 					"response": []
 				},
@@ -1146,7 +1146,7 @@
 	],
 	"variable": [
 		{
-			"id": "db4e0f78-d3fc-4222-8986-446cc301c478",
+			"id": "98008c28-4ad4-4952-b12c-29f8a44153b2",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
