@@ -22,7 +22,7 @@ export default function () {
   });
 
   const userArray = dataTransaction?.details?.flatMap((detail) =>
-    detail.transactions.map((transaction) => transaction.user)
+    detail?.transactions?.map((transaction) => transaction.user)
   );
 
   const filteredData = userArray?.filter(
