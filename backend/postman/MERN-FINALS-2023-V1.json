@@ -682,7 +682,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"644d44a91f1ac67fa385430d\",\r\n    \"tranService\": \"LBC\",\r\n    \"ratings\": 2,\r\n    \"text\": \"Nice Game\"\r\n}"
+							"raw": "{\r\n    \"transaction\": \"644d44a91f1ac67fa385430d\",\r\n    \"transService\": \"LBC\",\r\n    \"ratings\": 2,\r\n    \"text\": \"Nice Game\"\r\n}"
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -1146,7 +1146,7 @@
 	],
 	"variable": [
 		{
-			"id": "c55e108e-989d-44e8-9cef-afb94dee4fc9",
+			"id": "8ca885a1-41e2-47c4-ae47-338e2b20c981",
 			"key": "Bearer",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
 		}
