@@ -22,6 +22,11 @@ export default {
       link: "/dashboard/camera",
       icon: ICONS.SYMBOL.CAMERA,
     },
+    {
+      title: "Comments",
+      link: "/dashboard/allComment",
+      icon: ICONS.SYMBOL.COMMENT,
+    },
   ],
   EMPLOYEE: [
     {
@@ -38,6 +43,11 @@ export default {
       title: "Camera",
       link: "/dashboard/camera",
       icon: ICONS.SYMBOL.CAMERA,
+    },
+    {
+      title: "Comments",
+      link: "/dashboard/allComment",
+      icon: ICONS.SYMBOL.COMMENT,
     },
   ],
   CUSTOMER: [
