@@ -28,6 +28,8 @@ import Comments from "./Comments";
 import GetPerComment from "./Comments/GetPerComment";
 import EditComment from "./Comments/EditComment";
 import ShowAllComment from "./Comments/ShowAllComment";
+import Transactions from "./Transactions";
+import GetPerTransaction from "./Transactions/GetPerTransaction";
 
 export {
   Home,
@@ -60,4 +62,6 @@ export {
   GetPerComment,
   EditComment,
   ShowAllComment,
+  Transactions,
+  GetPerTransaction,
 };
