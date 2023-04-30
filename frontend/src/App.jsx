@@ -31,6 +31,8 @@ import {
   GetPerComment,
   EditComment,
   ShowAllComment,
+  Transactions,
+  GetPerTransaction,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -247,6 +249,26 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute userRoles={[USER.CUSTOMER]}>
               <EditComment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="transaction"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <Transactions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="transaction/:id"
+          element={
+            <ProtectedRoute
+              userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
+            >
+              <GetPerTransaction />
             </ProtectedRoute>
           }
         />
