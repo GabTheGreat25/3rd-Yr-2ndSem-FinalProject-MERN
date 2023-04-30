@@ -1,83 +1,83 @@
-const Comment = require('../models/Comment')
-const ErrorHandler = require('../utils/errorHandler')
-const mongoose = require('mongoose')
+const Comment = require("../models/comment");
+const ErrorHandler = require("../utils/errorHandler");
+const mongoose = require("mongoose");
 
 exports.getAllCommentsData = async (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * limit;
 
-  let commentsQuery = Comment.find()
+  let commentsQuery = Comment.find();
 
   // Apply search option
   if (search) {
-    commentsQuery = commentsQuery.where('text').regex(new RegExp(search, 'i'))
+    commentsQuery = commentsQuery.where("text").regex(new RegExp(search, "i"));
   }
 
   // Apply sort option
   if (sort) {
-    const [field, order] = sort.split(':')
-    commentsQuery = commentsQuery.sort({ [field]: order === 'asc' ? 1 : -1 })
+    const [field, order] = sort.split(":");
+    commentsQuery = commentsQuery.sort({ [field]: order === "asc" ? 1 : -1 });
   } else {
-    commentsQuery = commentsQuery.sort({ createdAt: -1 })
+    commentsQuery = commentsQuery.sort({ createdAt: -1 });
   }
 
   // Apply filter option
   if (filter) {
-    const [field, value] = filter.split(':')
-    commentsQuery = commentsQuery.where(field).equals(value)
+    const [field, value] = filter.split(":");
+    commentsQuery = commentsQuery.where(field).equals(value);
   }
 
   commentsQuery = commentsQuery
-    .populate({ path: 'transaction', select: 'status' })
+    .populate({ path: "transaction", select: "status" })
     .skip(skip)
     .limit(limit)
     .lean()
-    .exec()
+    .exec();
 
-  return commentsQuery
-}
+  return commentsQuery;
+};
 
 exports.getSingleCommentData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid comment ID: ${id}`)
+    throw new ErrorHandler(`Invalid comment ID: ${id}`);
 
   const comment = await Comment.findById(id)
-    .populate({ path: 'transaction', select: 'status' })
+    .populate({ path: "transaction", select: "status" })
     .lean()
-    .exec()
+    .exec();
 
-  if (!comment) throw new ErrorHandler(`Comment not found with ID: ${id}`)
+  if (!comment) throw new ErrorHandler(`Comment not found with ID: ${id}`);
 
-  return comment
-}
+  return comment;
+};
 
 exports.CreateCommentData = async (req, res) => {
-  const comment = await Comment.create(req.body)
+  const comment = await Comment.create(req.body);
 
-  return comment
-}
+  return comment;
+};
 
 exports.updateCommentData = async (req, res, id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid comment ID: ${id}`)
+    throw new ErrorHandler(`Invalid comment ID: ${id}`);
 
   const updatedComment = await Comment.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
   })
     .lean()
-    .exec()
+    .exec();
 
   if (!updatedComment)
-    throw new ErrorHandler(`Comment not found with ID: ${id}`)
+    throw new ErrorHandler(`Comment not found with ID: ${id}`);
 
-  return updatedComment
-}
+  return updatedComment;
+};
 
 exports.deleteCommentData = async (id) => {
   if (!mongoose.Types.ObjectId.isValid(id))
-    throw new ErrorHandler(`Invalid comment ID: ${id}`)
+    throw new ErrorHandler(`Invalid comment ID: ${id}`);
 
-  if (!id) throw new ErrorHandler(`Comment not found with ID: ${id}`)
+  if (!id) throw new ErrorHandler(`Comment not found with ID: ${id}`);
 
-  const comment = await Comment.findOneAndDelete({ _id: id }).lean().exec()
-}
+  const comment = await Comment.findOneAndDelete({ _id: id }).lean().exec();
+};
