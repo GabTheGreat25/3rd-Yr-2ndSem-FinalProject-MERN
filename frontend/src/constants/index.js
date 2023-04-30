@@ -6,5 +6,6 @@ import ROLES from "./roles";
 import USER from "./user";
 import ICONS from "./icons";
 import LINKS from "./links";
+import STATUS from "./status";
 
-export { TAGS, ROUTE, API, ERROR, ROLES, USER, ICONS, LINKS };
+export { TAGS, ROUTE, API, ERROR, ROLES, USER, ICONS, LINKS, STATUS };
