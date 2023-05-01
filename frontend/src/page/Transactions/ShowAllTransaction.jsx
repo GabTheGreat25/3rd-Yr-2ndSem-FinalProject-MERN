@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { DataTable } from "@/component";
 import {
   useGetTransactionsQuery,
@@ -17,6 +17,9 @@ export default function () {
   const { data, isLoading, isError } = useGetTransactionsQuery({
     populate: ["user", "cameras"],
   });
+
+  const [isDeletingId, setIsDeletingId] = useState(null);
+
   const [deleteTransaction, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteTransactionMutation();
 
@@ -49,29 +52,28 @@ export default function () {
     },
   ];
 
+  const filteredData = data?.details?.filter(
+    (transaction) => transaction?._id !== isDeletingId
+  );
+
   const handleDelete = async (id) => {
-    try {
-      if (window.confirm("Are you sure?")) {
-        await deleteTransaction(id).then((response) => {
-          console.log("Response from API:", response);
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          response?.data?.success === true
-            ? toast.success("Transaction deleted successfully!", toastProps)
-            : toast.error("Failed to delete transaction.", toastProps);
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete transaction.", {
+    setIsDeletingId(id);
+    if (window.confirm("Are you sure?")) {
+      const response = await deleteTransaction(id);
+      console.log("Response from API:", response);
+      const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      };
+      if (response?.data?.success === true) {
+        toast.success("Transaction deleted successfully!", toastProps);
+        const newData = data?.details?.filter(
+          (transaction) => transaction?._id !== id
+        );
+        setData({ details: newData });
+      } else toast.error("Failed to delete transaction.", toastProps);
     }
   };
-
   const handleEdit = (id) => {
     navigate(`edit/${id}`);
   };
@@ -98,12 +100,12 @@ export default function () {
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_TRANSACTION_ERROR}</div>
       ) : (
-        data && (
+        filteredData && (
           <DataTable
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data?.details}
+            data={filteredData}
           />
         )
       )}

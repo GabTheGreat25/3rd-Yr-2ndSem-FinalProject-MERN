@@ -18,6 +18,7 @@ export default function () {
   } = useGetNotesQuery({
     populate: "user",
   });
+
   const [isDeletingId, setIsDeletingId] = useState(null);
 
   const auth = useSelector((state) => state.auth);

@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { DataTable } from "@/component";
 import {
   useGetCommentsQuery,
@@ -14,6 +14,9 @@ export default function () {
   const { data, isLoading, isError } = useGetCommentsQuery({
     populate: "transaction",
   });
+
+  const [isDeletingId, setIsDeletingId] = useState(null);
+
   const [deleteComment, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteCommentMutation();
 
@@ -44,29 +47,26 @@ export default function () {
     },
   ];
 
+  const filteredData = data?.details?.filter(
+    (comment) => comment?._id !== isDeletingId
+  );
+
   const handleDelete = async (id) => {
-    try {
-      if (window.confirm("Are you sure?")) {
-        await deleteComment(id).then((response) => {
-          console.log("Response from API:", response);
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          response?.data?.success === true
-            ? toast.success("Comment deleted successfully!", toastProps)
-            : toast.error("Failed to delete comment.", toastProps);
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete comment.", {
+    setIsDeletingId(id);
+    if (window.confirm("Are you sure?")) {
+      const response = await deleteComment(id);
+      console.log("Response from API:", response);
+      const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      };
+      if (response?.data?.success === true) {
+        toast.success("Comment deleted successfully!", toastProps);
+        const newData = data?.details?.filter((comment) => comment?._id !== id);
+        setData({ details: newData });
+      } else toast.error("Failed to delete comment.", toastProps);
     }
   };
-
   const actions = [
     {
       onClick: handleDelete,
@@ -85,12 +85,12 @@ export default function () {
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_COMMENT_ERROR}</div>
       ) : (
-        data && (
+        filteredData && (
           <DataTable
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data?.details}
+            data={filteredData}
           />
         )
       )}
