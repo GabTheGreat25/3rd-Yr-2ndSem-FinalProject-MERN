@@ -7,6 +7,7 @@ import GetAllCustomer from "./GetAllCustomer";
 import ShowActiveUser from "./ShowActiveUser";
 import AllUserCamera from "./AllUserCamera";
 import { useSelector } from "react-redux";
+import CreateTransaction from "../Transactions/createTransaction";
 
 export default function () {
   const auth = useSelector((state) => state.auth);
@@ -36,7 +37,11 @@ export default function () {
           </Box>
         </>
       )}
-      {auth?.user?.roles?.includes("Customer") && <div>For Customer</div>}
+      {auth?.user?.roles?.includes("Customer") && (
+        <>
+          <CreateTransaction />
+        </>
+      )}
     </>
   );
 }
