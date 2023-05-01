@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   useGetCamerasQuery,
   useAddTransactionMutation,
+  useGetTransactionsQuery,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
@@ -16,9 +17,12 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
+  const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCamerasQuery();
+  const { refetch: refetchTransactions } = useGetTransactionsQuery();
   const [cartItems, setCartItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
@@ -59,7 +63,8 @@ export default function () {
         status: "pending",
         date: transactionDate,
       });
-      console.log(newTransaction);
+      await refetchTransactions();
+      navigate("/dashboard/comment/create");
       setCartItems([]);
       handleClose();
     } catch (err) {
