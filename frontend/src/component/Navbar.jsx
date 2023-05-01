@@ -18,6 +18,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector } from "react-redux";
+import { Avatar } from "@mui/material";
 
 export default function (props) {
   const navigate = useNavigate();
@@ -68,6 +69,10 @@ export default function (props) {
   const handleAddToCart = () => {
     setCartCount(cartCount + 1);
   };
+
+  const randomIndex = auth?.user?.image?.length
+    ? Math.floor(Math.random() * auth.user.image.length)
+    : 0;
 
   return (
     <>
@@ -166,7 +171,16 @@ export default function (props) {
               },
             }}
           >
-            {selectedButton || `Welcome, ${auth?.user?.name}`}
+            {selectedButton || (
+              <>
+                <Avatar
+                  alt="User avatar"
+                  src={auth?.user?.image[randomIndex]?.url}
+                  sx={{ width: 32, height: 32, mr: 1 }}
+                />
+                Welcome, {auth?.user?.name}
+              </>
+            )}
           </Button>
           <Menu
             anchorEl={anchorEl}
