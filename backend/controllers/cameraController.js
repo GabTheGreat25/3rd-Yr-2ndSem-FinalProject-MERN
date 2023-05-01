@@ -63,7 +63,7 @@ exports.createNewCamera = [
 
 exports.updateCamera = [
   upload.array("image"),
-  checkRequiredFields(["user", "name", "text", "price"]),
+  checkRequiredFields(["user", "name", "text", "price", "image"]),
   asyncHandler(async (req, res, next) => {
     const camera = await camerasService.updateCameraData(
       req,
