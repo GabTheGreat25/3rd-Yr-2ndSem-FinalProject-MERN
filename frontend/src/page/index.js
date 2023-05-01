@@ -34,6 +34,7 @@ import ShowAllTransaction from "./Transactions/ShowAllTransaction";
 import EditTransaction from "./Transactions/EditTransaction";
 import CreateTransaction from "./Transactions/CreateTransaction";
 import CartPreview from "./Transactions/CartPreview";
+import CreateComment from "./Comments/CreateComment";
 
 export {
   Home,
@@ -72,4 +73,5 @@ export {
   EditTransaction,
   CreateTransaction,
   CartPreview,
+  CreateComment,
 };
