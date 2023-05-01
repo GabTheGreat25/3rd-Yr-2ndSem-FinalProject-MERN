@@ -8,6 +8,9 @@ import ImagePreview from "./ImagePreview";
 import ListData from "./ListData";
 import ProtectedRoute from "./ProtectedRoute";
 import UnprotectedRoute from "./UnprotectedRoute";
+import Breadcrumb from "./Breadcrumb";
+import Icons from "./Icons";
+import WelcomeNav from "./WelcomeNav";
 
 export {
   Navbar,
@@ -20,4 +23,7 @@ export {
   ListData,
   ProtectedRoute,
   UnprotectedRoute,
+  Breadcrumb,
+  Icons,
+  WelcomeNav,
 };
