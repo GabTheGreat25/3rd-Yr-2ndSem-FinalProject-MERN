@@ -69,9 +69,10 @@ export default function (props) {
     setCartCount(cartCount + 1);
   };
 
-  const randomIndex = auth?.user?.image?.length
-    ? Math.floor(Math.random() * auth.user.image.length)
-    : 0;
+  const randomIndex =
+    auth?.user?.image && auth?.user?.image.length
+      ? Math.floor(Math.random() * auth.user.image.length)
+      : null;
 
   return (
     <>
@@ -174,7 +175,11 @@ export default function (props) {
               <>
                 <Avatar
                   alt={auth?.user?.image?.originalname}
-                  src={auth?.user?.image[randomIndex]?.url}
+                  src={
+                    auth?.user?.image && auth?.user?.image?.length
+                      ? auth?.user?.image[randomIndex]?.url
+                      : null
+                  }
                   key={auth?.user?.image?.public_id}
                   sx={{ width: 32, height: 32, mr: 1 }}
                 />
