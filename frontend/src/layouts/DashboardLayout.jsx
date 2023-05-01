@@ -24,7 +24,7 @@ export default function () {
           component="main"
           sx={{
             flexGrow: 1,
-            height: "auto",
+            height: "90vh",
             overflow: "auto",
             marginBottom: "2rem",
           }}
