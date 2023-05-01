@@ -6,6 +6,7 @@ import GetAllEmployee from "./GetAllEmployee";
 import GetAllCustomer from "./GetAllCustomer";
 import ShowActiveUser from "./ShowActiveUser";
 import AllUserCamera from "./AllUserCamera";
+import MonthlySales from "./MonthlySales";
 import { useSelector } from "react-redux";
 import CreateTransaction from "../Transactions/createTransaction";
 
@@ -34,6 +35,9 @@ export default function () {
           </Box>
           <Box sx={{ mb: "1rem", mt: ".5rem" }}>
             <AllUserCamera />
+          </Box>
+          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+            <MonthlySales />
           </Box>
         </>
       )}
