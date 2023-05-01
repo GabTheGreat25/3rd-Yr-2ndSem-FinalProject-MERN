@@ -57,7 +57,7 @@ export default function () {
 
   return (
     <>
-      {!isLoading ? (
+      {!isLoading || transactionsLoading ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
