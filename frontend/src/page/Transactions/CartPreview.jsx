@@ -1,5 +1,4 @@
 export default function ({ cartItems, onRemoveFromCart }) {
-  console.log(cartItems);
   return (
     <div className="cartPreview">
       <h3>Cart Preview</h3>
