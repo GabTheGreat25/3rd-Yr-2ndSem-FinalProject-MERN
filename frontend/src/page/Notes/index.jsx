@@ -2,7 +2,7 @@ import { useState } from "react";
 import { DataTable, Button } from "@/component";
 import { useGetNotesQuery, useDeleteNoteMutation } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
+import { USER, ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -90,7 +90,7 @@ export default function () {
 
   return (
     <>
-      {auth?.user?.roles?.includes("Admin") && (
+      {auth?.user?.roles?.includes(USER.ADMIN) && (
         <Button
           title="Add Note"
           onClick={() => {
