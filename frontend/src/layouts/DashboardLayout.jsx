@@ -24,8 +24,9 @@ export default function () {
           component="main"
           sx={{
             flexGrow: 1,
-            height: "100vh",
+            height: "auto",
             overflow: "auto",
+            marginBottom: "2rem",
           }}
         >
           <Toolbar />
