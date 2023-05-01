@@ -2,7 +2,12 @@ import { Box, Typography } from "@mui/material";
 import Button from "./Button";
 
 export default function (props) {
-  const { name, price, text, onAddToCart } = props;
+  const { item, onAddToCart, isInCart } = props;
+
+  const handleAddToCart = () => {
+    onAddToCart(item);
+  };
+
   return (
     <>
       <Box
@@ -33,15 +38,15 @@ export default function (props) {
               color="inherit"
               gutterBottom
             >
-              {name}
+              {item.name}
             </Typography>
 
             <Typography variant="h5" color="inherit" paragraph>
-              {`${price || 0} PHP`}
+              {`${item.price || 0} PHP`}
             </Typography>
           </Box>
           <Typography variant="h5" color="inherit" paragraph>
-            {text}
+            {item.description}
           </Typography>
         </Box>
         <Box
@@ -51,7 +56,11 @@ export default function (props) {
             gap: 4,
           }}
         >
-          <Button title="Add to Cart" onClick={onAddToCart} />
+          {isInCart ? (
+            <Typography color="success.main">In Cart</Typography>
+          ) : (
+            <Button title="Add to Cart" onClick={handleAddToCart} />
+          )}
         </Box>
       </Box>
     </>
