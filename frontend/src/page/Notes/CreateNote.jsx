@@ -27,12 +27,14 @@ export default function () {
   const auth = useSelector((state) => state.auth);
 
   const filteredData = data?.details?.filter(
-    (user) => user._id !== auth.user._id
+    (user) => user?._id !== auth?.user?._id
   );
 
   const users = filteredData ?? [];
 
-  const employees = users.filter((user) => user.roles.includes(USER.EMPLOYEE));
+  const employees = users?.filter((user) =>
+    user?.roles?.includes(USER.EMPLOYEE)
+  );
 
   const formik = useFormik({
     initialValues: {

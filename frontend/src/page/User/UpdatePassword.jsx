@@ -40,7 +40,7 @@ export default function () {
     onSubmit: (values) => {
       const { oldPassword, newPassword, confirmPassword } = values;
       updatePassword({
-        id: auth.user._id,
+        id: auth?.user?._id,
         oldPassword,
         newPassword,
         confirmPassword,

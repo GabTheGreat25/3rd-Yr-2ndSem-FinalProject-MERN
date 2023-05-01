@@ -31,8 +31,8 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/note/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/note/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },
@@ -48,7 +48,7 @@ export default function () {
     },
     {
       key: "user",
-      operation: (value) => (value ? value.name : ""),
+      operation: (value) => (value ? value?.name : ""),
     },
   ];
 

@@ -49,8 +49,7 @@ export default function () {
         formData.append("image", file);
       });
       formData.append("active", values.active.toString());
-
-      updateUser({ id: data.details._id, payload: formData })
+      updateUser({ id: data?.details?._id, payload: formData })
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {

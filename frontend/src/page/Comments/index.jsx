@@ -25,7 +25,7 @@ export default function () {
   });
 
   const filteredTransactions = transactionsData?.details?.filter(
-    (detail) => detail.user?._id === auth.user?._id
+    (detail) => detail?.user?._id === auth?.user?._id
   );
 
   const filteredComments = data?.details?.filter((comment) =>
@@ -39,8 +39,8 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/comment/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/comment/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },
@@ -56,7 +56,7 @@ export default function () {
     },
     {
       key: "transaction",
-      operation: (value) => (value ? value.status : ""),
+      operation: (value) => (value ? value?.status : ""),
     },
   ];
 

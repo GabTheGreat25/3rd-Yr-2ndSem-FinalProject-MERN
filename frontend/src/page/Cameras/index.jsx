@@ -27,8 +27,8 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/camera/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/camera/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },

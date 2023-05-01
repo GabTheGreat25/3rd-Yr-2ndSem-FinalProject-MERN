@@ -26,14 +26,14 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/transaction/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/transaction/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },
     {
       key: "user",
-      operation: (value) => (value ? value.name : ""),
+      operation: (value) => (value ? value?.name : ""),
     },
     {
       key: "cameras",

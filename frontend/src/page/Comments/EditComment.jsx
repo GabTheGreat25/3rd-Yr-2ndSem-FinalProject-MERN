@@ -31,7 +31,7 @@ export default function () {
     validationSchema: editCommentValidation,
     onSubmit: (values) => {
       updateComment({
-        id: data.details._id,
+        id: data?.details?._id,
         payload: values,
       })
         .then((response) => {

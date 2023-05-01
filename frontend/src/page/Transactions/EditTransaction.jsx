@@ -32,7 +32,7 @@ export default function () {
     },
     validationSchema: editTransactionValidation,
     onSubmit: (values) => {
-      updateTransaction({ id: data.details._id, payload: values })
+      updateTransaction({ id: data?.details?._id, payload: values })
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {

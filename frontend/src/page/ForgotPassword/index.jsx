@@ -24,7 +24,7 @@ export default function () {
     },
     validationSchema: forgotPasswordValidation,
     onSubmit: (values) => {
-      forgotPassword(values.email)
+      forgotPassword(values?.email)
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {

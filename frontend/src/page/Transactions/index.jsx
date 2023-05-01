@@ -15,7 +15,7 @@ export default function () {
   });
 
   const filteredTransactions = data?.details?.filter(
-    (detail) => detail.user?._id === auth.user?._id
+    (detail) => detail?.user?._id === auth?.user?._id
   );
 
   const headers = ["ID", "Customer", "Cameras", "Status", "Date"];
@@ -24,14 +24,14 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/transaction/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/transaction/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },
     {
       key: "user",
-      operation: (value) => (value ? value.name : ""),
+      operation: (value) => (value ? value?.name : ""),
     },
     {
       key: "cameras",

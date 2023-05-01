@@ -23,8 +23,8 @@ export default function () {
     {
       key: "_id",
       operation: (value, row) => (
-        <Link to={`/dashboard/comment/${row._id}`} className="link">
-          {row._id}
+        <Link to={`/dashboard/comment/${row?._id}`} className="link">
+          {row?._id}
         </Link>
       ),
     },
@@ -40,7 +40,7 @@ export default function () {
     },
     {
       key: "transaction",
-      operation: (value) => (value ? value.status : ""),
+      operation: (value) => (value ? value?.status : ""),
     },
   ];
 

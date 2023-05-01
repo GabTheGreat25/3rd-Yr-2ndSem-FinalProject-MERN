@@ -32,8 +32,10 @@ export default function () {
 
   const { data: getAllNote } = useGetUsersQuery();
   const users = getAllNote?.details ?? [];
-  const employees = users.filter((user) => user.roles?.includes(USER.EMPLOYEE));
-  const associatedUser = users.find(
+  const employees = users?.filter((user) =>
+    user?.roles?.includes(USER.EMPLOYEE)
+  );
+  const associatedUser = users?.find(
     (user) => user?._id === data?.details?.user?._id
   );
 
@@ -49,7 +51,7 @@ export default function () {
     },
     validationSchema: editNoteValidation,
     onSubmit: (values) => {
-      updateNote({ id: data.details._id, payload: values })
+      updateNote({ id: data?.details?._id, payload: values })
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {

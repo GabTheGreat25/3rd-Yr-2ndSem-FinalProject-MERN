@@ -25,7 +25,7 @@ export default function () {
   const [addCamera, isLoading, isError] = useAddCameraMutation();
   const { data } = useGetUsersQuery();
   const users = data?.details ?? [];
-  const admins = users.filter((user) => user.roles.includes(USER.ADMIN));
+  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN));
 
   const formik = useFormik({
     initialValues: {
