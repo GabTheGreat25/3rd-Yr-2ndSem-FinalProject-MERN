@@ -36,6 +36,7 @@ import {
   ShowAllTransaction,
   EditTransaction,
   CreateTransaction,
+  CartPreview,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -296,6 +297,14 @@ const router = createBrowserRouter(
           element={
             <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
               <EditTransaction />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="cart"
+          element={
+            <ProtectedRoute userRoles={[USER.CUSTOMER]}>
+              <CartPreview />
             </ProtectedRoute>
           }
         />
