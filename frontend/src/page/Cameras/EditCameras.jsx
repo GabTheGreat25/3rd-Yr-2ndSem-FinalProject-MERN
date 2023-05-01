@@ -32,8 +32,8 @@ export default function () {
 
   const { data: getAllCamera } = useGetUsersQuery();
   const users = getAllCamera?.details ?? [];
-  const admins = users.filter((user) => user.roles?.includes(USER.ADMIN));
-  const associatedUser = users.find(
+  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN));
+  const associatedUser = users?.find(
     (user) => user?._id === data?.details?.user?._id
   );
 
@@ -58,7 +58,7 @@ export default function () {
       Array.from(values.image).forEach((file) => {
         formData.append("image", file);
       });
-      updateCamera({ id: data.details._id, payload: values })
+      updateCamera({ id: data?.details?._id, payload: formData })
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {
