@@ -11,6 +11,9 @@ import UnprotectedRoute from "./UnprotectedRoute";
 import Breadcrumb from "./Breadcrumb";
 import Icons from "./Icons";
 import WelcomeNav from "./WelcomeNav";
+import CameraDetails from "./CameraDetails";
+import CameraImages from "./CameraImages";
+import CameraLayout from "./CameraLayout";
 
 export {
   Navbar,
@@ -26,4 +29,7 @@ export {
   Breadcrumb,
   Icons,
   WelcomeNav,
+  CameraDetails,
+  CameraImages,
+  CameraLayout,
 };
