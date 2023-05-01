@@ -37,6 +37,7 @@ import {
   EditTransaction,
   CreateTransaction,
   CartPreview,
+  CreateComment,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -227,6 +228,14 @@ const router = createBrowserRouter(
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <Comments />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="comment/create"
+          element={
+            <ProtectedRoute userRoles={[USER.CUSTOMER]}>
+              <CreateComment />
             </ProtectedRoute>
           }
         />
