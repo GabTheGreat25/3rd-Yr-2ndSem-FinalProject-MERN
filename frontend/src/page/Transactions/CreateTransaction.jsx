@@ -6,13 +6,20 @@ import { CameraLayout } from "@/component";
 
 export default function () {
   const { data, isLoading, isError } = useGetCamerasQuery();
-  console.log(data.details);
 
   const handleOnAddToCart = () => {};
 
   return (
     <>
-      <CameraLayout data={data?.details} onAddToCart={handleOnAddToCart} />
+      {isLoading ? (
+        <div className="loader">
+          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+        </div>
+      ) : isError ? (
+        <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
+      ) : (
+        <CameraLayout data={data?.details} onAddToCart={handleOnAddToCart} />
+      )}
     </>
   );
 }

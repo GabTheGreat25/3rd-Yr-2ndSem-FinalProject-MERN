@@ -8,8 +8,8 @@ export default function (props) {
 
   return (
     <>
-      {data.map((detail) => (
-        <Paper key={detail._id} sx={{ mb: 6 }}>
+      {data?.map((detail) => (
+        <Paper key={detail?._id} sx={{ mb: 6 }}>
           <Box
             sx={{
               p: 5,
@@ -18,11 +18,11 @@ export default function (props) {
               gap: 5,
             }}
           >
-            <CameraImages image={detail.image} />
+            <CameraImages image={detail?.image} />
             <CameraDetails
-              name={detail.name}
-              price={detail.price}
-              description={detail.description}
+              name={detail?.name}
+              price={detail?.price}
+              description={detail?.description}
               onAddToCart={onAddToCart}
             />
           </Box>

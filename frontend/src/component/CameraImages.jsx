@@ -32,7 +32,7 @@ export default function (props) {
           flexWrap: "wrap",
         }}
       >
-        {image.map((imageItem, index) => (
+        {image?.map((imageItem, index) => (
           <CardMedia
             key={index}
             component="img"
