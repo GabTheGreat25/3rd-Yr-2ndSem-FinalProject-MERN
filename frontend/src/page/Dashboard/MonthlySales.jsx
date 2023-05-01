@@ -11,7 +11,6 @@ import { useGetTransactionsQuery } from "@/state/api/reducer";
 
 export default function MonthlySalesChart() {
   const { data, isLoading } = useGetTransactionsQuery();
-  console.log(data);
   if (isLoading) return <div>Loading...</div>;
 
   const monthNames = [
