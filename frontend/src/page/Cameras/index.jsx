@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { DataTable, Button } from "@/component";
 import {
   useGetCamerasQuery,
@@ -9,6 +9,8 @@ import { USER, ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ export default function () {
   } = useGetCamerasQuery({
     populate: "user",
   });
+
+  const [isDeletingId, setIsDeletingId] = useState(null);
 
   const [deleteCamera, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteCameraMutation();
@@ -66,26 +70,24 @@ export default function () {
     },
   ];
 
+  const filteredData = data?.details?.filter(
+    (camera) => camera?._id !== isDeletingId
+  );
+
   const handleDelete = async (id) => {
-    try {
-      if (window.confirm("Are you sure?")) {
-        await deleteCamera(id).then((response) => {
-          console.log("Response from API:", response);
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          response?.data?.success === true
-            ? toast.success("Camera deleted successfully!", toastProps)
-            : toast.error("Failed to delete camera.", toastProps);
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete camera.", {
+    setIsDeletingId(id);
+    if (window.confirm("Are you sure?")) {
+      const response = await deleteCamera(id);
+      console.log("Response from API:", response);
+      const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      };
+      if (response?.data?.success === true) {
+        toast.success("Camera deleted successfully!", toastProps);
+        const newData = data?.details?.filter((camera) => camera?._id !== id);
+        setData({ details: newData });
+      } else toast.error("Failed to delete camera.", toastProps);
     }
   };
 
@@ -123,12 +125,12 @@ export default function () {
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_CAMERA_ERROR}</div>
       ) : (
-        data && (
+        filteredData && (
           <DataTable
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data?.details}
+            data={filteredData}
           />
         )
       )}
