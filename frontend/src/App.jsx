@@ -35,6 +35,7 @@ import {
   GetPerTransaction,
   ShowAllTransaction,
   EditTransaction,
+  CreateTransaction,
 } from "@/page";
 import { ProtectedRoute, UnprotectedRoute } from "./component";
 import { USER } from "./constants";
@@ -261,6 +262,14 @@ const router = createBrowserRouter(
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <Transactions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="transaction/create"
+          element={
+            <ProtectedRoute userRoles={[USER.CUSTOMER]}>
+              <CreateTransaction />
             </ProtectedRoute>
           }
         />
