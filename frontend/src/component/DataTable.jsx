@@ -12,7 +12,6 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Pagination from "@mui/material/Pagination";
 import { generateKey } from "../services/generateKey";
 import { splitKey, deconstruct, manipulate } from "../services/dataTable";
-import { Fragment } from "react";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
 
@@ -62,10 +61,10 @@ export default function (props) {
     });
 
     newFilteredData.sort((a, b) => {
-      if (a[key] < b[key]) {
+      if (a[keys] < b[keys]) {
         return direction === "asc" ? -1 : 1;
       }
-      if (a[key] > b[key]) {
+      if (a[keys] > b[keys]) {
         return direction === "asc" ? 1 : -1;
       }
       return 0;
@@ -94,14 +93,6 @@ export default function (props) {
   const endIndex = startIndex + rowsPerPage;
   const paginatedData =
     filteredData && filteredData.slice(startIndex, endIndex);
-
-  const handleSearch = () => {
-    // Reset to first page when searching
-    setPage(1);
-
-    // Filter the data based on the search query
-    filter(searchQuery);
-  };
 
   return (
     <TableContainer component={Paper}>
