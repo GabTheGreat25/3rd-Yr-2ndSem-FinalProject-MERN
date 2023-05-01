@@ -49,7 +49,7 @@ exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewTransaction = [
-  checkRequiredFields(["user", "camera", "status", "date"]),
+  checkRequiredFields(["user", "cameras", "status", "date"]),
   asyncHandler(async (req, res, next) => {
     const { user, status, date } = req.body;
     const cameras = req.body.cameras || [];
