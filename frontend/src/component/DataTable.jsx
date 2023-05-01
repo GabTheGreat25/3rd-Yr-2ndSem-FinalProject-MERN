@@ -40,7 +40,7 @@ export default function (props) {
   const [filteredData, setFilteredData] = React.useState(data || []);
 
   const [searchQuery, setSearchQuery] = React.useState("");
-  const rowsPerPage = 2;
+  const rowsPerPage = 4;
   const [sorting, setSorting] = React.useState({
     column: null,
     key: null,
