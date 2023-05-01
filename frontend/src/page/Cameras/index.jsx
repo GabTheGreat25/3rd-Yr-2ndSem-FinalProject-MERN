@@ -5,9 +5,10 @@ import {
   useDeleteCameraMutation,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
+import { USER, ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function () {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ export default function () {
 
   const [deleteCamera, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteCameraMutation();
+
+  const auth = useSelector((state) => state.auth);
 
   const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
   const keys = [
@@ -103,12 +106,14 @@ export default function () {
 
   return (
     <>
-      <Button
-        title="Add Camera"
-        onClick={() => {
-          navigate("/dashboard/camera/create");
-        }}
-      />
+      {auth?.user?.roles?.includes(USER.ADMIN) && (
+        <Button
+          title="Add Camera"
+          onClick={() => {
+            navigate("/dashboard/camera/create");
+          }}
+        />
+      )}
       {isLoading || isDeleting ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
