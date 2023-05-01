@@ -25,7 +25,6 @@ export default function (props) {
   const dispatch = useDispatch();
 
   const auth = useSelector((state) => state.auth);
-
   const { open, toggleDrawer } = props;
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -174,8 +173,9 @@ export default function (props) {
             {selectedButton || (
               <>
                 <Avatar
-                  alt="User avatar"
+                  alt={auth?.user?.image?.originalname}
                   src={auth?.user?.image[randomIndex]?.url}
+                  key={auth?.user?.image?.public_id}
                   sx={{ width: 32, height: 32, mr: 1 }}
                 />
                 Welcome, {auth?.user?.name}
