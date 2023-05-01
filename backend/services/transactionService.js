@@ -35,7 +35,7 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
     })
     .populate({
       path: "cameras",
-      select: "name",
+      select: "name price",
       options: { sort: { name: 1 } },
     });
 
