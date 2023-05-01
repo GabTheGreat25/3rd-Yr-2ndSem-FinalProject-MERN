@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { DataTable, Button } from "@/component";
 import { useGetNotesQuery, useDeleteNoteMutation } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
@@ -18,6 +18,9 @@ export default function () {
   } = useGetNotesQuery({
     populate: "user",
   });
+  const [isDeletingId, setIsDeletingId] = useState(null);
+
+  const auth = useSelector((state) => state.auth);
 
   const [deleteNote, { isLoading: isDeleting, isError: isDeleteError }] =
     useDeleteNoteMutation();
@@ -49,26 +52,24 @@ export default function () {
     },
   ];
 
+  const filteredData = data?.details?.filter(
+    (note) => note?._id !== isDeletingId
+  );
+
   const handleDelete = async (id) => {
-    try {
-      if (window.confirm("Are you sure?")) {
-        await deleteNote(id).then((response) => {
-          console.log("Response from API:", response);
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          response?.data?.success === true
-            ? toast.success("Note deleted successfully!", toastProps)
-            : toast.error("Failed to delete note.", toastProps);
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete note.", {
+    setIsDeletingId(id);
+    if (window.confirm("Are you sure?")) {
+      const response = await deleteNote(id);
+      console.log("Response from API:", response);
+      const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      };
+      if (response?.data?.success === true) {
+        toast.success("Note deleted successfully!", toastProps);
+        const newData = data?.details?.filter((note) => note?._id !== id);
+        setData({ details: newData });
+      } else toast.error("Failed to delete note.", toastProps);
     }
   };
 
@@ -86,8 +87,6 @@ export default function () {
       title: "Delete",
     },
   ];
-
-  const auth = useSelector((state) => state.auth);
 
   return (
     <>
@@ -108,12 +107,12 @@ export default function () {
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_NOTE_ERROR}</div>
       ) : (
-        data && (
+        filteredData && (
           <DataTable
             headers={headers}
             keys={keys}
             actions={actions}
-            data={data?.details}
+            data={filteredData}
           />
         )
       )}
