@@ -10,6 +10,7 @@ import updatePasswordValidation from "./updatePassword";
 import loginUserValidation from "./loginUser";
 import editCommentValidation from "./editComment";
 import editTransactionValidation from "./editTransaction";
+import createCommentValidation from "./createComment";
 
 export {
   createUserValidation,
@@ -24,4 +25,5 @@ export {
   loginUserValidation,
   editCommentValidation,
   editTransactionValidation,
+  createCommentValidation,
 };
