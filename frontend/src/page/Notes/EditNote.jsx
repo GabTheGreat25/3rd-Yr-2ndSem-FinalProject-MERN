@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   TextField,
   Typography,
@@ -9,71 +9,69 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
-} from "@mui/material";
+} from '@mui/material'
 import {
   useUpdateNoteMutation,
   useGetNoteByIdQuery,
   useGetUsersQuery,
-} from "@/state/api/reducer";
-import { useFormik } from "formik";
-import { editNoteValidation } from "../../validation";
-import { useNavigate, useParams } from "react-router-dom";
-import { USER, ERROR } from "../../constants";
-import { PacmanLoader } from "react-spinners";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@/state/api/reducer'
+import { useFormik } from 'formik'
+import { editNoteValidation } from '../../validation'
+import { useNavigate, useParams } from 'react-router-dom'
+import { USER, ERROR } from '../../constants'
+import { PacmanLoader } from 'react-spinners'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function () {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const { data, isLoading, isError } = useGetNoteByIdQuery(id);
+  const { data, isLoading, isError } = useGetNoteByIdQuery(id)
 
-  const { data: getAllNote } = useGetUsersQuery();
-  const users = getAllNote?.details ?? [];
+  const { data: getAllNote } = useGetUsersQuery()
+  const users = getAllNote?.details ?? []
   const employees = users?.filter((user) =>
-    user?.roles?.includes(USER.EMPLOYEE)
-  );
+    user?.roles?.includes(USER.EMPLOYEE),
+  )
   const associatedUser = users?.find(
-    (user) => user?._id === data?.details?.user?._id
-  );
+    (user) => user?._id === data?.details?.user?._id,
+  )
 
-  const [updateNote] = useUpdateNoteMutation();
+  const [updateNote] = useUpdateNoteMutation()
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: data?.details?.title || "",
-      text: data?.details?.text || "",
-      user: associatedUser?._id || "",
+      title: data?.details?.title || '',
+      text: data?.details?.text || '',
+      user: associatedUser?._id || '',
       completed: data?.details?.completed || false,
     },
     validationSchema: editNoteValidation,
     onSubmit: (values) => {
       updateNote({ id: data?.details?._id, payload: values })
         .then((response) => {
-          console.log("Response from API:", response);
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          };
+          }
           if (response?.data?.success === true) {
-            navigate("/dashboard/note");
-            toast.success("Note edited successfully!", toastProps);
+            navigate('/dashboard/note')
+            toast.success('Note edited successfully!', toastProps)
           } else {
-            toast.error("Error while editing note.", toastProps);
+            toast.error('Error while editing note.', toastProps)
           }
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Error while editing note.", {
+          toast.error('Error while editing note.', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
-        });
+          })
+        })
     },
-  });
+  })
 
   return (
     <>
@@ -144,7 +142,7 @@ export default function () {
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
                         </MenuItem>
-                      );
+                      )
                     })}
                 </Select>
                 {formik.touched.user && formik.errors.user && (
@@ -174,7 +172,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: "1rem" }}
+              sx={{ mt: '1rem' }}
             >
               Submit
             </Button>
@@ -182,5 +180,5 @@ export default function () {
         </>
       )}
     </>
-  );
+  )
 }

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef } from 'react'
 import {
   TextField,
   Typography,
@@ -7,80 +7,78 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
+} from '@mui/material'
 import {
   useUpdateCameraMutation,
   useGetCameraByIdQuery,
   useGetUsersQuery,
-} from "@/state/api/reducer";
-import { useFormik } from "formik";
-import { editCameraValidation } from "../../validation";
-import { useNavigate, useParams } from "react-router-dom";
-import { USER, ERROR } from "../../constants";
-import { PacmanLoader } from "react-spinners";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@/state/api/reducer'
+import { useFormik } from 'formik'
+import { editCameraValidation } from '../../validation'
+import { useNavigate, useParams } from 'react-router-dom'
+import { USER, ERROR } from '../../constants'
+import { PacmanLoader } from 'react-spinners'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function () {
-  const fileInputRef = useRef();
+  const fileInputRef = useRef()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const { id } = useParams();
+  const { id } = useParams()
 
-  const { data, isLoading, isError } = useGetCameraByIdQuery(id);
+  const { data, isLoading, isError } = useGetCameraByIdQuery(id)
 
-  const { data: getAllCamera } = useGetUsersQuery();
-  const users = getAllCamera?.details ?? [];
-  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN));
+  const { data: getAllCamera } = useGetUsersQuery()
+  const users = getAllCamera?.details ?? []
+  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN))
   const associatedUser = users?.find(
-    (user) => user?._id === data?.details?.user?._id
-  );
+    (user) => user?._id === data?.details?.user?._id,
+  )
 
-  const [updateCamera] = useUpdateCameraMutation();
+  const [updateCamera] = useUpdateCameraMutation()
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: data?.details?.name || "",
-      text: data?.details?.text || "",
-      price: data?.details?.price || "",
+      name: data?.details?.name || '',
+      text: data?.details?.text || '',
+      price: data?.details?.price || '',
       image: data?.details?.image || [],
-      user: associatedUser?._id || "",
+      user: associatedUser?._id || '',
     },
     validationSchema: editCameraValidation,
     onSubmit: (values) => {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("text", values.text);
-      formData.append("price", values.price);
-      formData.append("user", values.user);
+      const formData = new FormData()
+      formData.append('name', values.name)
+      formData.append('text', values.text)
+      formData.append('price', values.price)
+      formData.append('user', values.user)
       Array.from(values.image).forEach((file) => {
-        formData.append("image", file);
-      });
+        formData.append('image', file)
+      })
       updateCamera({ id: data?.details?._id, payload: formData })
         .then((response) => {
-          console.log("Response from API:", response);
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          };
+          }
           if (response?.data?.success === true) {
-            navigate("/dashboard/camera");
-            toast.success("Camera edited successfully!", toastProps);
+            navigate('/dashboard/camera')
+            toast.success('Camera edited successfully!', toastProps)
           } else {
-            toast.error("Error while editing camera.", toastProps);
+            toast.error('Error while editing camera.', toastProps)
           }
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Error while editing camera.", {
+          toast.error('Error while editing camera.', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
-        });
+          })
+        })
     },
-  });
+  })
 
   return (
     <>
@@ -168,7 +166,7 @@ export default function () {
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
                         </MenuItem>
-                      );
+                      )
                     })}
                 </Select>
                 {formik.touched.user && formik.errors.user && (
@@ -189,7 +187,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue("image", event.currentTarget.files)
+                    formik.setFieldValue('image', event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -212,7 +210,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: "1rem" }}
+              sx={{ mt: '1rem' }}
             >
               Submit
             </Button>
@@ -220,5 +218,5 @@ export default function () {
         </>
       )}
     </>
-  );
+  )
 }

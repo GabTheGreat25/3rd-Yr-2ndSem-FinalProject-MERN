@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Button,
   Container,
@@ -8,86 +8,84 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import RegisterImg from "@/assets/camera-register.jpg";
-import { useAddUserMutation } from "@/state/api/reducer";
-import { useFormik } from "formik";
-import { createUserValidation } from "../../validation";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ROLES } from "../../constants";
-import { PacmanLoader } from "react-spinners";
-import { ImagePreview } from "@/component";
+} from '@mui/material'
+import { Box } from '@mui/system'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import RegisterImg from '@/assets/camera-register.jpg'
+import { useAddUserMutation } from '@/state/api/reducer'
+import { useFormik } from 'formik'
+import { createUserValidation } from '../../validation'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { ROLES } from '../../constants'
+import { PacmanLoader } from 'react-spinners'
+import { ImagePreview } from '@/component'
 
 export default function () {
-  const fileInputRef = useRef();
-  const navigate = useNavigate();
-  const [addUser, isLoading] = useAddUserMutation();
-  const [showPassword, setShowPassword] = useState(false);
+  const fileInputRef = useRef()
+  const navigate = useNavigate()
+  const [addUser, isLoading] = useAddUserMutation()
+  const [showPassword, setShowPassword] = useState(false)
   const formik = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      password: "",
+      name: '',
+      email: '',
+      password: '',
       roles: [],
       image: [],
     },
     validationSchema: createUserValidation,
     onSubmit: async (values) => {
-      const formData = new FormData();
+      const formData = new FormData()
 
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      values.roles.forEach((role) => formData.append("roles[]", role));
+      formData.append('name', values.name)
+      formData.append('email', values.email)
+      formData.append('password', values.password)
+      values.roles.forEach((role) => formData.append('roles[]', role))
       Array.from(values.image).forEach((file) => {
-        formData.append("image", file);
-      });
+        formData.append('image', file)
+      })
 
       addUser(formData)
         .then((response) => {
-          console.log("Response from API:", response);
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          };
+          }
           if (response?.data?.success === true) {
-            navigate("/login");
-            toast.success("Registered successfully!", toastProps);
+            navigate('/login')
+            toast.success('Registered successfully!', toastProps)
           } else {
-            toast.error("Error while creating user.", toastProps);
+            toast.error('Error while creating user.', toastProps)
           }
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Error while creating user.", {
+          toast.error('Error while creating user.', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
-        });
+          })
+        })
     },
-  });
+  })
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
 
   const handleRoleChange = (value) => {
-    let values = Array.isArray(value) ? value : [value];
+    let values = Array.isArray(value) ? value : [value]
     if (
-      values.includes("Customer") &&
-      (values.includes("Admin") || values.includes("Employee"))
+      values.includes('Customer') &&
+      (values.includes('Admin') || values.includes('Employee'))
     ) {
-      values = values.filter((role) => role !== "Customer");
+      values = values.filter((role) => role !== 'Customer')
     }
-    formik.setFieldValue("roles", values);
-  };
+    formik.setFieldValue('roles', values)
+  }
 
   const handleLogin = () => {
-    navigate(`/login`);
-  };
+    navigate(`/login`)
+  }
 
   return (
     <>
@@ -100,24 +98,24 @@ export default function () {
           <Container sx={{ mt: 7.5, mb: 5 }} disableGutters>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
               }}
             >
-              <Box sx={{ width: "60%", height: "100%", paddingRight: "2rem" }}>
+              <Box sx={{ width: '60%', height: '100%', paddingRight: '2rem' }}>
                 <img
                   src={RegisterImg}
                   alt="RegisterImg"
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: ".5rem",
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '.5rem',
                   }}
                 />
               </Box>
-              <Box sx={{ width: "40%", height: "100%" }}>
+              <Box sx={{ width: '40%', height: '100%' }}>
                 <Typography variant="h4" align="center" gutterBottom>
                   Sign Up
                 </Typography>
@@ -125,7 +123,7 @@ export default function () {
                   Get us some of your information to get a free access to our
                   website.
                 </Typography>
-                <form sx={{ height: "100%" }} onSubmit={formik.handleSubmit}>
+                <form sx={{ height: '100%' }} onSubmit={formik.handleSubmit}>
                   <TextField
                     margin="normal"
                     required
@@ -184,7 +182,7 @@ export default function () {
                     label="Password"
                     required
                     fullWidth
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="password"
                     value={formik.values.password}
                     onChange={formik.handleChange}
@@ -216,7 +214,7 @@ export default function () {
                     fullWidth
                     accept="image/*"
                     onChange={(event) =>
-                      formik.setFieldValue("image", event.currentTarget.files)
+                      formik.setFieldValue('image', event.currentTarget.files)
                     }
                     inputProps={{
                       multiple: true,
@@ -236,7 +234,7 @@ export default function () {
                     {
                       <span
                         style={{
-                          fontSize: "1.15rem",
+                          fontSize: '1.15rem',
                         }}
                       >
                         Sign Up
@@ -246,8 +244,8 @@ export default function () {
                 </form>
                 <Box
                   sx={{
-                    display: "flex",
-                    justifyContent: "center",
+                    display: 'flex',
+                    justifyContent: 'center',
                     mt: 1,
                   }}
                 >
@@ -271,8 +269,8 @@ export default function () {
                     {
                       <span
                         style={{
-                          textTransform: "capitalize",
-                          fontSize: "1.2rem",
+                          textTransform: 'capitalize',
+                          fontSize: '1.2rem',
                         }}
                       >
                         Sign In Here
@@ -286,5 +284,5 @@ export default function () {
         </>
       )}
     </>
-  );
+  )
 }

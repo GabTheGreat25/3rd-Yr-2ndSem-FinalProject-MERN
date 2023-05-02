@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react'
 import {
   TextField,
   Typography,
@@ -7,69 +7,67 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from "@mui/material";
-import { useAddCameraMutation, useGetUsersQuery } from "@/state/api/reducer";
-import { useFormik } from "formik";
-import { createCameraValidation } from "../../validation";
-import { useNavigate } from "react-router-dom";
-import { ERROR } from "../../constants";
-import { PacmanLoader } from "react-spinners";
-import { ImagePreview } from "@/component";
-import { USER } from "@/constants";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+} from '@mui/material'
+import { useAddCameraMutation, useGetUsersQuery } from '@/state/api/reducer'
+import { useFormik } from 'formik'
+import { createCameraValidation } from '../../validation'
+import { useNavigate } from 'react-router-dom'
+import { ERROR } from '../../constants'
+import { PacmanLoader } from 'react-spinners'
+import { ImagePreview } from '@/component'
+import { USER } from '@/constants'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function () {
-  const fileInputRef = useRef();
-  const navigate = useNavigate();
-  const [addCamera, isLoading, isError] = useAddCameraMutation();
-  const { data } = useGetUsersQuery();
-  const users = data?.details ?? [];
-  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN));
+  const fileInputRef = useRef()
+  const navigate = useNavigate()
+  const [addCamera, isLoading, isError] = useAddCameraMutation()
+  const { data } = useGetUsersQuery()
+  const users = data?.details ?? []
+  const admins = users?.filter((user) => user?.roles?.includes(USER.ADMIN))
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      text: "",
-      price: "",
+      name: '',
+      text: '',
+      price: '',
       image: [],
-      user: "",
+      user: '',
     },
     validationSchema: createCameraValidation,
     onSubmit: (values) => {
-      const formData = new FormData();
+      const formData = new FormData()
 
-      formData.append("name", values.name);
-      formData.append("text", values.text);
-      formData.append("price", values.price);
-      formData.append("user", values.user);
+      formData.append('name', values.name)
+      formData.append('text', values.text)
+      formData.append('price', values.price)
+      formData.append('user', values.user)
       Array.from(values.image).forEach((file) => {
-        formData.append("image", file);
-      });
+        formData.append('image', file)
+      })
 
       addCamera(formData)
         .then((response) => {
-          console.log("Response from API:", response);
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          };
+          }
           if (response?.data?.success === true) {
-            navigate("/dashboard/camera");
-            toast.success("Camera created successfully!", toastProps);
+            navigate('/dashboard/camera')
+            toast.success('Camera created successfully!', toastProps)
           } else {
-            toast.error("Error while creating camera.", toastProps);
+            toast.error('Error while creating camera.', toastProps)
           }
         })
         .catch((error) => {
-          console.log(error);
-          toast.error("Error while creating camera.", {
+          toast.error('Error while creating camera.', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          });
-        });
+          })
+        })
     },
-  });
+  })
 
   return (
     <>
@@ -145,7 +143,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue("image", event.currentTarget.files)
+                    formik.setFieldValue('image', event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -177,7 +175,7 @@ export default function () {
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
                         </MenuItem>
-                      );
+                      )
                     })}
                 </Select>
                 {formik.touched.user && formik.errors.user && (
@@ -192,7 +190,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: "1rem" }}
+              sx={{ mt: '1rem' }}
             >
               Submit
             </Button>
@@ -200,5 +198,5 @@ export default function () {
         </>
       )}
     </>
-  );
+  )
 }

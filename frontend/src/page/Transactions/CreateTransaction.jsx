@@ -27,7 +27,6 @@ export default function () {
   const { refetch: refetchTransactions } = useGetTransactionsQuery()
 
   const [cartItems, setCartItems] = useState([])
-  console.log(cartItems)
 
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(false)
