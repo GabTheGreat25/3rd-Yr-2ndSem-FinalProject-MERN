@@ -55,9 +55,9 @@ export default function () {
           };
           if (response?.data?.success === true) {
             navigate("/login");
-            toast.success("Camera created successfully!", toastProps);
+            toast.success("Registered successfully!", toastProps);
           } else {
-            toast.error("Error while creating camera.", toastProps);
+            toast.error("Error while creating user.", toastProps);
           }
         })
         .catch((error) => {
@@ -182,6 +182,7 @@ export default function () {
                     id="password"
                     name="password"
                     label="Password"
+                    required
                     fullWidth
                     type={showPassword ? "text" : "password"}
                     autoComplete="password"
