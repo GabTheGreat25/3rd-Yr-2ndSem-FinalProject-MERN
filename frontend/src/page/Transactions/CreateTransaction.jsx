@@ -26,7 +26,6 @@ export default function () {
   const { refetch: refetchTransactions } = useGetTransactionsQuery();
 
   const [cartItems, setCartItems] = useState([]);
-  console.log(cartItems);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
@@ -46,8 +45,9 @@ export default function () {
   const handleOnRemoveFromCart = (itemToRemove) => {
     const newCartItems = cartItems.filter((cartItem, index) => {
       return (
-        cartItem._id === itemToRemove._id &&
-        cartItems.indexOf(cartItem) !== index
+        cartItem._id !== itemToRemove._id ||
+        (cartItem._id === itemToRemove._id &&
+          cartItems.indexOf(cartItem) !== index)
       );
     });
     setCartItems(newCartItems);
@@ -69,6 +69,7 @@ export default function () {
         status: "pending",
         date: transactionDate,
       });
+
       await refetchTransactions();
       navigate("/dashboard/comment/create");
       setCartItems([]);
