@@ -1,89 +1,123 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import AppBar from "./Appbar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import PasswordIcon from "@mui/icons-material/Password";
-import InfoIcon from "@mui/icons-material/Info";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Badge from "@mui/material/Badge";
-import { useDispatch } from "react-redux";
-import { logout } from "@/state/auth/authReducer";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useSelector } from "react-redux";
-import { Avatar } from "@mui/material";
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import AppBar from './Appbar'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import PasswordIcon from '@mui/icons-material/Password'
+import InfoIcon from '@mui/icons-material/Info'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import Badge from '@mui/material/Badge'
+import { useDispatch } from 'react-redux'
+import { logout } from '@/state/auth/authReducer'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import { useSelector } from 'react-redux'
+import { Avatar } from '@mui/material'
+import CartPreview from '../page/Transactions/CartPreview'
+import Dialog from '@mui/material/Dialog'
 
 export default function (props) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const auth = useSelector((state) => state.auth);
-  const { open, toggleDrawer } = props;
+  const { cartItems, onRemoveFromCart, onConfirmPurchase, onAddToCart } = props
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedButton] = useState(null);
+  const [cartPreviewOpen, setCartPreviewOpen] = useState(false)
+
+  const toggleCartPreview = () => {
+    setCartPreviewOpen(!cartPreviewOpen)
+  }
+
+  const auth = useSelector((state) => state.auth)
+  const { open, toggleDrawer } = props
+
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [selectedButton] = useState(null)
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   const handleLogout = async () => {
     try {
-      await dispatch(logout());
-      navigate("/login");
-      toast.success("Logout successful!", {
+      await dispatch(logout())
+      navigate('/login')
+      toast.success('Logout successful!', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      })
     } catch (error) {
-      console.error(error);
-      toast.error("Logout failed. Please try again.", {
+      console.error(error)
+      toast.error('Logout failed. Please try again.', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      });
+      })
     }
-  };
+  }
 
   const handleUpdateUserDetails = async () => {
-    navigate(`userDetails/${auth.user._id}`);
-  };
+    navigate(`userDetails/${auth.user._id}`)
+  }
 
   const handleUpdatePassword = async () => {
-    navigate(`updatePassword/${auth.user._id}`);
-  };
-
-  const [cartCount, setCartCount] = useState(0);
+    navigate(`updatePassword/${auth.user._id}`)
+  }
 
   const handleAddToCart = () => {
-    setCartCount(cartCount + 1);
-  };
+    setCartCount(cartCount + 1)
+    onAddToCart()
+  }
+
+  const handleOnAddToCart = (item) => {
+    if (!cartItems.some((cartItem) => cartItem._id === item._id)) {
+      setCartItems([...cartItems, item])
+      setCartCount(cartCount + 1) // update cartCount state variable
+    }
+  }
+
+  const handleConfirmPurchase = async () => {
+    try {
+      const newTransaction = await addTransaction({
+        user: auth.user._id,
+        cameras: cartItems.map((item) => item._id),
+        status: 'pending',
+        date: transactionDate,
+      })
+      await refetchTransactions()
+      navigate('/dashboard/comment/create')
+      setCartItems([])
+      handleClose()
+    } catch (err) {
+      setError(true)
+      console.error(err)
+    }
+  }
 
   const randomIndex =
     auth?.user?.image && auth?.user?.image.length
       ? Math.floor(Math.random() * auth.user.image.length)
-      : null;
+      : null
 
   return (
     <>
       <AppBar
         position="absolute"
         open={open}
-        sx={{ backgroundColor: "#2c3e50" }}
+        sx={{ backgroundColor: '#2c3e50' }}
       >
         <Toolbar
           sx={{
-            pr: "24px",
+            pr: '24px',
           }}
         >
           <IconButton
@@ -92,19 +126,19 @@ export default function (props) {
             aria-label="open drawer"
             onClick={toggleDrawer}
             sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
-              "&:hover": {
-                backgroundColor: "#f1f2f6",
-                color: "#2c3e50",
-                transition: "transform 0.2s ease-in-out",
-                transform: "scale(1.1)",
+              marginRight: '36px',
+              ...(open && { display: 'none' }),
+              '&:hover': {
+                backgroundColor: '#f1f2f6',
+                color: '#2c3e50',
+                transition: 'transform 0.2s ease-in-out',
+                transform: 'scale(1.1)',
               },
             }}
           >
             <MenuIcon />
           </IconButton>
-          {auth?.user?.roles?.includes("Admin") ? (
+          {auth?.user?.roles?.includes('Admin') ? (
             <Typography
               component="h1"
               variant="h6"
@@ -114,7 +148,7 @@ export default function (props) {
             >
               Admin Dashboard
             </Typography>
-          ) : auth?.user?.roles?.includes("Employee") ? (
+          ) : auth?.user?.roles?.includes('Employee') ? (
             <Typography
               component="h1"
               variant="h6"
@@ -136,38 +170,43 @@ export default function (props) {
             </Typography>
           )}
 
-          {auth?.user?.roles?.includes("Customer") ? (
+          {auth?.user?.roles?.includes('Customer') ? (
             <IconButton
-              onClick={handleAddToCart}
-              sx={{
-                borderRadius: "0.5rem",
-                color: "#f1f2f6",
-                marginRight: "1rem",
-                "&:hover": {
-                  backgroundColor: "#f1f2f6",
-                  color: "#2c3e50",
-                  transition: "transform 0.2s ease-in-out",
-                  transform: "scale(1.1)",
-                },
-              }}
+              onClick={toggleCartPreview}
+              color="inherit"
+              style={{ color: 'white' }}
             >
-              <Badge badgeContent={cartCount}>
+              <Badge badgeContent={props.cartCount}>
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
           ) : null}
 
+          <Dialog open={cartPreviewOpen} onClose={toggleCartPreview}>
+            <CartPreview
+              cartItems={cartItems}
+              onRemoveFromCart={onRemoveFromCart}
+            />
+          </Dialog>
+
+          <Dialog open={cartPreviewOpen} onClose={toggleCartPreview}>
+            <CartPreview
+              cartItems={cartItems}
+              onRemoveFromCart={onRemoveFromCart}
+              onConfirmPurchase={handleConfirmPurchase}
+            />
+          </Dialog>
           <Button
             aria-controls="dropdown-menu"
             aria-haspopup="true"
             onClick={handleClick}
             sx={{
-              borderRadius: "0.5rem",
-              backgroundColor: "#f1f2f6",
-              color: "#2c3e50",
-              "&:hover": {
-                backgroundColor: "#f1f2f6",
-                color: "#2c3e50",
+              borderRadius: '0.5rem',
+              backgroundColor: '#f1f2f6',
+              color: '#2c3e50',
+              '&:hover': {
+                backgroundColor: '#f1f2f6',
+                color: '#2c3e50',
               },
             }}
           >
@@ -202,12 +241,12 @@ export default function (props) {
                 color="inherit"
                 aria-label="updateUserDetails"
                 sx={{
-                  borderRadius: "0.5rem",
-                  "&:hover": {
-                    backgroundColor: "#f1f2f6",
-                    color: "#2c3e50",
-                    transition: "transform 0.2s ease-in-out",
-                    transform: "scale(1.1)",
+                  borderRadius: '0.5rem',
+                  '&:hover': {
+                    backgroundColor: '#f1f2f6',
+                    color: '#2c3e50',
+                    transition: 'transform 0.2s ease-in-out',
+                    transform: 'scale(1.1)',
                   },
                 }}
               >
@@ -222,12 +261,12 @@ export default function (props) {
                 color="inherit"
                 aria-label="updatePassword"
                 sx={{
-                  borderRadius: "0.5rem",
-                  "&:hover": {
-                    backgroundColor: "#f1f2f6",
-                    color: "#2c3e50",
-                    transition: "transform 0.2s ease-in-out",
-                    transform: "scale(1.1)",
+                  borderRadius: '0.5rem',
+                  '&:hover': {
+                    backgroundColor: '#f1f2f6',
+                    color: '#2c3e50',
+                    transition: 'transform 0.2s ease-in-out',
+                    transform: 'scale(1.1)',
                   },
                 }}
               >
@@ -242,12 +281,12 @@ export default function (props) {
                 color="inherit"
                 aria-label="logout"
                 sx={{
-                  borderRadius: "0.5rem",
-                  "&:hover": {
-                    backgroundColor: "#f1f2f6",
-                    color: "#2c3e50",
-                    transition: "transform 0.2s ease-in-out",
-                    transform: "scale(1.1)",
+                  borderRadius: '0.5rem',
+                  '&:hover': {
+                    backgroundColor: '#f1f2f6',
+                    color: '#2c3e50',
+                    transition: 'transform 0.2s ease-in-out',
+                    transform: 'scale(1.1)',
                   },
                 }}
               >
@@ -261,5 +300,5 @@ export default function (props) {
         </Toolbar>
       </AppBar>
     </>
-  );
+  )
 }
