@@ -5,6 +5,8 @@ export default function ({ cartItems, onRemoveFromCart }) {
       {cartItems.map((item) => (
         <div key={item._id} className="cartItem">
           <span>{item.name}</span>
+          <span>{item.price}</span>
+
           <button
             onClick={() => {
               onRemoveFromCart(item);
