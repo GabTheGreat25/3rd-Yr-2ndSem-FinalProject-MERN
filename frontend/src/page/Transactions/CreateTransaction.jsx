@@ -22,12 +22,19 @@ import { useNavigate } from "react-router-dom";
 export default function () {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCamerasQuery();
+
   const { refetch: refetchTransactions } = useGetTransactionsQuery();
+
   const [cartItems, setCartItems] = useState([]);
+  console.log(cartItems);
+
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
+
   const [transactionDate, setTransactionDate] = useState(new Date());
+
   const [addTransaction] = useAddTransactionMutation();
+
   const auth = useSelector((state) => state.auth);
 
   const handleOnAddToCart = (item) => {
@@ -39,9 +46,8 @@ export default function () {
   const handleOnRemoveFromCart = (itemToRemove) => {
     const newCartItems = cartItems.filter((cartItem, index) => {
       return (
-        cartItem._id !== itemToRemove._id ||
-        (cartItem._id === itemToRemove._id &&
-          cartItems.indexOf(cartItem) !== index)
+        cartItem._id === itemToRemove._id &&
+        cartItems.indexOf(cartItem) !== index
       );
     });
     setCartItems(newCartItems);
