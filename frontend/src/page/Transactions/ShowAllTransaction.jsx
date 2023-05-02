@@ -5,15 +5,19 @@ import {
   useDeleteTransactionMutation,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
+import { USER, ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment-timezone";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function () {
   const navigate = useNavigate();
+
+  const auth = useSelector((state) => state.auth);
+
   const { data, isLoading, isError } = useGetTransactionsQuery({
     populate: ["user", "cameras"],
   });
@@ -83,10 +87,14 @@ export default function () {
       onClick: handleEdit,
       title: "Edit",
     },
-    {
-      onClick: handleDelete,
-      title: "Delete",
-    },
+    ...(auth?.user?.roles?.includes(USER.ADMIN)
+      ? [
+          {
+            onClick: handleDelete,
+            title: "Delete",
+          },
+        ]
+      : []),
   ];
 
   return (
