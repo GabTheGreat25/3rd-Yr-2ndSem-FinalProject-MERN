@@ -1,6 +1,9 @@
 import React from "react";
 import { TextField, Typography, Grid, Button, Rating } from "@mui/material";
-import { useAddCommentMutation } from "@/state/api/reducer";
+import {
+  useAddCommentMutation,
+  useGetTransactionsQuery,
+} from "@/state/api/reducer";
 import { useFormik } from "formik";
 import { createCommentValidation } from "../../validation";
 import { useNavigate } from "react-router-dom";
@@ -8,11 +11,11 @@ import { ERROR } from "../../constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useGetTransactionsQuery } from "@/state/api/reducer";
 
 export default function () {
   const navigate = useNavigate();
   const [addComment, isLoading, isError] = useAddCommentMutation();
+
   const { data: transactions, isLoading: transactionsLoading } =
     useGetTransactionsQuery();
 
@@ -23,7 +26,6 @@ export default function () {
 
   const formik = useFormik({
     initialValues: {
-      transaction: lastTransactionId,
       transService: "",
       text: "",
       ratings: 0,
@@ -32,6 +34,7 @@ export default function () {
     onSubmit: (values) => {
       const newComment = {
         ...values,
+        transaction: lastTransactionId,
       };
       addComment(newComment)
         .then((response) => {
