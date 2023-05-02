@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   useGetCamerasQuery,
   useAddTransactionMutation,
-  useGetTransactionsQuery,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
@@ -22,8 +21,6 @@ import { useNavigate } from "react-router-dom";
 export default function () {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCamerasQuery();
-
-  const { refetch: refetchTransactions } = useGetTransactionsQuery();
 
   const [cartItems, setCartItems] = useState([]);
 
@@ -70,7 +67,6 @@ export default function () {
         date: transactionDate,
       });
 
-      await refetchTransactions();
       navigate("/dashboard/comment/create");
       setCartItems([]);
       handleClose();
