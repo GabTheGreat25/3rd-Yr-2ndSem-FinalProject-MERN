@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
@@ -18,13 +18,15 @@ export default function (props) {
   const sideBar = useSelector((state) => state.sideBar);
   const auth = useSelector((state) => state.auth);
 
-  auth?.user?.roles?.includes(USER.ADMIN)
-    ? dispatch(changeLinks({ links: LINKS.ADMIN }))
-    : auth?.user?.roles?.includes(USER.EMPLOYEE)
-    ? dispatch(changeLinks({ links: LINKS.EMPLOYEE }))
-    : auth?.user?.roles?.includes(USER.CUSTOMER)
-    ? dispatch(changeLinks({ links: LINKS.CUSTOMER }))
-    : null;
+  useEffect(() => {
+    auth?.user?.roles?.includes(USER.ADMIN)
+      ? dispatch(changeLinks({ links: LINKS.ADMIN }))
+      : auth?.user?.roles?.includes(USER.EMPLOYEE)
+      ? dispatch(changeLinks({ links: LINKS.EMPLOYEE }))
+      : auth?.user?.roles?.includes(USER.CUSTOMER)
+      ? dispatch(changeLinks({ links: LINKS.CUSTOMER }))
+      : null;
+  }, [auth, dispatch]);
 
   return (
     <>
