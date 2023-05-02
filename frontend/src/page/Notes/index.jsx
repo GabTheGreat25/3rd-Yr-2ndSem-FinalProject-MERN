@@ -83,10 +83,14 @@ export default function () {
       onClick: handleEdit,
       title: "Edit",
     },
-    {
-      onClick: handleDelete,
-      title: "Delete",
-    },
+    ...(auth?.user?.roles?.includes(USER.ADMIN)
+      ? [
+          {
+            onClick: handleDelete,
+            title: "Delete",
+          },
+        ]
+      : []),
   ];
 
   return (
