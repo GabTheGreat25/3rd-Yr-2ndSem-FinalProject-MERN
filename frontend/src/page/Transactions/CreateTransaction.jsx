@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   useGetCamerasQuery,
   useAddTransactionMutation,
-} from "@/state/api/reducer";
-import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
-import { CameraLayout } from "@/component";
-import CartPreview from "../Transactions/CartPreview";
+  useGetTransactionsQuery,
+} from '@/state/api/reducer'
+import { PacmanLoader } from 'react-spinners'
+import { ERROR } from '../../constants'
+import { CameraLayout } from '@/component'
+import CartPreview from '../Transactions/CartPreview'
+import Navbar from '../../component/Navbar'
 import {
   Button,
   Dialog,
@@ -14,70 +16,81 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 export default function () {
-  const navigate = useNavigate();
-  const { data, isLoading, isError } = useGetCamerasQuery();
+  const navigate = useNavigate()
+  const { data, isLoading, isError } = useGetCamerasQuery()
 
-  const [cartItems, setCartItems] = useState([]);
+  const { refetch: refetchTransactions } = useGetTransactionsQuery()
 
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
+  const [cartItems, setCartItems] = useState([])
+  console.log(cartItems)
 
-  const [transactionDate, setTransactionDate] = useState(new Date());
+  const [open, setOpen] = useState(false)
+  const [error, setError] = useState(false)
 
-  const [addTransaction] = useAddTransactionMutation();
+  const [transactionDate, setTransactionDate] = useState(new Date())
 
-  const auth = useSelector((state) => state.auth);
+  const [addTransaction] = useAddTransactionMutation()
+
+  const auth = useSelector((state) => state.auth)
+
+  const [cartCount, setCartCount] = useState(0)
 
   const handleOnAddToCart = (item) => {
     if (!cartItems.some((cartItem) => cartItem._id === item._id)) {
-      setCartItems([...cartItems, item]);
+      setCartItems([...cartItems, item])
+      setCartCount(cartCount + 1) // Add this line
     }
-  };
-
+  }
   const handleOnRemoveFromCart = (itemToRemove) => {
     const newCartItems = cartItems.filter((cartItem, index) => {
       return (
-        cartItem._id !== itemToRemove._id ||
-        (cartItem._id === itemToRemove._id &&
-          cartItems.indexOf(cartItem) !== index)
-      );
-    });
-    setCartItems(newCartItems);
-  };
+        cartItem._id === itemToRemove._id &&
+        cartItems.indexOf(cartItem) !== index
+      )
+    })
+    setCartItems(newCartItems)
+  }
 
   const handleOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const handleConfirmPurchase = async () => {
     try {
       const newTransaction = await addTransaction({
         user: auth.user._id,
         cameras: cartItems.map((item) => item._id),
-        status: "pending",
+        status: 'pending',
         date: transactionDate,
-      });
-
-      navigate("/dashboard/comment/create");
-      setCartItems([]);
-      handleClose();
+      })
+      await refetchTransactions()
+      navigate('/dashboard/comment/create')
+      setCartItems([])
+      handleClose()
     } catch (err) {
-      setError(true);
-      console.error(err);
+      setError(true)
+      console.error(err)
     }
-  };
+  }
 
   return (
     <>
+      <Navbar
+        cartItems={cartItems}
+        onRemoveFromCart={handleOnRemoveFromCart}
+        onAddToCart={handleOnAddToCart}
+        cartCount={cartCount} // Add this line
+      />
+
       {isLoading ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
@@ -91,6 +104,7 @@ export default function () {
             onAddToCart={handleOnAddToCart}
             cartItems={cartItems}
           />
+
           <CartPreview
             cartItems={cartItems}
             onRemoveFromCart={handleOnRemoveFromCart}
@@ -122,5 +136,5 @@ export default function () {
         </>
       )}
     </>
-  );
+  )
 }
