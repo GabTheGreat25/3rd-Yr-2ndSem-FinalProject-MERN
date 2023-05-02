@@ -137,6 +137,7 @@ export default function () {
                     id="password"
                     name="password"
                     label="Password"
+                    required
                     fullWidth
                     type={showPassword ? "text" : "password"}
                     autoComplete="secret password"
