@@ -5,12 +5,15 @@ import {
   useDeleteCommentMutation,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
+import { USER, ERROR } from "../../constants";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function () {
+  const auth = useSelector((state) => state.auth);
+
   const { data, isLoading, isError } = useGetCommentsQuery({
     populate: "transaction",
   });
@@ -67,11 +70,16 @@ export default function () {
       } else toast.error("Failed to delete comment.", toastProps);
     }
   };
+
   const actions = [
-    {
-      onClick: handleDelete,
-      title: "Delete",
-    },
+    ...(auth?.user?.roles?.includes(USER.ADMIN)
+      ? [
+          {
+            onClick: handleDelete,
+            title: "Delete",
+          },
+        ]
+      : []),
   ];
 
   return (
