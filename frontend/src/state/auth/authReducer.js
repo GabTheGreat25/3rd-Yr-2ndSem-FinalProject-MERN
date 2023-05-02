@@ -24,6 +24,14 @@ export const authSlice = createSlice({
         }
       }
     );
+    builder.addMatcher(
+      api.endpoints.updateUser.matchFulfilled,
+      (state, { payload }) => {
+        if (payload?.success === true) {
+          state.user = payload?.details;
+        }
+      }
+    );
   },
 });
 
