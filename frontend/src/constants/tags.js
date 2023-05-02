@@ -6,4 +6,5 @@ export default {
   CAMERAS: "Cameras",
   TRANSACTIONS: "Transactions",
   COMMENTS: "Comments",
+  EMAIL: "email",
 };
