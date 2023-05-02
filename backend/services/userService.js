@@ -43,11 +43,17 @@ exports.updatePassword = async (
 exports.sendResetPassword = async (
   resetToken,
   newPassword,
-  confirmPassword
+  confirmPassword,
+  req
 ) => {
   const loginUrl = `http://localhost:6969/login`;
 
-  const user = await User.findOne({ resetToken });
+  const email = req.query && req.query.email;
+  if (!email) throw new ErrorHandler("Please provide an email");
+
+  const user = await User.findOne({ email, resetToken });
+
+  if (!user) throw new ErrorHandler("Invalid or expired reset token");
 
   if (newPassword !== confirmPassword)
     throw new ErrorHandler("Passwords don't match");
@@ -69,7 +75,6 @@ exports.sendResetPassword = async (
     html: `<html>
   <head>
     <style>
-      /* Add styles to make the email look more visually appealing */
       body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
@@ -134,7 +139,9 @@ exports.sendPasswordResetEmail = async (req, email) => {
   if (!email) throw new ErrorHandler("Please provide an email");
 
   const resetToken = uuid.v4();
-  const resetUrl = `http://localhost:6969/password/reset/${resetToken}`;
+  const resetUrl = `http://localhost:6969/password/reset/${resetToken}?email=${encodeURIComponent(
+    email
+  )}`;
 
   const user = await User.findOne({ email });
 
