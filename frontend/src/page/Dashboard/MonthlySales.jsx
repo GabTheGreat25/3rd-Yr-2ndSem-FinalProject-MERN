@@ -28,7 +28,7 @@ export default function MonthlySalesChart() {
     "December",
   ];
 
-  const groupedData = data.details
+  const groupedData = data?.details
     ? data.details.reduce((acc, transaction) => {
         const month = new Date(transaction?.date).getMonth();
 
@@ -46,6 +46,8 @@ export default function MonthlySalesChart() {
     month: monthName,
     sales: groupedData[index] || 0,
   }));
+
+  if (!data || !data.success || groupedData.length === 0) return null;
 
   return (
     <AreaChart data={chartData} width={1400} height={400}>

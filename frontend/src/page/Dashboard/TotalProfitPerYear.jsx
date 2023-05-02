@@ -35,6 +35,8 @@ export default function () {
     sales,
   }));
 
+  if (!data || !data.success || groupedData.length === 0) return null;
+
   return (
     <LineChart
       width={600}
