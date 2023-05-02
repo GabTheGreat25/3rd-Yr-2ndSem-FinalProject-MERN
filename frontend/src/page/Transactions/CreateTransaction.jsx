@@ -72,7 +72,7 @@ export default function () {
         status: 'pending',
         date: transactionDate,
       })
-      await refetchTransactions()
+
       navigate('/dashboard/comment/create')
       setCartItems([])
       handleClose()
