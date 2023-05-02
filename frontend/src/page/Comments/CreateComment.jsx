@@ -22,8 +22,6 @@ export default function () {
   const lastTransactionId =
     transactions?.details?.[transactions.details.length - 1]?._id;
 
-  console.log(lastTransactionId);
-
   const formik = useFormik({
     initialValues: {
       transService: "",
