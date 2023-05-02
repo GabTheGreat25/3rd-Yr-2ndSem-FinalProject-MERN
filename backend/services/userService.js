@@ -140,8 +140,7 @@ exports.sendPasswordResetEmail = async (req, email) => {
 
   if (!user) throw new ErrorHandler("User not found");
 
-  user.resetTokenUsed = false;
-  await user.save();
+  await User.updateOne({ _id: user._id }, { resetTokenUsed: false });
 
   const emailOptions = {
     to: email,
