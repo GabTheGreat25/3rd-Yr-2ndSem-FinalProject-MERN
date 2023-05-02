@@ -46,6 +46,7 @@ export default function () {
       setCartCount(cartCount + 1) // Add this line
     }
   }
+
   const handleOnRemoveFromCart = (itemToRemove) => {
     const newCartItems = cartItems.filter((cartItem, index) => {
       return (
@@ -73,6 +74,22 @@ export default function () {
         date: transactionDate,
       })
 
+      // Generate the PDF receipt
+      const doc = new jsPDF()
+      doc.text('Transaction Details:', 10, 10)
+      doc.text('Date: ' + newTransaction.date, 10, 20)
+      doc.text('User: ' + auth.user.name, 10, 30)
+      doc.text('Items: ', 10, 40)
+      let itemY = 50
+      newTransaction.cameras.forEach((camera) => {
+        const item = cartItems.find((item) => item._id === camera)
+        doc.text(`${item.name} - ${item.price}`, 10, itemY)
+        itemY += 10
+      })
+
+      // Download the PDF
+      doc.save('transaction.pdf')
+
       navigate('/dashboard/comment/create')
       setCartItems([])
       handleClose()
@@ -88,7 +105,7 @@ export default function () {
         cartItems={cartItems}
         onRemoveFromCart={handleOnRemoveFromCart}
         onAddToCart={handleOnAddToCart}
-        cartCount={cartCount} // Add this line
+        cartCount={cartCount}
       />
 
       {isLoading ? (
@@ -105,22 +122,11 @@ export default function () {
             cartItems={cartItems}
           />
 
-          <CartPreview
-            cartItems={cartItems}
-            onRemoveFromCart={handleOnRemoveFromCart}
-          />
-          <Button
-            variant="contained"
-            onClick={handleOpen}
-            disabled={cartItems.length === 0}
-          >
-            Confirm Purchase
-          </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Confirm Purchase</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                Are you sure you want to purchase the selected items?
+                Are you sure you want to purchase the selected items
               </DialogContentText>
             </DialogContent>
             <DialogActions>
