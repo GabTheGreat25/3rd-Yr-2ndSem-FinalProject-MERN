@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux'
 import { Avatar } from '@mui/material'
 import CartPreview from '../page/Transactions/CartPreview'
 import Dialog from '@mui/material/Dialog'
+import jsPDF from 'jspdf'
 import {
   useGetCamerasQuery,
   useAddTransactionMutation,
@@ -81,7 +82,7 @@ export default function (props) {
   const handleUpdatePassword = async () => {
     navigate(`updatePassword/${auth.user._id}`)
   }
-  const [setCartItems] = useState([])
+  const [cartItemsState, setCartItems] = useState([])
 
   const handleAddToCart = () => {
     setCartCount(cartCount + 1)
@@ -89,8 +90,8 @@ export default function (props) {
   }
 
   const handleOnAddToCart = (item) => {
-    if (!cartItems.some((cartItem) => cartItem._id === item._id)) {
-      setCartItems([...cartItems, item])
+    if (!cartItemsState.some((cartItem) => cartItem._id === item._id)) {
+      setCartItems([...cartItemsState, item])
       setCartCount(cartCount + 1) // update cartCount state variable
     }
   }
@@ -103,6 +104,25 @@ export default function (props) {
         status: 'pending',
         date: transactionDate,
       })
+
+      // Create a new instance of jsPDF
+      const doc = new jsPDF()
+
+      // Add content to the PDF
+      doc.text('Transaction Receipt', 10, 10)
+      doc.text(`Transaction ID: ${newTransaction._id}`, 10, 20)
+      doc.text(`Date: ${newTransaction.date}`, 10, 30)
+      doc.text('Items:', 10, 40)
+      cartItems.forEach((item, index) => {
+        doc.text(
+          `${index + 1}. ${item.name} - ${item.price}`,
+          10,
+          50 + index * 10,
+        )
+      })
+
+      // Save the PDF
+      doc.save('transaction-receipt.pdf')
 
       navigate('/dashboard/comment/create')
       setCartItems([])
