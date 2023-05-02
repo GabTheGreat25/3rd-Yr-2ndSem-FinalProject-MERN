@@ -11,6 +11,7 @@ export const authSlice = createSlice({
       state.token = "";
       state.user = {};
       state.authenticated = false;
+      state.loggedInUserId = null;
     },
   },
   extraReducers: (builder) => {
@@ -21,6 +22,7 @@ export const authSlice = createSlice({
           state.token = payload?.details?.accessToken;
           state.user = payload?.details?.user;
           state.authenticated = true;
+          state.loggedInUserId = state.user._id;
         }
       }
     );
@@ -28,8 +30,15 @@ export const authSlice = createSlice({
       api.endpoints.updateUser.matchFulfilled,
       (state, { payload }) => {
         if (payload?.success === true) {
-          state.user = payload?.details;
+          const updatedUser = payload?.details;
+          if (updatedUser._id === state.loggedInUserId) {
+            return {
+              ...state,
+              user: updatedUser,
+            };
+          }
         }
+        return state;
       }
     );
   },
