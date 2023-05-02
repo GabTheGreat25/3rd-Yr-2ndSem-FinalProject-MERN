@@ -15,6 +15,7 @@ import { resetPasswordValidation } from "../../validation";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { TAGS } from "../../constants";
 
 export default function () {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,9 +30,11 @@ export default function () {
     validationSchema: resetPasswordValidation,
     onSubmit: (values) => {
       const { newPassword, confirmPassword } = values;
+      const email = new URLSearchParams(window.location.search).get(TAGS.EMAIL);
       resetPassword({
         newPassword,
         confirmPassword,
+        email,
       })
         .then((response) => {
           console.log("Response from API:", response);
