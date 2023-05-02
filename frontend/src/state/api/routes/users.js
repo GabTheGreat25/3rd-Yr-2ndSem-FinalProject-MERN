@@ -75,9 +75,9 @@ export const forgotPassword = (builder) => {
 
 export const resetPassword = (builder) => {
   return builder.mutation({
-    query: ({ resetToken, newPassword, confirmPassword }) => {
+    query: ({ resetToken, newPassword, confirmPassword, email }) => {
       return {
-        url: `${ROUTE.RESET_PASSWORD}`,
+        url: `${ROUTE.RESET_PASSWORD}?email=${encodeURIComponent(email)}`,
         method: API.POST,
         body: { resetToken, newPassword, confirmPassword },
       };
