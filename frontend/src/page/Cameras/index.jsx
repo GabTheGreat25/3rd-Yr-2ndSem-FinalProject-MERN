@@ -95,16 +95,18 @@ export default function () {
     navigate(`edit/${id}`);
   };
 
-  const actions = [
-    {
-      onClick: handleEdit,
-      title: "Edit",
-    },
-    {
-      onClick: handleDelete,
-      title: "Delete",
-    },
-  ];
+  const actions = auth?.user?.roles?.includes(USER.ADMIN)
+    ? [
+        {
+          onClick: handleEdit,
+          title: "Edit",
+        },
+        {
+          onClick: handleDelete,
+          title: "Delete",
+        },
+      ]
+    : [];
 
   return (
     <>
