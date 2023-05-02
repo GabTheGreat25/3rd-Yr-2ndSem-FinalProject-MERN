@@ -13,6 +13,8 @@ import { useFormik } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { resetPasswordValidation } from "../../validation";
 import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +29,10 @@ export default function () {
     validationSchema: resetPasswordValidation,
     onSubmit: (values) => {
       const { newPassword, confirmPassword } = values;
-      resetPassword({ newPassword, confirmPassword })
+      resetPassword({
+        newPassword,
+        confirmPassword,
+      })
         .then((response) => {
           console.log("Response from API:", response);
           const toastProps = {
