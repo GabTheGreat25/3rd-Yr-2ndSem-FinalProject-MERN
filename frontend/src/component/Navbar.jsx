@@ -21,12 +21,19 @@ import { useSelector } from 'react-redux'
 import { Avatar } from '@mui/material'
 import CartPreview from '../page/Transactions/CartPreview'
 import Dialog from '@mui/material/Dialog'
+import {
+  useGetCamerasQuery,
+  useAddTransactionMutation,
+  useGetTransactionsQuery,
+} from '@/state/api/reducer'
 
 export default function (props) {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [addTransaction] = useAddTransactionMutation()
 
   const { cartItems, onRemoveFromCart, onConfirmPurchase, onAddToCart } = props
+  const [transactionDate, setTransactionDate] = useState(new Date())
 
   const [cartPreviewOpen, setCartPreviewOpen] = useState(false)
 
@@ -47,6 +54,8 @@ export default function (props) {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const [error, setError] = useState(false)
 
   const handleLogout = async () => {
     try {
@@ -72,6 +81,7 @@ export default function (props) {
   const handleUpdatePassword = async () => {
     navigate(`updatePassword/${auth.user._id}`)
   }
+  const [setCartItems] = useState([])
 
   const handleAddToCart = () => {
     setCartCount(cartCount + 1)
@@ -93,7 +103,7 @@ export default function (props) {
         status: 'pending',
         date: transactionDate,
       })
-      await refetchTransactions()
+
       navigate('/dashboard/comment/create')
       setCartItems([])
       handleClose()
