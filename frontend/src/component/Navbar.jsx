@@ -97,6 +97,7 @@ export default function (props) {
   }
 
   const handleConfirmPurchase = async () => {
+    const transactionDate = new Date()
     try {
       const newTransaction = await addTransaction({
         user: auth.user._id,
@@ -106,18 +107,45 @@ export default function (props) {
       })
 
       // Create a new instance of jsPDF
-      const doc = new jsPDF()
+      const doc = new jsPDF({
+        // Set page color to light red
+        backgroundColor: 'rgb(255, 230, 230)',
+      })
 
       // Add content to the PDF
-      doc.text('Transaction Receipt', 10, 10)
-      doc.text(`Transaction ID: ${newTransaction._id}`, 10, 20)
-      doc.text(`Date: ${newTransaction.date}`, 10, 30)
-      doc.text('Items:', 10, 40)
+      const lineHeight = 10
+      const startX = 10
+      const startY = 20
+      const lineThickness = 0.5
+      const lineMargin = 5
+
+      doc.setFont('Arial', 'bold')
+      // Increase font size to 20
+      doc.setFontSize(20)
+      doc.text(
+        'Transaction Receipt',
+        doc.internal.pageSize.getWidth() / 2,
+        startY,
+        { align: 'center' },
+      )
+      doc.setLineWidth(lineThickness)
+      doc.line(
+        startX,
+        startY + lineHeight,
+        doc.internal.pageSize.getWidth() - startX,
+        startY + lineHeight,
+      )
+      doc.setFont('Arial', 'normal')
+      // Increase font size to 14
+      doc.setFontSize(14)
+
+      doc.text(`Date: ${transactionDate}`, startX, startY + 3 * lineHeight)
+      doc.text('Items:', startX, startY + 4 * lineHeight)
       cartItems.forEach((item, index) => {
         doc.text(
           `${index + 1}. ${item.name} - ${item.price}`,
-          10,
-          50 + index * 10,
+          startX,
+          startY + (5 + index) * lineHeight,
         )
       })
 
