@@ -1,31 +1,31 @@
-import React from 'react'
-import { TextField, Typography, Grid, Button, Rating } from '@mui/material'
+import React from "react";
+import { TextField, Typography, Grid, Button, Rating } from "@mui/material";
 import {
   useUpdateCommentMutation,
   useGetCommentByIdQuery,
-} from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { editCommentValidation } from '../../validation'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { editCommentValidation } from "../../validation";
+import { useNavigate, useParams } from "react-router-dom";
+import { ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const { data, isLoading, isError } = useGetCommentByIdQuery(id)
+  const { data, isLoading, isError } = useGetCommentByIdQuery(id);
 
-  const [updateComment] = useUpdateCommentMutation()
+  const [updateComment] = useUpdateCommentMutation();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      transService: data?.details?.transService || '',
-      text: data?.details?.text || '',
+      transService: data?.details?.transService || "",
+      text: data?.details?.text || "",
       ratings: data?.details?.ratings || 1,
     },
     validationSchema: editCommentValidation,
@@ -38,22 +38,22 @@ export default function () {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          }
+          };
           if (response?.data?.success === true) {
-            navigate('/dashboard/comment')
-            toast.success('Comment edited successfully!', toastProps)
+            navigate("/dashboard/comment");
+            toast.success("Comment edited successfully!", toastProps);
           } else {
-            toast.error('Error while editing comment.', toastProps)
+            toast.error("Error while editing comment.", toastProps);
           }
         })
         .catch((error) => {
-          toast.error('Error while editing comment.', {
+          toast.error("Error while editing comment.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          })
-        })
+          });
+        });
     },
-  })
+  });
 
   return (
     <>
@@ -91,16 +91,7 @@ export default function () {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Rating
-                  name="ratings"
-                  value={formik.values.ratings}
-                  onChange={(event, newValue) => {
-                    formik.setFieldValue('ratings', newValue)
-                  }}
-                  onBlur={formik.handleBlur}
-                />
-              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -117,13 +108,27 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
+              <Grid item xs={12}>
+                <Typography component="label" htmlFor="ratings" gutterBottom>
+                  Ratings
+                </Typography>
+                <br />
+                <Rating
+                  name="ratings"
+                  value={formik.values.ratings}
+                  onChange={(event, newValue) => {
+                    formik.setFieldValue("ratings", newValue);
+                  }}
+                  onBlur={formik.handleBlur}
+                />
+              </Grid>
             </Grid>
             <Button
               variant="contained"
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: '1rem' }}
+              sx={{ mt: "1rem" }}
             >
               Submit
             </Button>
@@ -131,5 +136,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }

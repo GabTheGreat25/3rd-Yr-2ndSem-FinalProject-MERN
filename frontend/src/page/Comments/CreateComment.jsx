@@ -1,33 +1,31 @@
-import React from 'react'
-import { TextField, Typography, Grid, Button, Rating } from '@mui/material'
+import React from "react";
+import { TextField, Typography, Grid, Button, Rating } from "@mui/material";
 import {
   useAddCommentMutation,
   useGetTransactionsQuery,
-} from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { createCommentValidation } from '../../validation'
-import { useNavigate } from 'react-router-dom'
-import { ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { createCommentValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const navigate = useNavigate()
-  const [addComment, isLoading, isError] = useAddCommentMutation()
+  const navigate = useNavigate();
+  const [addComment, isLoading, isError] = useAddCommentMutation();
 
-  const {
-    data: transactions,
-    isLoading: transactionsLoading,
-  } = useGetTransactionsQuery()
+  const { data: transactions, isLoading: transactionsLoading } =
+    useGetTransactionsQuery();
 
   const lastTransactionId =
-    transactions?.details?.[transactions.details.length - 1]?._id
+    transactions?.details?.[transactions.details.length - 1]?._id;
 
   const formik = useFormik({
     initialValues: {
-      transService: '',
-      text: '',
+      transService: "",
+      text: "",
       ratings: 0,
     },
     validationSchema: createCommentValidation,
@@ -35,28 +33,28 @@ export default function () {
       const newComment = {
         ...values,
         transaction: lastTransactionId,
-      }
+      };
       addComment(newComment)
         .then((response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          }
+          };
           if (response?.data?.success === true) {
-            navigate('/dashboard/comment')
-            toast.success('Comment created successfully!', toastProps)
+            navigate("/dashboard/comment");
+            toast.success("Comment created successfully!", toastProps);
           } else {
-            toast.error('Error while creating comment.', toastProps)
+            toast.error("Error while creating comment.", toastProps);
           }
         })
         .catch((error) => {
-          toast.error('Error while creating comment.', {
+          toast.error("Error while creating comment.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          })
-        })
+          });
+        });
     },
-  })
+  });
 
   return (
     <>
@@ -94,7 +92,6 @@ export default function () {
                   }
                 />
               </Grid>
-              <Grid item xs={12}></Grid>
               <Grid item xs={12}>
                 <TextField
                   required
@@ -111,21 +108,27 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              <Rating
-                name="ratings"
-                value={Number(formik.values.ratings) || 0}
-                onChange={(event, newValue) => {
-                  formik.setFieldValue('ratings', Number(newValue))
-                }}
-                onBlur={formik.handleBlur}
-              />
+              <Grid item xs={12}>
+                <Typography component="label" htmlFor="ratings" gutterBottom>
+                  Ratings
+                </Typography>
+                <br />
+                <Rating
+                  name="ratings"
+                  value={Number(formik.values.ratings) || 0}
+                  onChange={(event, newValue) => {
+                    formik.setFieldValue("ratings", Number(newValue));
+                  }}
+                  onBlur={formik.handleBlur}
+                />
+              </Grid>
             </Grid>
             <Button
               variant="contained"
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: '1rem' }}
+              sx={{ mt: "1rem" }}
             >
               Submit
             </Button>
@@ -133,5 +136,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
