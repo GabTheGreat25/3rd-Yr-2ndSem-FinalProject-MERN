@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -7,24 +7,21 @@ import {
   DialogContentText,
   DialogTitle,
   CardMedia,
-  colors, // add colors import
-} from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+} from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleConfirmPurchase = () => {
-    onConfirmPurchase()
-    setModalOpen(false)
-  }
-
-  console.log(cartItems)
+    onConfirmPurchase();
+    setModalOpen(false);
+  };
 
   return (
-    <div className="cartPreview" style={{ padding: '20px' }}>
-      <h3 style={{ textAlign: 'center', fontSize: '24px', marginTop: '20px' }}>
+    <div className="cartPreview" style={{ padding: "20px" }}>
+      <h3 style={{ textAlign: "center", fontSize: "24px", marginTop: "20px" }}>
         Cart Preview
       </h3>
       {cartItems && cartItems.length > 0 ? (
@@ -32,9 +29,9 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
           <div
             key={item._id}
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
             <span>{item.name}</span>
@@ -44,17 +41,17 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
                 key={index}
                 component="img"
                 sx={{
-                  height: '100px',
-                  width: '100px',
+                  height: "100px",
+                  width: "100px",
                   borderRadius: 2,
-                  margin: '1rem',
+                  margin: "1rem",
                 }}
                 image={imageItem.url}
                 alt={imageItem.alt}
               />
             ))}
             <button
-              style={{ color: 'red' }}
+              style={{ color: "red" }}
               onClick={() => onRemoveFromCart(item)}
             >
               <FontAwesomeIcon icon={faTrashAlt} />
@@ -66,14 +63,14 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
       )}
       <br />
       {cartItems && cartItems.length > 0 ? (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <button
             style={{
-              backgroundColor: 'blue',
-              borderRadius: '10px',
-              fontSize: '20px',
-              padding: '10px 20px',
-              color: 'white',
+              backgroundColor: "blue",
+              borderRadius: "10px",
+              fontSize: "20px",
+              padding: "10px 20px",
+              color: "white",
             }}
             onClick={() => setModalOpen(true)}
           >
@@ -88,16 +85,16 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
         maxWidth="sm"
         PaperProps={{
           style: {
-            fontSize: '16px',
+            fontSize: "16px",
           },
         }}
       >
         <DialogTitle>Confirm Purchase</DialogTitle>
-        <DialogContent style={{ padding: '20px' }}>
+        <DialogContent style={{ padding: "20px" }}>
           <DialogContentText
             style={{
-              fontSize: '18px',
-              lineHeight: '1.5',
+              fontSize: "18px",
+              lineHeight: "1.5",
             }}
           >
             Are you sure you want to purchase the selected items?
@@ -113,5 +110,5 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 }
