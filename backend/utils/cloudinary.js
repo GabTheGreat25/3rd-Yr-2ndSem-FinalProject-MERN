@@ -6,6 +6,7 @@ const multer = require("multer");
 
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = 500;
+const LIMIT = "limit";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -21,7 +22,7 @@ const storage = new CloudinaryStorage({
     return {
       folder: RESOURCE.IMAGES,
       transformation: [
-        { width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, crop: "limit" },
+        { width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT, crop: LIMIT },
       ],
       public_id: `${fileName}-${uniqueFilename}`,
     };
