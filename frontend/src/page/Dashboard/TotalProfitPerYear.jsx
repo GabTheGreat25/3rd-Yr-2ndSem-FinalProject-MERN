@@ -8,11 +8,11 @@ import {
   Tooltip,
 } from "recharts";
 import { useGetTransactionsQuery } from "@/state/api/reducer";
+import { ERROR } from "@/constants";
+import { PacmanLoader } from "react-spinners";
 
 export default function () {
-  const { data, isLoading } = useGetTransactionsQuery({ query: "" });
-
-  if (isLoading) return <div>Loading...</div>;
+  const { data, isLoading, isError } = useGetTransactionsQuery();
 
   const transactionsWithTotalSales =
     data?.details?.map((transaction) => {
@@ -30,32 +30,44 @@ export default function () {
     return acc;
   }, {});
 
-  const chartData = Object.entries(groupedData).map(([year, sales]) => ({
+  const chartData = Object.entries(groupedData)?.map(([year, sales]) => ({
     year,
     sales,
   }));
 
-  if (!data || !data.success || groupedData.length === 0) return null;
-
   return (
-    <LineChart
-      width={600}
-      height={400}
-      data={chartData}
-      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="year" />
-      <YAxis />
-      <Tooltip formatter={(value, name) => ["$" + value, "Total Sales"]} />
-      <Line
-        type="monotone"
-        dataKey="sales"
-        stroke="#8884d8"
-        strokeWidth={2}
-        dot={{ strokeWidth: 0 }}
-        activeDot={{ r: 8 }}
-      />
-    </LineChart>
+    <>
+      {isLoading ? (
+        <div className="loader">
+          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+        </div>
+      ) : isError ? (
+        <div className="errorMessage">{ERROR.GET_TRANSACTIONS_ERROR}</div>
+      ) : groupedData.length === 0 || !data.success ? null : (
+        <>
+          <LineChart
+            width={600}
+            height={400}
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="year" />
+            <YAxis />
+            <Tooltip
+              formatter={(value, name) => ["$" + value, "Total Sales"]}
+            />
+            <Line
+              type="monotone"
+              dataKey="sales"
+              stroke="#8884d8"
+              strokeWidth={2}
+              dot={{ strokeWidth: 0 }}
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </>
+      )}
+    </>
   );
 }
