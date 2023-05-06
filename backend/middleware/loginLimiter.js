@@ -1,11 +1,11 @@
 const rateLimit = require("express-rate-limit");
 const { logEvents } = require("./logger");
+const { ERROR } = require("../constants/index");
 
 const WINDOW_MS = 60 * 1000;
 const MAX_REQUESTS = 5;
 const MESSAGE = {
-  message:
-    "Too many login attempts from this IP, please try again after a 60 second pause",
+  message: ERROR.TOO_MANY_ATTEMPTS,
 };
 const HANDLER = (req, res, next, { message, statusCode }) => {
   logEvents(
