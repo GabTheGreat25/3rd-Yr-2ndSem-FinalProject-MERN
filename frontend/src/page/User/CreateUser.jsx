@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState } from "react";
 import {
   TextField,
   Typography,
@@ -7,79 +7,72 @@ import {
   MenuItem,
   InputAdornment,
   IconButton,
-} from '@mui/material'
-import { useAddUserMutation } from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { createUserValidation } from '../../validation'
-import { useNavigate } from 'react-router-dom'
-import { ROLES, ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { ImagePreview } from '@/component'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@mui/material";
+import { useAddUserMutation } from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { createUserValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ROLES, ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { ImagePreview } from "@/component";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const fileInputRef = useRef()
-  const navigate = useNavigate()
-  const [addUser, isLoading, isError] = useAddUserMutation()
-  const [showPassword, setShowPassword] = useState(false)
+  const fileInputRef = useRef();
+  const navigate = useNavigate();
+  const [addUser, isLoading, isError] = useAddUserMutation();
+  const [showPassword, setShowPassword] = useState(false);
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
+      name: "",
+      email: "",
+      password: "",
       roles: [],
       image: [],
     },
     validationSchema: createUserValidation,
     onSubmit: async (values) => {
-      const formData = new FormData()
+      const formData = new FormData();
 
-      formData.append('name', values.name)
-      formData.append('email', values.email)
-      formData.append('password', values.password)
-      values.roles.forEach((role) => formData.append('roles[]', role))
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      values.roles.forEach((role) => formData.append("roles[]", role));
       Array.from(values.image).forEach((file) => {
-        formData.append('image', file)
-      })
+        formData.append("image", file);
+      });
 
-      addUser(formData)
-        .then((response) => {
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          }
-          if (response?.data?.success === true) {
-            navigate('/dashboard/user')
-            toast.success('User created successfully!', toastProps)
-          } else {
-            toast.error('Error while creating user.', toastProps)
-          }
-        })
-        .catch((error) => {
-          toast.error('Error while creating user.', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          })
-        })
+      addUser(formData).then((response) => {
+        const toastProps = {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        };
+        if (response?.data?.success === true) {
+          navigate("/dashboard/user");
+          toast.success(`${response?.data?.message}`, toastProps);
+        } else {
+          toast.error(`${response?.error?.data?.error?.message}`, toastProps);
+        }
+      });
     },
-  })
+  });
 
   const handleClickShowPassword = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   const handleRoleChange = (value) => {
-    let values = Array.isArray(value) ? value : [value]
+    let values = Array.isArray(value) ? value : [value];
     if (
-      values.includes('Customer') &&
-      (values.includes('Admin') || values.includes('Employee'))
+      values.includes("Customer") &&
+      (values.includes("Admin") || values.includes("Employee"))
     ) {
-      values = values.filter((role) => role !== 'Customer')
+      values = values.filter((role) => role !== "Customer");
     }
-    formik.setFieldValue('roles', values)
-  }
+    formik.setFieldValue("roles", values);
+  };
 
   return (
     <>
@@ -138,7 +131,7 @@ export default function () {
                   fullWidth
                   autoComplete="password"
                   variant="standard"
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -192,7 +185,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue('image', event.currentTarget.files)
+                    formik.setFieldValue("image", event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -215,5 +208,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
