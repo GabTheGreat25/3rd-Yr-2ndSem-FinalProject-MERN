@@ -10,10 +10,10 @@ const { STATUSCODE } = require("../constants/index");
 exports.updatePassword = asyncHandler(async (req, res, next) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
   const updatedUser = await usersService.updatePassword(
+    req.params.id,
     oldPassword,
     newPassword,
-    confirmPassword,
-    req.params.id
+    confirmPassword
   );
   SuccessHandler(
     res,
