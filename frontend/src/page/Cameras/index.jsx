@@ -1,36 +1,38 @@
-import { useState } from 'react'
-import { DataTable, Button } from '@/component'
+import { useState } from "react";
+import { DataTable, Button } from "@/component";
 import {
   useGetCamerasQuery,
   useDeleteCameraMutation,
-} from '@/state/api/reducer'
-import { PacmanLoader } from 'react-spinners'
-import { USER, ERROR } from '../../constants'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@/state/api/reducer";
+import { PacmanLoader } from "react-spinners";
+import { USER, ERROR } from "../../constants";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const navigate = useNavigate()
-  const { data, isLoading, isError: isCameraError } = useGetCamerasQuery({
-    populate: 'user',
-  })
+  const navigate = useNavigate();
+  const {
+    data,
+    isLoading,
+    isError: isCameraError,
+  } = useGetCamerasQuery({
+    populate: "user",
+  });
 
-  const [isDeletingId, setIsDeletingId] = useState(null)
+  const [isDeletingId, setIsDeletingId] = useState(null);
 
-  const [
-    deleteCamera,
-    { isLoading: isDeleting, isError: isDeleteError },
-  ] = useDeleteCameraMutation()
+  const [deleteCamera, { isLoading: isDeleting, isError: isDeleteError }] =
+    useDeleteCameraMutation();
 
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth);
 
-  const headers = ['ID', 'Name', 'Text', 'Price', 'Image', 'Owner']
+  const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
   const keys = [
     {
-      key: '_id',
+      key: "_id",
       operation: (value, row) => (
         <Link to={`/dashboard/camera/${row?._id}`} className="link">
           {row?._id}
@@ -38,73 +40,74 @@ export default function () {
       ),
     },
     {
-      key: 'name',
+      key: "name",
     },
     {
-      key: 'text',
+      key: "text",
     },
     {
-      key: 'price',
+      key: "price",
       operation: (value, row) => `₱${value}`,
     },
     {
-      key: 'image',
+      key: "image",
       operation: (value) => {
         return value.map((image) => (
           <img
-            style={{ padding: '0 .5rem' }}
+            style={{ padding: "0 .5rem" }}
             height={60}
             width={75}
             src={image.url}
             alt={image.originalname}
             key={image.public_id}
           />
-        ))
+        ));
       },
     },
     {
-      key: 'user',
-      operation: (value) => (value ? value.name : ''),
+      key: "user",
+      operation: (value) => (value ? value.name : ""),
     },
-  ]
+  ];
 
   const filteredData = data?.details?.filter(
-    (camera) => camera?._id !== isDeletingId,
-  )
+    (camera) => camera?._id !== isDeletingId
+  );
 
   const handleDelete = async (id) => {
-    setIsDeletingId(id)
-    if (window.confirm('Are you sure?')) {
-      const response = await deleteCamera(id)
+    setIsDeletingId(id);
+    if (window.confirm("Are you sure?")) {
+      const response = await deleteCamera(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
-      }
+      };
       if (response?.data?.success === true) {
-        toast.success('Camera deleted successfully!', toastProps)
-        const newData = data?.details?.filter((camera) => camera?._id !== id)
-        setData({ details: newData })
-      } else toast.error('Failed to delete camera.', toastProps)
+        toast.success(`${response?.data?.message}`, toastProps);
+        const newData = data?.details?.filter((camera) => camera?._id !== id);
+        setData({ details: newData });
+      } else
+        toast.error(`${response?.error?.data?.error?.message}`, toastProps);
     }
-  }
+  };
 
   const handleEdit = (id) => {
-    navigate(`edit/${id}`)
-  }
+    navigate(`edit/${id}`);
+  };
 
   const actions = auth?.user?.roles?.includes(USER.ADMIN)
     ? [
         {
           onClick: handleEdit,
-          title: 'Edit',
+          title: "Edit",
         },
         {
           onClick: handleDelete,
-          title: 'Delete',
+          title: "Delete",
         },
       ]
-    : []
+    : [];
 
   return (
     <>
@@ -112,7 +115,7 @@ export default function () {
         <Button
           title="Add Camera"
           onClick={() => {
-            navigate('/dashboard/camera/create')
+            navigate("/dashboard/camera/create");
           }}
         />
       )}
@@ -135,5 +138,5 @@ export default function () {
         )
       )}
     </>
-  )
+  );
 }
