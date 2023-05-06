@@ -1,9 +1,10 @@
 const Note = require("../models/note");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
+const { STATUSCODE, RESOURCE } = require("../constants/index");
 
 exports.getAllNotesData = async (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit;
+  const skip = (page - STATUSCODE.ONE) * limit;
 
   let notesQuery = Note.find()
     .populate({ path: "user", select: "name" })
@@ -15,8 +16,11 @@ exports.getAllNotesData = async (page, limit, search, sort, filter) => {
 
   if (sort) {
     const [field, order] = sort.split(":");
-    notesQuery = notesQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else notesQuery = notesQuery.sort({ createdAt: -1 });
+    notesQuery = notesQuery.sort({
+      [field]:
+        order === RESOURCE.ASCENDING ? STATUSCODE.ONE : STATUSCODE.NEGATIVE_ONE,
+    });
+  } else notesQuery = notesQuery.sort({ createdAt: STATUSCODE.NEGATIVE_ONE });
 
   if (filter) {
     const [field, value] = filter.split(":");
