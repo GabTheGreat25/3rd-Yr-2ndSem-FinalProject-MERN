@@ -1,62 +1,60 @@
-import { useRef } from 'react'
-import { TextField, Typography, Grid, Button } from '@mui/material'
-import { useUpdateUserMutation, useGetUserByIdQuery } from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { editUserValidation } from '../../validation'
-import { useNavigate } from 'react-router-dom'
-import { ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useSelector } from 'react-redux'
+import { useRef } from "react";
+import { TextField, Typography, Grid, Button } from "@mui/material";
+import {
+  useUpdateUserMutation,
+  useGetUserByIdQuery,
+} from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { editUserValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function () {
-  const fileInputRef = useRef()
-  const navigate = useNavigate()
+  const fileInputRef = useRef();
+  const navigate = useNavigate();
 
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth);
 
-  const { data, isLoading, isError } = useGetUserByIdQuery(auth?.user?._id)
+  const { data, isLoading, isError } = useGetUserByIdQuery(auth?.user?._id);
 
-  const [updateUser] = useUpdateUserMutation()
+  const [updateUser] = useUpdateUserMutation();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: data?.details?.name || '',
-      email: data?.details?.email || '',
+      name: data?.details?.name || "",
+      email: data?.details?.email || "",
       image: data?.details?.image || [],
     },
     validationSchema: editUserValidation,
     onSubmit: async (values) => {
-      const formData = new FormData()
-      formData.append('name', values.name)
-      formData.append('email', values.email)
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
       Array.from(values.image).forEach((file) => {
-        formData.append('image', file)
-      })
+        formData.append("image", file);
+      });
 
-      updateUser({ id: data?.details?._id, payload: formData })
-        .then((response) => {
+      updateUser({ id: data?.details?._id, payload: formData }).then(
+        (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          }
+          };
           if (response?.data?.success === true) {
-            navigate('/dashboard')
-            toast.success('User updated successfully!', toastProps)
+            navigate("/dashboard");
+            toast.success(`${response?.data?.message}`, toastProps);
           } else {
-            toast.error('Error while editing user.', toastProps)
+            toast.error(`${response?.error?.data?.error?.message}`, toastProps);
           }
-        })
-        .catch((error) => {
-          toast.error('Error while editing user.', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          })
-        })
+        }
+      );
     },
-  })
+  });
 
   return (
     <>
@@ -118,7 +116,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue('image', event.currentTarget.files)
+                    formik.setFieldValue("image", event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -148,5 +146,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
