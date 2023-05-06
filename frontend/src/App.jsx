@@ -180,7 +180,7 @@ const router = createBrowserRouter(
         <Route
           path="note/edit/:id"
           element={
-            <ProtectedRoute userRoles={[USER.ADMIN]}>
+            <ProtectedRoute userRoles={[USER.ADMIN, USER.EMPLOYEE]}>
               <EditNote />
             </ProtectedRoute>
           }
