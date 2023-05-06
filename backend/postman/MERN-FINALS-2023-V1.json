@@ -28,32 +28,9 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"customer@gmail.com\",\r\n    \"password\": \"asdasd123\"\r\n}"
+									"raw": "{\r\n    \"email\": \"admingab@gmail.com\",\r\n    \"password\": \"12345678\"\r\n}"
 								},
 								"url": "{{URI}}{{V1}}login"
-							},
-							"response": []
-						},
-						{
-							"name": "REFRESH TOKEN",
-							"id": "1f140173-b6bb-44ca-a6d2-5a953b591660",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"username\": \"Gabz\",\r\n    \"password\": \"123456\"\r\n}"
-								},
-								"url": "{{URI}}{{V1}}refresh"
 							},
 							"response": []
 						},
@@ -77,19 +54,6 @@
 									"file": {}
 								},
 								"url": "{{URI}}{{V1}}/logout"
-							},
-							"response": []
-						},
-						{
-							"name": "New Request",
-							"id": "84d31ca6-ccce-4be6-92f9-6ddb1f156179",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": "{{URI}}{{V1}}auth/facebook"
 							},
 							"response": []
 						}
@@ -138,7 +102,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}users?page=1&limit=10",
+							"raw": "{{URI}}{{V1}}users?page=1&limit=100",
 							"host": [
 								"{{URI}}{{V1}}users"
 							],
@@ -146,10 +110,6 @@
 								{
 									"key": "page",
 									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
 								},
 								{
 									"key": "search",
@@ -168,6 +128,10 @@
 									"value": "name:renzo",
 									"type": "text",
 									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "100"
 								}
 							]
 						}
@@ -189,7 +153,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}user/6445df384f0b11a94187bc96"
+						"url": "{{URI}}{{V1}}user/6450ed27193678cee513a206"
 					},
 					"response": []
 				},
@@ -388,9 +352,24 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"newPassword\": \"123456\",\r\n    \"confirmPassword\": \"123456\" \r\n}\r\n"
+							"raw": "{\r\n    \"newPassword\": \"12345678\",\r\n    \"confirmPassword\": \"12345678\" \r\n}\r\n"
 						},
-						"url": "{{URI}}{{V1}}password/reset/c581d088-b2f9-43db-8391-43849bf80ba7"
+						"url": {
+							"raw": "{{URI}}{{V1}}password/reset/715dbc99-9360-4d10-a3b2-7acf895c6273?email=employee%40gmail.com",
+							"host": [
+								"{{URI}}{{V1}}password"
+							],
+							"path": [
+								"reset",
+								"715dbc99-9360-4d10-a3b2-7acf895c6273"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "employee%40gmail.com"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -449,7 +428,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}notes?page=1&limit=10",
+							"raw": "{{URI}}{{V1}}notes?page=1&limit=100",
 							"host": [
 								"{{URI}}{{V1}}notes"
 							],
@@ -476,7 +455,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "100"
 								}
 							]
 						}
@@ -608,7 +587,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}comments?page=1&limit=10&",
+							"raw": "{{URI}}{{V1}}comments?page=1&limit=100",
 							"host": [
 								"{{URI}}{{V1}}comments"
 							],
@@ -616,10 +595,6 @@
 								{
 									"key": "page",
 									"value": "1"
-								},
-								{
-									"key": "limit",
-									"value": "10"
 								},
 								{
 									"key": "sort",
@@ -633,8 +608,8 @@
 									"disabled": true
 								},
 								{
-									"key": "",
-									"value": null
+									"key": "limit",
+									"value": "100"
 								}
 							]
 						}
@@ -682,7 +657,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"transaction\": \"644f53249b5a54be8c3fbd2a\",\r\n    \"transService\": \"Joy Ride\",\r\n    \"ratings\": 3,\r\n    \"text\": \"Not Bad Bro\"\r\n}"
+							"raw": " "
 						},
 						"url": "{{URI}}{{V1}}comments"
 					},
@@ -766,7 +741,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}cameras?page=1&limit=10",
+							"raw": "{{URI}}{{V1}}cameras?page=1&limit=100",
 							"host": [
 								"{{URI}}{{V1}}cameras"
 							],
@@ -793,7 +768,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "100"
 								}
 							]
 						}
@@ -977,7 +952,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{URI}}{{V1}}transactions?page=1&limit=10",
+							"raw": "{{URI}}{{V1}}transactions?page=1&limit=100",
 							"host": [
 								"{{URI}}{{V1}}transactions"
 							],
@@ -1005,7 +980,7 @@
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "100"
 								}
 							]
 						}
@@ -1027,7 +1002,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{URI}}{{V1}}transaction/644e17bf4b27267997227506"
+						"url": "{{URI}}{{V1}}transaction/6450ad30f1fadaf7ce5c515b"
 					},
 					"response": []
 				},
@@ -1123,7 +1098,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "26dc8d02-de24-45e1-9500-89d2be8b4985",
+				"id": "0771d5fd-8a54-4aff-8dc6-439b57d8fcfa",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1133,7 +1108,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6fdeb47a-1f65-44f3-b613-de3b1af55622",
+				"id": "f304521d-d7c8-4ec0-b467-51ff5f7977b9",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1143,9 +1118,9 @@
 	],
 	"variable": [
 		{
-			"id": "a07a2e4b-217c-4040-994a-aa7bdb385e49",
+			"id": "5fd3cd7d-0f5b-433c-9d1e-ab955466c50a",
 			"key": "Bearer",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImN1c3RvbWVyQGdtYWlsLmNvbSIsInJvbGVzIjpbIkN1c3RvbWVyIl19LCJpYXQiOjE2ODI3NTMxNzksImV4cCI6MTY4MzM1Nzk3OX0.vuCYJAIB4N1pmZlg1qcoYTNCr0A7P4jpY7vzPQNg8Sg"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJlbWFpbCI6ImFkbWluZ2FiQGdtYWlsLmNvbSIsInJvbGVzIjpbIkFkbWluIiwiRW1wbG95ZWUiXX0sImlhdCI6MTY4MzM2MzE5MCwiZXhwIjoxNjgzOTY3OTkwfQ.93-pR6LtANiC-rsikyHI1Yn3JkK2XjlpcaJOsrX9Vhc"
 		}
 	]
 }
