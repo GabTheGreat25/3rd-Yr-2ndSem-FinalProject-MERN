@@ -2,9 +2,10 @@ const Transaction = require("../models/transaction");
 const Comment = require("../models/comment");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
+const { STATUSCODE, RESOURCE } = require("../constants/index");
 
 exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit;
+  const skip = (page - STATUSCODE.ONE) * limit;
 
   let transactionsQuery = Transaction.find()
     .populate({ path: "user", select: "name" })
@@ -19,9 +20,13 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
   if (sort) {
     const [field, order] = sort.split(":");
     transactionsQuery = transactionsQuery.sort({
-      [field]: order === "asc" ? 1 : -1,
+      [field]:
+        order === RESOURCE.ASCENDING ? STATUSCODE.ONE : STATUSCODE.NEGATIVE_ONE,
     });
-  } else transactionsQuery = transactionsQuery.sort({ createdAt: -1 });
+  } else
+    transactionsQuery = transactionsQuery.sort({
+      createdAt: STATUSCODE.NEGATIVE_ONE,
+    });
 
   if (filter) {
     const [field, value] = filter.split(":");
@@ -36,7 +41,7 @@ exports.getAllTransactionsData = (page, limit, search, sort, filter) => {
     .populate({
       path: "cameras",
       select: "name price",
-      options: { sort: { name: 1 } },
+      options: { sort: { name: STATUSCODE.ONE } },
     });
 
   return transactionsQuery;
