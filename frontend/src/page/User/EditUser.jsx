@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef } from "react";
 import {
   TextField,
   Typography,
@@ -7,76 +7,80 @@ import {
   MenuItem,
   FormControlLabel,
   Checkbox,
-} from '@mui/material'
-import { useUpdateUserMutation, useGetUserByIdQuery } from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { editUserValidation } from '../../validation'
-import { useNavigate, useParams } from 'react-router-dom'
-import { ROLES, ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@mui/material";
+import {
+  useUpdateUserMutation,
+  useGetUserByIdQuery,
+} from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { editUserValidation } from "../../validation";
+import { useNavigate, useParams } from "react-router-dom";
+import { ROLES, ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const fileInputRef = useRef()
-  const navigate = useNavigate()
+  const fileInputRef = useRef();
+  const navigate = useNavigate();
 
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const { data, isLoading, isError } = useGetUserByIdQuery(id)
+  const { data, isLoading, isError } = useGetUserByIdQuery(id);
 
-  const [updateUser] = useUpdateUserMutation()
+  const [updateUser] = useUpdateUserMutation();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: data?.details?.name || '',
-      email: data?.details?.email || '',
+      name: data?.details?.name || "",
+      email: data?.details?.email || "",
       roles: data?.details?.roles || [],
       image: data?.details?.image || [],
-      active: data?.details?.active || true,
+      active: Boolean(data?.details?.active),
     },
     validationSchema: editUserValidation,
     onSubmit: async (values) => {
-      const formData = new FormData()
-      formData.append('name', values.name)
-      formData.append('email', values.email)
-      values.roles.forEach((role) => formData.append('roles[]', role))
+      const formData = new FormData();
+      formData.append("name", values.name);
+      formData.append("email", values.email);
+      values.roles.forEach((role) => formData.append("roles[]", role));
       Array.from(values.image).forEach((file) => {
-        formData.append('image', file)
-      })
-      formData.append('active', values.active.toString())
+        formData.append("image", file);
+      });
+      formData.append("active", values.active.toString());
       updateUser({ id: data?.details?._id, payload: formData })
         .then((response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          }
+          };
           if (response?.data?.success === true) {
-            navigate('/dashboard/user')
-            toast.success('User edited successfully!', toastProps)
+            navigate("/dashboard/user");
+            toast.success("User edited successfully!", toastProps);
           } else {
-            toast.error('Error while editing user.', toastProps)
+            toast.error("Error while editing user.", toastProps);
           }
         })
         .catch((error) => {
-          toast.error('Error while editing user.', {
+          toast.error("Error while editing user.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          })
-        })
+          });
+        });
     },
-  })
+  });
+
   const handleRoleChange = (value) => {
-    let values = Array.isArray(value) ? value : [value]
+    let values = Array.isArray(value) ? value : [value];
     if (
-      values.includes('Customer') &&
-      (values.includes('Admin') || values.includes('Employee'))
+      values.includes("Customer") &&
+      (values.includes("Admin") || values.includes("Employee"))
     ) {
-      values = values.filter((role) => role !== 'Customer')
+      values = values.filter((role) => role !== "Customer");
     }
-    formik.setFieldValue('roles', values)
-  }
+    formik.setFieldValue("roles", values);
+  };
 
   return (
     <>
@@ -162,7 +166,7 @@ export default function () {
                   fullWidth
                   accept="image/*"
                   onChange={(event) =>
-                    formik.setFieldValue('image', event.currentTarget.files)
+                    formik.setFieldValue("image", event.currentTarget.files)
                   }
                   inputProps={{
                     multiple: true,
@@ -186,6 +190,7 @@ export default function () {
                       checked={formik.values.active}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
+                      value={formik.values.active.toString()}
                       name="active"
                       id="active"
                       color="primary"
@@ -207,5 +212,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
