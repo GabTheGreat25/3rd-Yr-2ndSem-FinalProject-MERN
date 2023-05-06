@@ -12,26 +12,20 @@
         CRUD function cameras. Shows the comments of each camera. Users can upload multiple photos.
 4.  [x] MP4: 10pts <br>
         Add custom logs for errors in the backend.
-5.  [ ] MP5: 20pts Dashboard elements, including: <br>
-        Total number of cameras. <br>
-        Top 10 highest-rated cameras. <br>
-        Total profit from transactions. <br>
-        Chart for most transactions per month. <br>
-        Chart for highest sell for camera. <br>
+5.  [x] MP5: 20pts Add 3 charts (line, pie, & bar) graph <br>
 6.  [x] Unit 1: 20pts <br>
         Apply authentication for CRUD operations with token generation.
-7.  [ ] Unit 2: 20pts <br>
+7.  [x] Unit 2: 20pts <br>
         Users can comment per transaction. Apply a profanity filter library. <br>
         Quiz 1: 15pts <br>
 8.  [x] Pagination backend and apply react pagination. 10pts
-9.  [ ] Apply infinite scroll library. 15pts
-10. [ ] Quiz 2: 15pts <br>
-        Create a search and filter function. Filter cameras by comments.
-11. [ ] Quiz 3: 15pts <br>
+9.  [x] Quiz 2: 15pts <br>
+        Create a search and filter function.
+10. [x] Quiz 3: 15pts <br>
         Users can rate transactions from 1 to 5 stars. <br>
         Term Test: 25pts <br>
-12. [ ] CRUD function transaction. Customers can add one or more cameras per transaction. 15pts
-13. [x] Use Redux or Redux Toolkit or RTK Query. 5pts
-14. [ ] Add a receipt in PDF format. 5pts
-15. [x] App complexity 10pts
-16. [x] UI/UX Design 10pts
+11. [x] CRUD function transaction. Customers can add one or more cameras per transaction. 15pts
+12. [x] Use Redux or Redux Toolkit or RTK Query. 5pts
+13. [x] Add a receipt in PDF format. 5pts
+14. [x] App complexity 10pts
+15. [x] UI/UX Design 10pts
