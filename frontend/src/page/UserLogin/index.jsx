@@ -40,7 +40,7 @@ export default function () {
             autoClose: 5000,
           };
           if (
-            response?.data?.success === true &&
+            response?.data?.success === true ||
             response?.data?.active === false
           ) {
             navigate("/dashboard");
