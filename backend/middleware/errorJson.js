@@ -1,5 +1,5 @@
 const ErrorHandler = require("../utils/errorHandler");
-const { STATUSCODE } = require("../constants/index");
+const { STATUSCODE, ERROR } = require("../constants/index");
 
 const errorJson = (err, req, res, next) => {
   if (err instanceof ErrorHandler) return next(err);
@@ -13,7 +13,7 @@ const { logEvents } = require("./logger");
 
 const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || STATUSCODE.SERVER_ERROR;
-  const message = err.message || "Internal Server Error";
+  const message = err.message || ERROR.INTERNAL_SERVER_ERROR;
 
   logEvents(
     `${err.name}: ${err.message}\t${req.method}\t${req.url}\t${req.headers.origin}`,
