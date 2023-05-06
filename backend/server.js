@@ -14,6 +14,7 @@ const cameras = require("./routes/camera");
 const transactions = require("./routes/transaction");
 const comments = require("./routes/comment");
 const auth = require("./routes/auth");
+const { STATUSCODE } = require("./constants/index");
 const connectDB = require("./config/db");
 const PORT = process.env.PORT || 4000;
 
@@ -35,7 +36,7 @@ app.all("*", (req, res) => {
     ? { message: "404 Not Found" }
     : "404 Not Found";
 
-  res.status(404).sendFile(filePath);
+  res.status(STATUSCODE.NOT_FOUND).sendFile(filePath);
 });
 
 app.use(errorJson);
