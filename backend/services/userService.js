@@ -221,8 +221,10 @@ exports.sendPasswordResetEmail = async (req, email) => {
 exports.loginToken = async (email, password) => {
   const foundUser = await User.findOne({ email }).select("+password").exec();
 
-  if (!foundUser || !foundUser.active)
-    throw new ErrorHandler("Wrong Email Or Password");
+  if (!foundUser) throw new ErrorHandler("Wrong Email Or Password");
+
+  if (!foundUser.active)
+    throw new ErrorHandler("User can't login because they are not active");
 
   const match = await bcrypt.compare(password, foundUser.password);
 
