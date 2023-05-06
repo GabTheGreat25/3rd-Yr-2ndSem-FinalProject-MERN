@@ -1,58 +1,53 @@
-import React from 'react'
-import { TextField, Typography, Grid, Button, MenuItem } from '@mui/material'
+import React from "react";
+import { TextField, Typography, Grid, Button, MenuItem } from "@mui/material";
 import {
   useUpdateTransactionMutation,
   useGetTransactionByIdQuery,
-} from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { editTransactionValidation } from '../../validation'
-import { useNavigate, useParams } from 'react-router-dom'
-import { STATUS, ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+} from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { editTransactionValidation } from "../../validation";
+import { useNavigate, useParams } from "react-router-dom";
+import { STATUS, ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const { id } = useParams()
+  const { id } = useParams();
 
-  const { data, isLoading, isError } = useGetTransactionByIdQuery(id)
+  const { data, isLoading, isError } = useGetTransactionByIdQuery(id);
 
-  const [updateTransaction] = useUpdateTransactionMutation()
+  const [updateTransaction] = useUpdateTransactionMutation();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      status: data?.details?.status || '',
+      status: data?.details?.status || "",
       date:
         (data?.details?.date &&
           new Date(data?.details?.date).toISOString().substring(0, 10)) ||
-        '',
+        "",
     },
     validationSchema: editTransactionValidation,
     onSubmit: (values) => {
-      updateTransaction({ id: data?.details?._id, payload: values })
-        .then((response) => {
+      updateTransaction({ id: data?.details?._id, payload: values }).then(
+        (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-          }
+          };
           if (response?.data?.success === true) {
-            navigate('/dashboard/allTransaction')
-            toast.success('Transaction edited successfully!', toastProps)
+            navigate("/dashboard/allTransaction");
+            toast.success(`${response?.data?.message}`, toastProps);
           } else {
-            toast.error('Error while editing transaction.', toastProps)
+            toast.error(`${response?.error?.data?.error?.message}`, toastProps);
           }
-        })
-        .catch((error) => {
-          toast.error('Error while editing transaction.', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          })
-        })
+        }
+      );
     },
-  })
+  });
 
   return (
     <>
@@ -113,7 +108,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: '1rem' }}
+              sx={{ mt: "1rem" }}
             >
               Submit
             </Button>
@@ -121,5 +116,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
