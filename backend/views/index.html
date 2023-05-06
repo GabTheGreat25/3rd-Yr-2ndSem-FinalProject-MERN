@@ -6,20 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Camera Rental</title>
     <style>
-      @import url('https://fonts.googleapis.com/css?family=Quicksand:400,500,700');
+      @import url("https://fonts.googleapis.com/css?family=Quicksand:400,500,700");
       html,
       body {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Quicksand', sans-serif;
+        font-family: "Quicksand", sans-serif;
         font-size: 62.5%;
         font-size: 10px;
       }
-      /*-- Inspiration taken from abdo steif -->
-/* --> https://codepen.io/abdosteif/pen/bRoyMb?editors=1100*/
-
-      /* Navbar section */
 
       .nav {
         width: 100%;
@@ -99,8 +95,6 @@
         transition: all 0.4s ease;
       }
 
-      /* Media qurey section */
-
       @media screen and (min-width: 768px) and (max-width: 1024px) {
         .container {
           margin: 0;
@@ -131,7 +125,6 @@
           left: 0;
           bottom: 0;
           background-color: #111;
-          /*same background color of navbar*/
           background-position: center top;
         }
         .nav div.main_list ul li {
@@ -149,9 +142,6 @@
         }
       }
 
-      /* Animation */
-      /* Inspiration taken from Dicson https://codemyui.com/simple-hamburger-menu-x-mark-animation/ */
-
       .navTrigger {
         cursor: pointer;
         width: 30px;
@@ -166,7 +156,7 @@
       .navTrigger i {
         background-color: #fff;
         border-radius: 2px;
-        content: '';
+        content: "";
         display: block;
         width: 100%;
         height: 4px;
@@ -363,12 +353,12 @@
       }
     </style>
     <script>
-      $('.navTrigger').click(function () {
-        $(this).toggleClass('active')
+      $(".navTrigger").click(function () {
+        $(this).toggleClass("active");
 
-        $('#mainListDiv').toggleClass('show_list')
-        $('#mainListDiv').fadeIn()
-      })
+        $("#mainListDiv").toggleClass("show_list");
+        $("#mainListDiv").fadeIn();
+      });
     </script>
   </head>
   <body>
@@ -393,9 +383,8 @@
     </nav>
 
     <section class="home"></section>
-    <div style="height: 100%;">
-      <!-- just to make scrolling effect possible -->
-      <h2 class="myH2">About Us?</h2>
+    <div style="height: 100%">
+      <h2 class="myH2">About Us</h2>
       <p class="myP">
         Rent our camera for smooth/fast reliable transactions. No downpayment
         needed just fill out the form.
@@ -431,19 +420,17 @@
       </p>
     </div>
 
-    <!-- Jquery needed -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="js/scripts.js"></script>
 
-    <!-- Function used to shrink nav bar removing paddings and adding black background -->
     <script>
       $(window).scroll(function () {
         if ($(document).scrollTop() > 50) {
-          $('.nav').addClass('affix')
+          $(".nav").addClass("affix");
         } else {
-          $('.nav').removeClass('affix')
+          $(".nav").removeClass("affix");
         }
-      })
+      });
     </script>
   </body>
 </html>
