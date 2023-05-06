@@ -1,9 +1,10 @@
 const Comment = require("../models/comment");
 const ErrorHandler = require("../utils/errorHandler");
 const mongoose = require("mongoose");
+const { STATUSCODE, RESOURCE } = require("../constants/index");
 
 exports.getAllCommentsData = async (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit;
+  const skip = (page - STATUSCODE.ONE) * limit;
 
   let commentsQuery = Comment.find();
 
@@ -12,8 +13,12 @@ exports.getAllCommentsData = async (page, limit, search, sort, filter) => {
 
   if (sort) {
     const [field, order] = sort.split(":");
-    commentsQuery = commentsQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else commentsQuery = commentsQuery.sort({ createdAt: -1 });
+    commentsQuery = commentsQuery.sort({
+      [field]:
+        order === RESOURCE.ASCENDING ? STATUSCODE.ONE : STATUSCODE.NEGATIVE_ONE,
+    });
+  } else
+    commentsQuery = commentsQuery.sort({ createdAt: STATUSCODE.NEGATIVE_ONE });
 
   if (filter) {
     const [field, value] = filter.split(":");
