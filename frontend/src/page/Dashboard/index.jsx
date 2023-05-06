@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import GetAllUser from "./getAllUser";
 import GetAllAdmin from "./GetAllAdmin";
 import GetAllEmployee from "./GetAllEmployee";
@@ -18,32 +18,48 @@ export default function () {
     <>
       {(auth?.user?.roles?.includes("Admin") ||
         auth?.user?.roles?.includes("Employee")) && (
-        <>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <GetAllUser />
-          </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <GetAllAdmin />
-          </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <GetAllEmployee />
-          </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <GetAllCustomer />
-          </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <ShowActiveUser />
-          </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <AllUserCamera />
-          </Box>
+        <Grid container spacing={2}>
+          <Grid item sx={{ width: "100%" }}>
+            <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+              <GetAllUser />
+            </Box>
+          </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <ShowActiveUser />
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <GetAllAdmin />
+              </Box>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <GetAllEmployee />
+              </Box>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <GetAllCustomer />
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <AllUserCamera />
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box sx={{ mb: "1rem", mt: ".5rem" }}>
+                <TotalProfitPerYear />
+              </Box>
+            </Grid>
+          </Grid>
+
           <Box sx={{ mb: "1rem", mt: ".5rem" }}>
             <MonthlySales />
           </Box>
-          <Box sx={{ mb: "1rem", mt: ".5rem" }}>
-            <TotalProfitPerYear />
-          </Box>
-        </>
+        </Grid>
       )}
       {auth?.user?.roles?.includes("Customer") && (
         <>
