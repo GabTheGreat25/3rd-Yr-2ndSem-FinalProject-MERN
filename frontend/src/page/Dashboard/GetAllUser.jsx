@@ -3,9 +3,10 @@ import ListData from "../../component/ListData";
 import { AccountCircle } from "@mui/icons-material";
 import { useGetUsersQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
+import { ERROR } from "@/constants";
 
 export default function () {
-  const { data, isLoading } = useGetUsersQuery();
+  const { data, isLoading, isError } = useGetUsersQuery();
   const users = data?.details ?? [];
   const usersCount = users.length;
 
@@ -13,6 +14,8 @@ export default function () {
     <div className="loader">
       <PacmanLoader color="#2c3e50" loading={true} size={50} />
     </div>
+  ) : isError ? (
+    <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
   ) : (
     <ListData
       title="Users"
