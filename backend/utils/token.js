@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { RESOURCE } = require("../constants/index");
 
 exports.generateAccessToken = (email, roles) => {
   const accessToken = jwt.sign(
@@ -21,10 +22,10 @@ exports.verifyAccessToken = (accessToken) => {
 
 exports.setAccessTokenCookie = (accessTokenMaxAge) => {
   return (res, accessToken) => {
-    res.cookie("jwt", accessToken, {
+    res.cookie(RESOURCE.JWT, accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      secure: process.env.NODE_ENV === RESOURCE.PRODUCTION,
+      sameSite: RESOURCE.NONE,
       maxAge: accessTokenMaxAge,
     });
   };
