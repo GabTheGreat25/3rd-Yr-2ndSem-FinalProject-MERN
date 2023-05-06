@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   useGetCamerasQuery,
   useAddTransactionMutation,
-  useGetTransactionsQuery,
 } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
@@ -23,14 +22,12 @@ export default function () {
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCamerasQuery();
 
-  const { refetch: refetchTransactions } = useGetTransactionsQuery();
-
   const [cartItems, setCartItems] = useState([]);
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
 
-  const [transactionDate, setTransactionDate] = useState(new Date());
+  const [transactionDate] = useState(new Date());
 
   const [addTransaction] = useAddTransactionMutation();
 
@@ -53,10 +50,6 @@ export default function () {
     setCartCount(cartCount - 1);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -70,7 +63,6 @@ export default function () {
         date: transactionDate,
       });
 
-      // Generate the PDF receipt
       const doc = new jsPDF();
       doc.text("Transaction Details:", 10, 10);
       doc.text("Date: " + newTransaction.date, 10, 20);
@@ -83,7 +75,6 @@ export default function () {
         itemY += 10;
       });
 
-      // Download the PDF
       doc.save("transaction.pdf");
 
       navigate("/dashboard/comment/create");
