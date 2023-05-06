@@ -34,25 +34,18 @@ export default function () {
         ...values,
         transaction: lastTransactionId,
       };
-      addComment(newComment)
-        .then((response) => {
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          if (response?.data?.success === true) {
-            navigate("/dashboard/comment");
-            toast.success("Comment created successfully!", toastProps);
-          } else {
-            toast.error("Error while creating comment.", toastProps);
-          }
-        })
-        .catch((error) => {
-          toast.error("Error while creating comment.", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          });
-        });
+      addComment(newComment).then((response) => {
+        const toastProps = {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        };
+        if (response?.data?.success === true) {
+          navigate("/dashboard/comment");
+          toast.success(`${response?.data?.message}`, toastProps);
+        } else {
+          toast.error(`${response?.error?.data?.error?.message}`, toastProps);
+        }
+      });
     },
   });
 
