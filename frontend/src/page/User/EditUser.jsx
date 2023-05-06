@@ -49,25 +49,20 @@ export default function () {
         formData.append("image", file);
       });
       formData.append("active", values.active.toString());
-      updateUser({ id: data?.details?._id, payload: formData })
-        .then((response) => {
+      updateUser({ id: data?.details?._id, payload: formData }).then(
+        (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
           if (response?.data?.success === true) {
             navigate("/dashboard/user");
-            toast.success("User edited successfully!", toastProps);
+            toast.success(`${response?.data?.message}`, toastProps);
           } else {
-            toast.error("Error while editing user.", toastProps);
+            toast.error(`${response?.error?.data?.error?.message}`, toastProps);
           }
-        })
-        .catch((error) => {
-          toast.error("Error while editing user.", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          });
-        });
+        }
+      );
     },
   });
 
