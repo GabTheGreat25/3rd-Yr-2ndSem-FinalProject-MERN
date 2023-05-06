@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   TextField,
   Typography,
@@ -7,64 +7,57 @@ import {
   InputLabel,
   Select,
   MenuItem,
-} from '@mui/material'
-import { useAddNoteMutation, useGetUsersQuery } from '@/state/api/reducer'
-import { useFormik } from 'formik'
-import { createNoteValidation } from '../../validation'
-import { useNavigate } from 'react-router-dom'
-import { ERROR } from '../../constants'
-import { PacmanLoader } from 'react-spinners'
-import { USER } from '@/constants'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useSelector } from 'react-redux'
+} from "@mui/material";
+import { useAddNoteMutation, useGetUsersQuery } from "@/state/api/reducer";
+import { useFormik } from "formik";
+import { createNoteValidation } from "../../validation";
+import { useNavigate } from "react-router-dom";
+import { ERROR } from "../../constants";
+import { PacmanLoader } from "react-spinners";
+import { USER } from "@/constants";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function () {
-  const navigate = useNavigate()
-  const [addNote, isLoading, isError] = useAddNoteMutation()
-  const { data } = useGetUsersQuery()
+  const navigate = useNavigate();
+  const [addNote, isLoading, isError] = useAddNoteMutation();
+  const { data } = useGetUsersQuery();
 
-  const auth = useSelector((state) => state.auth)
+  const auth = useSelector((state) => state.auth);
 
   const filteredData = data?.details?.filter(
-    (user) => user?._id !== auth?.user?._id,
-  )
+    (user) => user?._id !== auth?.user?._id
+  );
 
-  const users = filteredData ?? []
+  const users = filteredData ?? [];
 
   const employees = users?.filter((user) =>
-    user?.roles?.includes(USER.EMPLOYEE),
-  )
+    user?.roles?.includes(USER.EMPLOYEE)
+  );
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      text: '',
-      user: '',
+      title: "",
+      text: "",
+      user: "",
     },
     validationSchema: createNoteValidation,
     onSubmit: (values) => {
-      addNote(values)
-        .then((response) => {
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          }
-          if (response?.data?.success === true) {
-            navigate('/dashboard/note')
-            toast.success('Note created successfully!', toastProps)
-          } else {
-            toast.error('Error while creating note.', toastProps)
-          }
-        })
-        .catch((error) => {
-          toast.error('Error while creating note.', {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          })
-        })
+      addNote(values).then((response) => {
+        const toastProps = {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        };
+        if (response?.data?.success === true) {
+          navigate("/dashboard/note");
+          toast.success(`${response?.data?.message}`, toastProps);
+        } else {
+          toast.error(`${response?.error?.data?.error?.message}`, toastProps);
+        }
+      });
     },
-  })
+  });
 
   return (
     <>
@@ -135,7 +128,7 @@ export default function () {
                         <MenuItem key={user._id} value={user._id}>
                           {user.name}
                         </MenuItem>
-                      )
+                      );
                     })}
                 </Select>
                 {formik.touched.user && formik.errors.user && (
@@ -150,7 +143,7 @@ export default function () {
               color="primary"
               type="submit"
               disabled={!formik.isValid}
-              sx={{ mt: '1rem' }}
+              sx={{ mt: "1rem" }}
             >
               Submit
             </Button>
@@ -158,5 +151,5 @@ export default function () {
         </>
       )}
     </>
-  )
+  );
 }
