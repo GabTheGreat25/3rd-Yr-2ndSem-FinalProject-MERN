@@ -12,9 +12,11 @@ import { Typography, Box } from "@mui/material";
 import { groupBy } from "lodash";
 import { useGetCamerasQuery } from "@/state/api/reducer";
 import randomColor from "randomcolor";
+import { PacmanLoader } from "react-spinners";
+import { ERROR } from "@/constants";
 
 export default function AllFarmerCameras() {
-  const { data, isLoading } = useGetCamerasQuery();
+  const { data, isLoading, isError } = useGetCamerasQuery();
 
   const groupedData = React.useMemo(() => {
     if (!data) return [];
@@ -63,26 +65,34 @@ export default function AllFarmerCameras() {
     return null;
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (!data || !data.success || groupedData.length === 0) return null;
-
   return (
-    <BarChart
-      width={600}
-      height={400}
-      data={groupedData}
-      margin={{ top: 20, right: 30 }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis domain={[0, maxCameras]} />
-      <Tooltip content={renderCustomTooltip} />
-      <Bar dataKey="totalCameras" fill="#8884d8">
-        {groupedData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={entry.color} />
-        ))}
-      </Bar>
-    </BarChart>
+    <>
+      {isLoading ? (
+        <div className="loader">
+          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+        </div>
+      ) : isError ? (
+        <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
+      ) : groupedData.length === 0 || !data.success ? null : (
+        <>
+          <BarChart
+            width={600}
+            height={400}
+            data={groupedData}
+            margin={{ top: 20, right: 30 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis domain={[0, maxCameras]} />
+            <Tooltip content={renderCustomTooltip} />
+            <Bar dataKey="totalCameras" fill="#8884d8">
+              {groupedData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </>
+      )}
+    </>
   );
 }
