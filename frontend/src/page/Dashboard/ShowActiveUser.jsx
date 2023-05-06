@@ -16,7 +16,7 @@ export default function () {
   const { data, isLoading, isError } = useGetUsersQuery();
 
   const chartData = React.useMemo(() => {
-    if (!isLoading && !isError && data?.details) {
+    if (data?.details) {
       const activeCount = data?.details?.filter((user) => user.active).length;
       const inactiveCount = data?.details?.length - activeCount;
       return [
@@ -25,10 +25,9 @@ export default function () {
       ];
     }
     return [];
-  }, [data, isLoading, isError]);
+  }, [data]);
 
   const COLORS = React.useMemo(() => {
-    if (chartData.length === 0) return [];
     return randomColor({ count: chartData.length, luminosity: "bright" });
   }, [chartData]);
 
@@ -40,8 +39,8 @@ export default function () {
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
-      ) : (
-        <PieChart width={800} height={400}>
+      ) : chartData.length === 0 || !data.success ? null : (
+        <PieChart width={550} height={400}>
           <Pie
             data={chartData}
             dataKey="quantity"
