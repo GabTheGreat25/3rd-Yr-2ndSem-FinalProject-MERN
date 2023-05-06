@@ -33,28 +33,21 @@ export default function () {
     },
     validationSchema: loginUserValidation,
     onSubmit: (values) => {
-      loginUser(values)
-        .then((response) => {
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          if (
-            response?.data?.success === true ||
-            response?.data?.active === false
-          ) {
-            navigate("/dashboard");
-            toast.success("Login successful!ly!", toastProps);
-          } else {
-            toast.error("Login failed. Please try again.", toastProps);
-          }
-        })
-        .catch((error) => {
-          toast.error("Login failed. Please try again.", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          });
-        });
+      loginUser(values).then((response) => {
+        const toastProps = {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        };
+        if (
+          response?.data?.success === true ||
+          response?.data?.active === false
+        ) {
+          navigate("/dashboard");
+          toast.success(`${response?.data?.message}`, toastProps);
+        } else {
+          toast.error(`${response?.error?.data?.error?.message}`, toastProps);
+        }
+      });
     },
   });
 
