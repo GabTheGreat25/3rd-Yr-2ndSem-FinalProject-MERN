@@ -28,7 +28,7 @@ const noteRoutes = [
   {
     method: METHOD.PATCH,
     path: PATH.EDIT_NOTE_ID,
-    roles: [ROLE.ADMIN],
+    roles: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: noteController.updateNote,
   },
   {
