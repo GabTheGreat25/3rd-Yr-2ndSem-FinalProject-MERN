@@ -97,8 +97,8 @@ exports.updateCameraData = async (req, res, id) => {
 
   if (duplicateCamera) throw new ErrorHandler("Duplicate name");
 
-  let images = [];
-  if (req.files && Array.isArray(req.files)) {
+  let images = existingCamera.image || [];
+  if (req.files && Array.isArray(req.files) && req.files.length > 0) {
     images = await Promise.all(
       req.files.map(async (file) => {
         const result = await cloudinary.uploader.upload(file.path, {
@@ -111,10 +111,11 @@ exports.updateCameraData = async (req, res, id) => {
         };
       })
     );
+
     await cloudinary.api.delete_resources(
       existingCamera.image.map((image) => image.public_id)
     );
-  } else images = existingCamera.image || [];
+  }
 
   const updatedCamera = await Camera.findByIdAndUpdate(
     id,

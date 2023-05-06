@@ -360,8 +360,8 @@ exports.updateUserData = async (req, res, id) => {
 
   if (duplicateUser) throw new ErrorHandler("Duplicate name");
 
-  let images = [];
-  if (req.files && Array.isArray(req.files)) {
+  let images = existingUser.image || [];
+  if (req.files && Array.isArray(req.files) && req.files.length > 0) {
     images = await Promise.all(
       req.files.map(async (file) => {
         const result = await cloudinary.uploader.upload(file.path, {
@@ -374,10 +374,11 @@ exports.updateUserData = async (req, res, id) => {
         };
       })
     );
+
     await cloudinary.api.delete_resources(
       existingUser.image.map((image) => image.public_id)
     );
-  } else images = existingUser.image || [];
+  }
 
   let roles = existingUser.roles;
   if (req.body.roles) {
