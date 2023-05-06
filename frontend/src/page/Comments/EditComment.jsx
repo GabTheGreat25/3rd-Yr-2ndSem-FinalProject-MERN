@@ -33,25 +33,18 @@ export default function () {
       updateComment({
         id: data?.details?._id,
         payload: values,
-      })
-        .then((response) => {
-          const toastProps = {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          };
-          if (response?.data?.success === true) {
-            navigate("/dashboard/comment");
-            toast.success("Comment edited successfully!", toastProps);
-          } else {
-            toast.error("Error while editing comment.", toastProps);
-          }
-        })
-        .catch((error) => {
-          toast.error("Error while editing comment.", {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
-          });
-        });
+      }).then((response) => {
+        const toastProps = {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        };
+        if (response?.data?.success === true) {
+          navigate("/dashboard/comment");
+          toast.success(`${response?.data?.message}`, toastProps);
+        } else {
+          toast.error(`${response?.error?.data?.error?.message}`, toastProps);
+        }
+      });
     },
   });
 
