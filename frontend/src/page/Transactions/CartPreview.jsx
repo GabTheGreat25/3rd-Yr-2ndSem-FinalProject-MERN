@@ -25,7 +25,7 @@ export default function ({ cartItems, onRemoveFromCart, onConfirmPurchase }) {
         Cart Preview
       </h3>
       {cartItems && cartItems.length > 0 ? (
-        cartItems.map((item) => (
+        cartItems?.map((item) => (
           <div
             key={item._id}
             style={{
