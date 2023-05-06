@@ -9,6 +9,7 @@ const token = require("../utils/token");
 const { cloudinary } = require("../utils/cloudinary");
 const uuid = require("uuid");
 const { sendEmail } = require("../utils/sendEmail");
+const { STATUSCODE, RESOURCE, ROLE } = require("../constants/index");
 const blacklistedTokens = [];
 
 exports.updatePassword = async (
@@ -242,10 +243,10 @@ exports.logoutUser = (cookies, res) => {
     !cookies?.jwt
       ? reject(new Error("You are not logged in"))
       : (blacklistedTokens.push(cookies.jwt),
-        res.clearCookie("jwt", {
+        res.clearCookie(RESOURCE.JWT, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "None",
+          secure: process.env.NODE_ENV === RESOURCE.PRODUCTION,
+          sameSite: RESOURCE.NONE,
         }),
         resolve());
   });
@@ -256,20 +257,20 @@ exports.getBlacklistedTokens = () => {
 };
 
 exports.getAllUsersData = (page, limit, search, sort, filter) => {
-  const skip = (page - 1) * limit;
+  const skip = (page - STATUSCODE.ONE) * limit;
 
   let usersQuery = User.find();
 
-  if (search) {
+  if (search)
     usersQuery = usersQuery.where("name").regex(new RegExp(search, "i"));
-  }
 
   if (sort) {
     const [field, order] = sort.split(":");
-    usersQuery = usersQuery.sort({ [field]: order === "asc" ? 1 : -1 });
-  } else {
-    usersQuery = usersQuery.sort({ createdAt: -1 });
-  }
+    usersQuery = usersQuery.sort({
+      [field]:
+        order === RESOURCE.ASCENDING ? STATUSCODE.ONE : STATUSCODE.NEGATIVE_ONE,
+    });
+  } else usersQuery = usersQuery.sort({ createdAt: STATUSCODE.NEGATIVE_ONE });
 
   if (filter) {
     const [field, value] = filter.split(":");
@@ -316,14 +317,14 @@ exports.CreateUserData = async (req, res) => {
     );
   }
 
-  if (images.length === 0)
+  if (images.length === STATUSCODE.ZERO)
     throw new ErrorHandler("At least one image is required");
 
   const roles = req.body.roles
     ? Array.isArray(req.body.roles)
       ? req.body.roles
       : req.body.roles.split(", ")
-    : ["Customer"];
+    : [ROLE.CUSTOMER];
 
   const user = await User.create({
     name: req.body.name,
