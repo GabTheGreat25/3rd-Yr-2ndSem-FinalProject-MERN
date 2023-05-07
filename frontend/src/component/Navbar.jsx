@@ -232,20 +232,14 @@ export default function (props) {
             <IconButton
               onClick={toggleCartPreview}
               color="inherit"
-              style={{ color: "white" }}
+              sx={{ color: "white", marginRight: "1rem" }}
             >
               <Badge badgeContent={props.cartCount}>
                 <ShoppingCartIcon />
+                <Typography>Cart</Typography>
               </Badge>
             </IconButton>
           ) : null}
-
-          <Dialog open={cartPreviewOpen} onClose={toggleCartPreview}>
-            <CartPreview
-              cartItems={cartItems}
-              onRemoveFromCart={onRemoveFromCart}
-            />
-          </Dialog>
 
           <Dialog open={cartPreviewOpen} onClose={toggleCartPreview}>
             <CartPreview
