@@ -36,9 +36,6 @@ export default function () {
   const isAdmin = auth?.user?.roles?.includes("Admin");
   const isEmployee =
     auth?.user?.roles?.includes("Employee") && auth?.user?.roles?.length === 1;
-  const isAdminAndEmployee =
-    auth?.user?.roles?.includes("Admin") &&
-    auth?.user?.roles?.includes("Employee");
   const taskBelongsToUser = data?.details?.user?._id === auth?.user?._id;
 
   const { data: getAllNote } = useGetUsersQuery();
@@ -52,6 +49,7 @@ export default function () {
   const employees = users?.filter((user) =>
     user?.roles?.includes(USER.EMPLOYEE)
   );
+
   const associatedUser = users?.find(
     (user) => user?._id === data?.details?.user?._id
   );
@@ -63,7 +61,7 @@ export default function () {
     initialValues: {
       title: data?.details?.title || "",
       text: data?.details?.text || "",
-      user: associatedUser?._id || "",
+      user: associatedUser?._id || auth?.user?._id,
       completed: Boolean(data?.details?.completed),
     },
     validationSchema: editNoteValidation,
