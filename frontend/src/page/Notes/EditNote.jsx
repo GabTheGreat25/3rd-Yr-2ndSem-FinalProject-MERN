@@ -38,7 +38,13 @@ export default function () {
     auth?.user?.roles?.includes("Employee") && auth?.user?.roles?.length === 1;
 
   const { data: getAllNote } = useGetUsersQuery();
-  const users = getAllNote?.details ?? [];
+
+  const filteredData = getAllNote?.details?.filter(
+    (user) => user?._id !== auth?.user?._id
+  );
+
+  const users = filteredData ?? [];
+
   const employees = users?.filter((user) =>
     user?.roles?.includes(USER.EMPLOYEE)
   );
@@ -64,7 +70,6 @@ export default function () {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
           };
-          console.log(response);
           if (response?.data?.success === true) {
             navigate("/dashboard/note");
             toast.success(`${response?.data?.message}`, toastProps);
