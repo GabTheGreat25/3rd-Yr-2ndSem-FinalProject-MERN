@@ -76,7 +76,66 @@ export default function () {
   };
 
   const handleEdit = (id) => {
-    navigate(`edit/${id}`);
+    const task = data.details.find((task) => task._id === id);
+    if (!task) {
+      toast.error("Could not find task to edit.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+      return;
+    }
+    const completed = task.completed === true;
+    const isTaskOwner = auth?.user?._id === task.user._id;
+    const isAdmin = auth?.user?.roles?.includes(USER.ADMIN);
+    const isAdminOrEmployee =
+      auth?.user?.roles?.includes(USER.ADMIN) &&
+      auth?.user?.roles?.includes(USER.EMPLOYEE);
+    const isEmployee =
+      auth?.user?.roles?.includes(USER.EMPLOYEE) &&
+      !auth?.user?.roles?.includes(USER.ADMIN);
+    const isTaskCompleted = task.completed === true;
+
+    if (isTaskCompleted && !isTaskOwner && isAdminOrEmployee) {
+      toast.error("You are not authorized to edit a completed note", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    } else if (isTaskCompleted && isEmployee && !isTaskOwner) {
+      toast.error(
+        "You are not authorized to edit a completed note that does not belong to you.",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        }
+      );
+    } else if (isTaskCompleted && !isAdminOrEmployee && !isTaskOwner) {
+      toast.error("You are not authorized to edit a completed note.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
+    } else if (completed && isEmployee) {
+      navigate(`edit/${id}`);
+    } else if (!completed && isAdmin) {
+      navigate(`edit/${id}`);
+    } else if (!completed && isTaskOwner) {
+      navigate(`edit/${id}`);
+    } else if (!completed && !isTaskOwner && !isAdminOrEmployee) {
+      toast.error(
+        "You are not authorized to edit notes that do not belong to you.",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        }
+      );
+    } else if (completed && !isEmployee && !isTaskOwner && !isAdminOrEmployee) {
+      toast.error(
+        "You are not authorized to edit a completed note that does not belong to you.",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+        }
+      );
+    } else navigate(`edit/${id}`);
   };
 
   const actions = [
@@ -85,12 +144,7 @@ export default function () {
       title: "Edit",
     },
     ...(auth?.user?.roles?.includes(USER.ADMIN)
-      ? [
-          {
-            onClick: handleDelete,
-            title: "Delete",
-          },
-        ]
+      ? [{ onClick: (id) => handleDelete(id), title: "Delete" }]
       : []),
   ];
 
