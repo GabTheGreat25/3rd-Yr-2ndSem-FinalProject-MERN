@@ -48,7 +48,10 @@ exports.login = [
     const setCookie = token.setAccessTokenCookie(accessTokenMaxAge);
     setCookie(res, accessToken);
 
-    SuccessHandler(res, "Token Generated", { user, accessToken });
+    SuccessHandler(res, `User ${user?.name} successfully login`, {
+      user,
+      accessToken,
+    });
   }),
 ];
 
