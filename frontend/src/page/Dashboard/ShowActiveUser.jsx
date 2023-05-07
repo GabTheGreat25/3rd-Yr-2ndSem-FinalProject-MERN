@@ -37,30 +37,31 @@ export default function () {
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
-      ) : chartData.length === 0 || !data.success ? null : (
-        <PieChart width={550} height={400}>
-          <Pie
-            data={chartData}
-            dataKey="quantity"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={150}
-            fill="#8884d8"
-            label
-          >
-            {chartData.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
+      ) : (
+        chartData &&
+        chartData.length > 0 && (
+          <PieChart width={550} height={400}>
+            <Pie
+              data={chartData}
+              dataKey="quantity"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={150}
+              fill="#8884d8"
+              label
+            >
+              {chartData?.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        )
       )}
     </>
   );
