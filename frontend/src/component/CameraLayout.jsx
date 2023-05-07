@@ -21,6 +21,7 @@ export default function (props) {
                 display: "flex",
                 justifyContent: "space-evenly",
                 gap: 5,
+                backgroundColor: "#f1f2f6",
               }}
             >
               <CameraImages image={detail?.image} />
