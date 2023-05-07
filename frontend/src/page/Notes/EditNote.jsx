@@ -36,6 +36,10 @@ export default function () {
   const isAdmin = auth?.user?.roles?.includes("Admin");
   const isEmployee =
     auth?.user?.roles?.includes("Employee") && auth?.user?.roles?.length === 1;
+  const isAdminAndEmployee =
+    auth?.user?.roles?.includes("Admin") &&
+    auth?.user?.roles?.includes("Employee");
+  const taskBelongsToUser = data?.details?.user?._id === auth?.user?._id;
 
   const { data: getAllNote } = useGetUsersQuery();
 
@@ -128,7 +132,7 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              {isAdmin && (
+              {!taskBelongsToUser && isAdmin && (
                 <Grid item xs={12}>
                   <InputLabel id="user-label">Select User</InputLabel>
                   <Select
@@ -161,7 +165,10 @@ export default function () {
                   )}
                 </Grid>
               )}
-              {isEmployee && (
+
+              {(taskBelongsToUser ||
+                (!isAdmin && !isEmployee) ||
+                (isEmployee && !taskBelongsToUser)) && (
                 <Grid item xs={12}>
                   <FormControlLabel
                     control={
