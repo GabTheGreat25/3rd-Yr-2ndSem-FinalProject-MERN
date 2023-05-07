@@ -95,8 +95,8 @@ export default function (props) {
     filteredData && filteredData.slice(startIndex, endIndex);
 
   return (
-    <TableContainer component={Paper}>
-      <div>
+    <>
+      <div style={{ marginBottom: "1rem" }}>
         <Autocomplete
           freeSolo
           disableClearable
@@ -111,105 +111,95 @@ export default function (props) {
                 setSearchQuery(event.target.value);
                 filter(event.target.value);
               }}
-              sx={{
-                marginTop: ".5rem",
-                "& .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-              }}
             />
           )}
           value={searchQuery}
         />
       </div>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        {headers && headers.length > 0 && (
-          <TableHead>
-            <TableRow>
-              {headers.map((header) => (
-                <StyledTableCell
-                  key={generateKey(5)}
-                  align="center"
-                  onClick={() => handleClickHeader(header)}
-                >
-                  {header}
-                  {sorting && sorting.column === header && (
-                    <span>{sorting.direction === "asc" ? " ▲" : " ▼"}</span>
-                  )}
-                </StyledTableCell>
-              ))}
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 700 }} aria-label="customized table">
+          {headers && headers.length > 0 && (
+            <TableHead>
+              <TableRow>
+                {headers.map((header) => (
+                  <StyledTableCell
+                    key={generateKey(5)}
+                    align="center"
+                    onClick={() => handleClickHeader(header)}
+                  >
+                    {header}
+                    {sorting && sorting.column === header && (
+                      <span>{sorting.direction === "asc" ? " ▲" : " ▼"}</span>
+                    )}
+                  </StyledTableCell>
+                ))}
 
-              {hasActions && (
-                <StyledTableCell align="center">Actions</StyledTableCell>
-              )}
-            </TableRow>
-          </TableHead>
-        )}
+                {hasActions && (
+                  <StyledTableCell align="center">Actions</StyledTableCell>
+                )}
+              </TableRow>
+            </TableHead>
+          )}
 
-        <TableBody>
-          {paginatedData &&
-            paginatedData.map((paginatedRow) => {
-              const rowKeys =
-                keys.length > 0 ? splitKey(generateKey(), keys) : null;
-              const rowData = deconstruct(paginatedRow, headers, rowKeys);
-              return (
-                <StyledTableRow key={generateKey(5)}>
-                  {keys.map((e) => {
-                    const { key, operation } = e;
-                    const splitted = splitKey(key);
-                    const hasOperation = operation;
-                    let tempValue = paginatedRow[key];
+          <TableBody>
+            {paginatedData &&
+              paginatedData.map((paginatedRow) => {
+                const rowKeys =
+                  keys.length > 0 ? splitKey(generateKey(), keys) : null;
+                const rowData = deconstruct(paginatedRow, headers, rowKeys);
+                return (
+                  <StyledTableRow key={generateKey(5)}>
+                    {keys.map((e) => {
+                      const { key, operation } = e;
+                      const splitted = splitKey(key);
+                      const hasOperation = operation;
+                      let tempValue = paginatedRow[key];
 
-                    if (splitted.length > 1)
-                      tempValue = deconstruct(splitted, paginatedRow);
+                      if (splitted.length > 1)
+                        tempValue = deconstruct(splitted, paginatedRow);
 
-                    return (
-                      <StyledTableCell key={generateKey(5)} align="center">
-                        {hasOperation
-                          ? manipulate(tempValue, paginatedRow, hasOperation)
-                          : tempValue}
+                      return (
+                        <StyledTableCell key={generateKey(5)} align="center">
+                          {hasOperation
+                            ? manipulate(tempValue, paginatedRow, hasOperation)
+                            : tempValue}
+                        </StyledTableCell>
+                      );
+                    })}
+                    {hasActions && (
+                      <StyledTableCell align="center">
+                        <ButtonGroup>
+                          {actions.map((action) => (
+                            <Button
+                              sx={{
+                                backgroundColor: "#2c3e50",
+                                marginRight: " .5rem",
+                                color: "#dfe4ea",
+                                "&:hover": {
+                                  backgroundColor: "#dfe4ea",
+                                  color: "#2c3e50",
+                                  transition: "transform 0.2s ease-in-out",
+                                  transform: "scale(1.1)",
+                                  borderColor: "#2c3e50",
+                                },
+                              }}
+                              key={generateKey(5)}
+                              onClick={() => {
+                                action.onClick(paginatedRow["_id"]);
+                              }}
+                            >
+                              {action.title}
+                            </Button>
+                          ))}
+                        </ButtonGroup>
                       </StyledTableCell>
-                    );
-                  })}
-                  {hasActions && (
-                    <StyledTableCell align="center">
-                      <ButtonGroup>
-                        {actions.map((action) => (
-                          <Button
-                            sx={{
-                              backgroundColor: "#2c3e50",
-                              marginRight: " .5rem",
-                              color: "#dfe4ea",
-                              "&:hover": {
-                                backgroundColor: "#dfe4ea",
-                                color: "#2c3e50",
-                                transition: "transform 0.2s ease-in-out",
-                                transform: "scale(1.1)",
-                                borderColor: "#2c3e50",
-                              },
-                            }}
-                            key={generateKey(5)}
-                            onClick={() => {
-                              action.onClick(paginatedRow["_id"]);
-                            }}
-                          >
-                            {action.title}
-                          </Button>
-                        ))}
-                      </ButtonGroup>
-                    </StyledTableCell>
-                  )}
-                </StyledTableRow>
-              );
-            })}
-        </TableBody>
-      </Table>
+                    )}
+                  </StyledTableRow>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Pagination
         count={Math.ceil(data.length / rowsPerPage)}
         page={page}
@@ -220,6 +210,6 @@ export default function (props) {
           padding: "1rem",
         }}
       />
-    </TableContainer>
+    </>
   );
 }
