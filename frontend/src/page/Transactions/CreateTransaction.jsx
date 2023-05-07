@@ -30,36 +30,5 @@ export default function () {
     setCartCount(cartCount - 1);
   };
 
-  const [isOpen, setIsOpen] = React.useState(false);
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-
-  return (
-    <>
-      <Navbar
-        cartItems={cartItems}
-        onRemoveFromCart={handleOnRemoveFromCart}
-        onAddToCart={handleOnAddToCart}
-        cartCount={cartCount}
-        open={isOpen}
-        toggleDrawer={toggleDrawer}
-      />
-      {isLoading ? (
-        <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
-        </div>
-      ) : isError ? (
-        <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
-      ) : (
-        <>
-          <CameraLayout
-            data={data?.details}
-            onAddToCart={handleOnAddToCart}
-            cartItems={cartItems}
-          />
-        </>
-      )}
-    </>
-  );
+  return <></>;
 }
