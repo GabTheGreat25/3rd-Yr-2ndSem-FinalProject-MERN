@@ -11,4 +11,7 @@ export default {
   DELETE_TRANSACTION_ERROR: "Error deleting transaction.",
   USER_DETAILS_ERROR: "Error updating user details",
   USERS_PASSWORD_ERROR: "Error updating user password",
+  COMPLETE_NOTE_ERROR: "You are not authorized to edit a completed note",
+  EDIT_NOTE_ERROR:
+    "You are not authorized to edit notes that do not belong to you.",
 };
