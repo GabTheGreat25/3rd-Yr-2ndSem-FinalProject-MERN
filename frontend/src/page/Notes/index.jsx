@@ -96,20 +96,17 @@ export default function () {
     const isTaskCompleted = task.completed === true;
 
     if (isTaskCompleted && !isTaskOwner && isAdminOrEmployee) {
-      toast.error("You are not authorized to edit a completed note", {
+      toast.error(ERROR.COMPLETE_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
       });
     } else if (isTaskCompleted && isEmployee && !isTaskOwner) {
-      toast.error(
-        "You are not authorized to edit a completed note that does not belong to you.",
-        {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
-        }
-      );
+      toast.error(ERROR.EDIT_NOTE_ERROR, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     } else if (isTaskCompleted && !isAdminOrEmployee && !isTaskOwner) {
-      toast.error("You are not authorized to edit a completed note.", {
+      toast.error(ERROR.COMPLETE_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 5000,
       });
@@ -120,21 +117,15 @@ export default function () {
     } else if (!completed && isTaskOwner) {
       navigate(`edit/${id}`);
     } else if (!completed && !isTaskOwner && !isAdminOrEmployee) {
-      toast.error(
-        "You are not authorized to edit notes that do not belong to you.",
-        {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
-        }
-      );
+      toast.error(ERROR.EDIT_NOTE_ERROR, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     } else if (completed && !isEmployee && !isTaskOwner && !isAdminOrEmployee) {
-      toast.error(
-        "You are not authorized to edit a completed note that does not belong to you.",
-        {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
-        }
-      );
+      toast.error(ERROR.EDIT_NOTE_ERROR, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+      });
     } else navigate(`edit/${id}`);
   };
 
