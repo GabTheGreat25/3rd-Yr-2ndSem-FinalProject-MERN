@@ -7,31 +7,11 @@ import { PacmanLoader } from "react-spinners";
 import { ERROR } from "../../constants";
 import { CameraLayout } from "@/component";
 import Navbar from "../../component/Navbar";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 export default function () {
-  const navigate = useNavigate();
   const { data, isLoading, isError } = useGetCamerasQuery();
 
   const [cartItems, setCartItems] = useState([]);
-
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
-
-  const [transactionDate] = useState(new Date());
-
-  const [addTransaction] = useAddTransactionMutation();
-
-  const auth = useSelector((state) => state.auth);
 
   const [cartCount, setCartCount] = useState(0);
 
@@ -50,40 +30,9 @@ export default function () {
     setCartCount(cartCount - 1);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleConfirmPurchase = async () => {
-    try {
-      const newTransaction = await addTransaction({
-        user: auth.user._id,
-        cameras: cartItems.map((item) => item._id),
-        status: "pending",
-        date: transactionDate,
-      });
-
-      const doc = new jsPDF();
-      doc.text("Transaction Details:", 10, 10);
-      doc.text("Date: " + newTransaction.date, 10, 20);
-      doc.text("User: " + auth.user.name, 10, 30);
-      doc.text("Items: ", 10, 40);
-      let itemY = 50;
-      newTransaction.cameras.forEach((camera) => {
-        const item = cartItems.find((item) => item._id === camera);
-        doc.text(`${item.name} - ${item.price}`, 10, itemY);
-        itemY += 10;
-      });
-
-      doc.save("transaction.pdf");
-
-      navigate("/dashboard/comment/create");
-      setCartItems([]);
-      handleClose();
-    } catch (err) {
-      setError(true);
-      console.error(err);
-    }
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleDrawer = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -93,8 +42,9 @@ export default function () {
         onRemoveFromCart={handleOnRemoveFromCart}
         onAddToCart={handleOnAddToCart}
         cartCount={cartCount}
+        open={isOpen}
+        toggleDrawer={toggleDrawer}
       />
-
       {isLoading ? (
         <div className="loader">
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
@@ -108,24 +58,6 @@ export default function () {
             onAddToCart={handleOnAddToCart}
             cartItems={cartItems}
           />
-
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Confirm Purchase</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Are you sure you want to purchase the selected items
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleConfirmPurchase}>Confirm</Button>
-            </DialogActions>
-          </Dialog>
-          {error && (
-            <div className="errorMessage">
-              An error occurred while processing your purchase.
-            </div>
-          )}
         </>
       )}
     </>
