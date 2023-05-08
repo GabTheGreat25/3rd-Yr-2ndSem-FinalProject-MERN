@@ -11,7 +11,7 @@ import { useGetTransactionsQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 
 export default function MonthlySalesChart() {
-  const { data, isLoading, isError } = useGetTransactionsQuery();
+  const { data, isLoading } = useGetTransactionsQuery();
 
   const monthNames = [
     "Jan",
@@ -55,7 +55,7 @@ export default function MonthlySalesChart() {
         </div>
       ) : (
         <>
-          {groupedData && groupedData.length > 0 && (
+          {groupedData.length !== 0 && (
             <AreaChart data={chartData} width={1200} height={400}>
               <defs>
                 <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">

@@ -13,10 +13,9 @@ import { groupBy } from "lodash";
 import { useGetCamerasQuery } from "@/state/api/reducer";
 import randomColor from "randomcolor";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "@/constants";
 
 export default function AllFarmerCameras() {
-  const { data, isLoading, isError } = useGetCamerasQuery();
+  const { data, isLoading } = useGetCamerasQuery();
 
   const groupedData = React.useMemo(() => {
     if (!data) return [];
@@ -73,7 +72,7 @@ export default function AllFarmerCameras() {
         </div>
       ) : (
         <>
-          {groupedData && groupedData.length > 0 && (
+          {groupedData.length !== 0 && (
             <BarChart
               width={600}
               height={400}

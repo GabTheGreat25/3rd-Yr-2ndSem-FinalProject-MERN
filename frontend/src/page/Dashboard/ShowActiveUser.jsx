@@ -10,10 +10,9 @@ import {
 import { useGetUsersQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 import randomColor from "randomcolor";
-import { ERROR } from "../../constants";
 
 export default function () {
-  const { data, isLoading, isError } = useGetUsersQuery();
+  const { data, isLoading } = useGetUsersQuery();
 
   const chartData = React.useMemo(() => {
     if (data?.details) {
@@ -38,8 +37,7 @@ export default function () {
           <PacmanLoader color="#2c3e50" loading={true} size={50} />
         </div>
       ) : (
-        chartData &&
-        chartData.length > 0 && (
+        chartData.length !== 0 && (
           <PieChart width={550} height={400}>
             <Pie
               data={chartData}

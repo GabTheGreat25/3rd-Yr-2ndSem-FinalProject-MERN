@@ -11,7 +11,7 @@ import { useGetTransactionsQuery } from "@/state/api/reducer";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
-  const { data, isLoading, isError } = useGetTransactionsQuery();
+  const { data, isLoading } = useGetTransactionsQuery();
 
   const transactionsWithTotalSales =
     data?.details?.map((transaction) => {
@@ -42,7 +42,7 @@ export default function () {
         </div>
       ) : (
         <>
-          {groupedData && groupedData.length > 0 && (
+          {groupedData.length !== 0 && (
             <LineChart
               width={600}
               height={400}
