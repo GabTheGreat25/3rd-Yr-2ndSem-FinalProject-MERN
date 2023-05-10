@@ -1,14 +1,14 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetCommentByIdQuery } from "@/state/api/reducer";
+import { useGetCommentByIdQuery } from "@api";
 import { Card, CardContent, Typography } from "@mui/material";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE, TAGS } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
   const { id } = useParams();
   const { data, isLoading, isError } = useGetCommentByIdQuery(id, {
-    populate: "transaction",
+    populate: TAGS.TRANSACTION,
   });
 
   const { transService, ratings, text, transaction } = data?.details ?? {};
@@ -17,7 +17,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_COMMENTS_ERROR}</div>
@@ -46,7 +50,7 @@ export default function () {
               <strong>Text:</strong> {text}
             </Typography>
             <Typography variant="body2">
-              <strong>Status:</strong> {transaction.status}
+              <strong>Status:</strong> {transaction?.status}
             </Typography>
           </CardContent>
         </Card>
