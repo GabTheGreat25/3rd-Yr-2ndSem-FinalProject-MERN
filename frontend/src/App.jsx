@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import { RootLayout, NotFound, Welcome, DashboardLayout } from "@/layouts";
 import {
-  Home,
   User,
   UserLogin,
   UserRegister,
@@ -35,7 +34,6 @@ import {
   GetPerTransaction,
   ShowAllTransaction,
   EditTransaction,
-  CreateTransaction,
   CartPreview,
   CreateComment,
 } from "@/page";
@@ -272,14 +270,6 @@ const router = createBrowserRouter(
               userRoles={[USER.ADMIN, USER.EMPLOYEE, USER.CUSTOMER]}
             >
               <Transactions />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="transaction/create"
-          element={
-            <ProtectedRoute userRoles={[USER.CUSTOMER]}>
-              <CreateTransaction />
             </ProtectedRoute>
           }
         />
