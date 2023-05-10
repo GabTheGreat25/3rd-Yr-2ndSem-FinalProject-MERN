@@ -1,22 +1,17 @@
 import { useState } from "react";
 import { DataTable, Button } from "@/component";
-import { useGetNotesQuery, useDeleteNoteMutation } from "@/state/api/reducer";
+import { useGetNotesQuery, useDeleteNoteMutation } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { USER, ERROR } from "../../constants";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { USER, ERROR, RESOURCE, TAGS } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
-  const {
-    data,
-    isLoading,
-    isError: isNotesError,
-  } = useGetNotesQuery({
-    populate: "user",
+  const { data, isLoading, isError } = useGetNotesQuery({
+    populate: TAGS.USER,
   });
 
   const [isDeletingId, setIsDeletingId] = useState(null);
@@ -30,7 +25,7 @@ export default function () {
 
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/note/${row?._id}`} className="link">
           {row?._id}
@@ -45,11 +40,11 @@ export default function () {
     },
     {
       key: "completed",
-      operation: (value) => (value ? "Yes" : "No"),
+      operation: (value, row) => (value ? RESOURCE.YES : RESOURCE.NO),
     },
     {
-      key: "user",
-      operation: (value) => (value ? value?.name : ""),
+      key: TAGS.USER,
+      operation: (value, row) => (value ? value?.name : ""),
     },
   ];
 
@@ -59,12 +54,12 @@ export default function () {
 
   const handleDelete = async (id) => {
     setIsDeletingId(id);
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(RESOURCE.CONFIRM)) {
       const response = await deleteNote(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       };
       if (response?.data?.success === true) {
         toast.success(`${response?.data?.message}`, toastProps);
@@ -78,9 +73,9 @@ export default function () {
   const handleEdit = (id) => {
     const task = data.details.find((task) => task._id === id);
     if (!task) {
-      toast.error("Could not find task to edit.", {
+      toast.error(ERROR.COULD_NOT_FIND_TASK, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
       return;
     }
@@ -98,17 +93,17 @@ export default function () {
     if (isTaskCompleted && !isTaskOwner && isAdminOrEmployee) {
       toast.error(ERROR.COMPLETE_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } else if (isTaskCompleted && isEmployee && !isTaskOwner) {
       toast.error(ERROR.EDIT_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } else if (isTaskCompleted && !isAdminOrEmployee && !isTaskOwner) {
       toast.error(ERROR.COMPLETE_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } else if (completed && isEmployee) {
       navigate(`edit/${id}`);
@@ -119,12 +114,12 @@ export default function () {
     } else if (!completed && !isTaskOwner && !isAdminOrEmployee) {
       toast.error(ERROR.EDIT_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } else if (completed && !isEmployee && !isTaskOwner && !isAdminOrEmployee) {
       toast.error(ERROR.EDIT_NOTE_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } else navigate(`edit/${id}`);
   };
@@ -151,9 +146,13 @@ export default function () {
       )}
       {isLoading || isDeleting ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
-      ) : isNotesError ? (
+      ) : isError ? (
         <div className="errorMessage">{ERROR.GET_NOTES_ERROR}</div>
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_NOTE_ERROR}</div>
