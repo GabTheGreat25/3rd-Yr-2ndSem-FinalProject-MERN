@@ -1,16 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { API_URL } from "../../env/index.js";
+import { API_URL } from "@/env";
 import UserAPI from "./routes/users";
 import NoteAPI from "./routes/notes";
 import AuthAPI from "./routes/auth";
 import CameraAPI from "./routes/cameras";
 import TransactionAPI from "./routes/transactions";
 import CommentAPI from "./routes/comments";
-import { API, TAGS } from "../../constants";
+import { API, TAGS, RESOURCE } from "@/constants";
 
 const prepareHeaders = (headers, { getState }) => {
-  if (getState().auth.authenticated)
-    headers.set("authorization", `Bearer ${getState().auth.token || ""}`);
+  if (getState()?.auth?.authenticated)
+    headers.set("authorization", `Bearer ${getState()?.auth?.token || ""}`);
 
   headers.set("accept", `application/json`);
   return headers;
@@ -18,7 +18,7 @@ const prepareHeaders = (headers, { getState }) => {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: API_URL,
-  credentials: "include",
+  credentials: RESOURCE.INCLUDE,
   prepareHeaders,
 });
 
@@ -26,7 +26,7 @@ export const api = createApi({
   reducerPath: TAGS.API,
   baseQuery,
   tagTypes: API.TAGS,
-  keepUnusedDataFor: 0,
+  keepUnusedDataFor: RESOURCE.NUMBER.ZERO,
   endpoints: (builder) => ({
     getUsers: UserAPI.get(builder),
     getUserById: UserAPI.getById(builder),
