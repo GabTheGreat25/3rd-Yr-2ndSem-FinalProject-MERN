@@ -10,24 +10,26 @@ import {
 } from "recharts";
 import { Typography, Box } from "@mui/material";
 import { groupBy } from "lodash";
-import { useGetCamerasQuery } from "@/state/api/reducer";
+import { useGetCamerasQuery } from "@api";
 import randomColor from "randomcolor";
 import { PacmanLoader } from "react-spinners";
+import { RESOURCE } from "@/constants";
 
-export default function AllFarmerCameras() {
+export default function () {
   const { data, isLoading } = useGetCamerasQuery();
 
   const groupedData = React.useMemo(() => {
     if (!data) return [];
-    const grouped = groupBy(data?.details, (value) => value.user.name);
-    const result = Object.keys(grouped).map((name, index) => {
+    const grouped = groupBy(data?.details, (value) => value?.user?.name);
+    const result = Object.keys(grouped)?.map((name, index) => {
       const userCameras = grouped[name];
-      const cameraNames = userCameras.map((camera) => camera.name);
+      const cameraNames = userCameras?.map((camera) => camera?.name);
       return {
         name,
         cameras: cameraNames,
-        totalCameras: userCameras.filter((camera) => camera.status !== 1)
-          .length,
+        totalCameras: userCameras?.filter(
+          (camera) => camera?.status !== RESOURCE.NUMBER.ONE
+        ).length,
         color: randomColor({ luminosity: "bright" }),
       };
     });
@@ -35,13 +37,15 @@ export default function AllFarmerCameras() {
   }, [data]);
 
   const maxCameras = React.useMemo(() => {
-    if (groupedData.length === 0) return 0;
-    return Math.max(...groupedData.map((item) => item.totalCameras));
+    if (groupedData.length === RESOURCE.NUMBER.ZERO)
+      return RESOURCE.NUMBER.ZERO;
+    return Math.max(...groupedData.map((item) => item?.totalCameras));
   }, [groupedData]);
 
   const renderCustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const cameras = payload[0].payload.cameras.join(", ");
+      const cameras =
+        payload[RESOURCE.NUMBER.ZERO]?.payload?.cameras.join(", ");
       return (
         <Box sx={{ backgroundColor: "white" }}>
           <Typography
@@ -53,7 +57,9 @@ export default function AllFarmerCameras() {
               paddingTop: ".25rem",
               paddingX: ".5rem",
             }}
-          >{`User: ${label} has ${payload[0].value} camera(s)`}</Typography>
+          >{`User: ${label} has ${
+            payload[RESOURCE.NUMBER.ZERO].value
+          } camera(s)`}</Typography>
           <Typography
             variant="subtitle2"
             sx={{ fontWeight: "bold", padding: "0 2rem", textAlign: "center" }}
@@ -68,23 +74,30 @@ export default function AllFarmerCameras() {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
-      ) : (
+      ) : !data ? null : (
         <>
-          {groupedData.length !== 0 && (
+          {groupedData.length !== RESOURCE.NUMBER.ZERO && (
             <BarChart
-              width={600}
-              height={400}
+              width={RESOURCE.NUMBER.SIX_HUNDRED}
+              height={RESOURCE.NUMBER.FOUR_HUNDRED}
               data={groupedData}
-              margin={{ top: 20, right: 30 }}
+              margin={{
+                top: RESOURCE.NUMBER.TWENTY,
+                right: RESOURCE.NUMBER.THIRTY,
+              }}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis domain={[0, maxCameras]} />
+              <YAxis domain={[RESOURCE.NUMBER.ZERO, maxCameras]} />
               <Tooltip content={renderCustomTooltip} />
               <Bar dataKey="totalCameras" fill="#8884d8">
-                {groupedData.map((entry, index) => (
+                {groupedData?.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Bar>
