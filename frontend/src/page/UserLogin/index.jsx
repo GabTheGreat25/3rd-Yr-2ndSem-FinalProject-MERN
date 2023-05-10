@@ -9,7 +9,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useLoginMutation } from "../../state/api/reducer";
+import { useLoginMutation } from "@api";
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import loginImg from "@/assets/camera-login.jpg";
@@ -18,7 +18,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { PacmanLoader } from "react-spinners";
-import { loginUserValidation } from "../../validation";
+import { loginUserValidation } from "@/validation";
+import { RESOURCE } from "@/constants";
 
 export default function () {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export default function () {
       loginUser(values).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (
           response?.data?.success === true ||
@@ -44,37 +45,34 @@ export default function () {
         ) {
           navigate("/dashboard");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-  const handleForgotPassword = () => {
-    navigate(`/Forgotpassword`);
-  };
+  const handleForgotPassword = () => navigate(`/Forgotpassword`);
 
-  const handleRegister = () => {
-    navigate(`/register`);
-  };
+  const handleRegister = () => navigate(`/register`);
 
   return (
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : (
         <>
           <Container
             sx={{
-              mt: 5,
-              mb: 5,
+              mt: RESOURCE.NUMBER.FIVE,
+              mb: RESOURCE.NUMBER.FIVE,
               display: "grid",
               justifyContent: "center",
               alignItems: "center",
@@ -104,7 +102,7 @@ export default function () {
                   component="form"
                   onSubmit={formik.handleSubmit}
                   sx={{
-                    mt: 3,
+                    mt: RESOURCE.NUMBER.THREE,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -159,7 +157,7 @@ export default function () {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      mt: 2,
+                      mt: RESOURCE.NUMBER.TWO,
                       width: "100%",
                     }}
                   >
@@ -198,7 +196,7 @@ export default function () {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: RESOURCE.NUMBER.THREE, mb: RESOURCE.NUMBER.TWO }}
                   >
                     {
                       <span
@@ -216,7 +214,7 @@ export default function () {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      mt: 3,
+                      mt: RESOURCE.NUMBER.THREE,
                       width: "100%",
                     }}
                   >
