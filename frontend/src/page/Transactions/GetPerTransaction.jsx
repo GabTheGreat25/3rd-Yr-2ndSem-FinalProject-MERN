@@ -1,15 +1,15 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetTransactionByIdQuery } from "@/state/api/reducer";
+import { useGetTransactionByIdQuery } from "@api";
 import { Card, CardContent, Typography } from "@mui/material";
-import { ERROR } from "../../constants";
+import { ERROR, TAGS, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import moment from "moment-timezone";
 
 export default function CommentDetails() {
   const { id } = useParams();
   const { data, isLoading, isError } = useGetTransactionByIdQuery(id, {
-    populate: ["user", "cameras"],
+    populate: [TAGS.USER, TAGS.CAMERA],
   });
 
   const { user, cameras, status, date } = data?.details ?? {};
@@ -18,7 +18,11 @@ export default function CommentDetails() {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_TRANSACTIONS_ERROR}</div>
