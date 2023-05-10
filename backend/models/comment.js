@@ -16,10 +16,16 @@ const commentSchema = new mongoose.Schema(
     transService: {
       type: String,
       required: [true, "Please enter a service"],
+      validate: {
+        validator: function (value) {
+          return !filter.isProfane(value);
+        },
+        message: "Comments cannot contain profanity.",
+      },
     },
     ratings: {
       type: Number,
-      required: true,
+      required: [true, "Please enter a rating"],
       min: 1,
       max: 5,
       validate: {
@@ -29,7 +35,7 @@ const commentSchema = new mongoose.Schema(
     },
     text: {
       type: String,
-      required: true,
+      required: [true, "Please enter a text"],
       validate: {
         validator: function (value) {
           return !filter.isProfane(value);
