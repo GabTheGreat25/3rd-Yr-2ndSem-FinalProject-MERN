@@ -1,6 +1,6 @@
 import React from "react";
-import Broken from "../assets/broken-camera.jpg";
-import { Button } from "@/component";
+import Broken from "@assets/broken-camera.jpg";
+import { Button } from "@component";
 import { Typography } from "@material-ui/core";
 
 export default function () {
@@ -19,7 +19,7 @@ export default function () {
         }}
       >
         <div style={{ textAlign: "center" }}>
-          <img src={Broken} alt="Broken Image" style={{ width: "500px" }} />
+          <img src={Broken} alt="Broken Image" style={{ width: "32rem" }} />
           <Typography variant="h2">Not Found</Typography>
           <Typography variant="h5">
             The requested page could not be found.
