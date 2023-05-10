@@ -29,11 +29,6 @@ app.use("/", require("./routes/root"));
 
 app.use("/api/v1", auth, users, notes, cameras, transactions, comments);
 
-// Example "Hello World" route
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.all("*", (req, res) => {
   const filePath = req.accepts("html")
     ? path.join(__dirname, "views", "404.html")
