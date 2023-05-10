@@ -2,13 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetNoteByIdQuery } from "@/state/api/reducer";
 import { Card, CardContent, Typography } from "@mui/material";
-import { ERROR } from "../../constants";
+import { ERROR, TAGS, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
   const { id } = useParams();
   const { data, isLoading, isError } = useGetNoteByIdQuery(id, {
-    populate: "user",
+    populate: TAGS.USER,
   });
 
   const { title, text, completed, user } = data?.details ?? {};
@@ -17,7 +17,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_NOTES_ERROR}</div>
@@ -43,10 +47,11 @@ export default function () {
               <strong>Text:</strong> {text}
             </Typography>
             <Typography variant="body2">
-              <strong>Completed:</strong> {completed ? "Yes" : "No"}
+              <strong>Completed:</strong>
+              {completed ? RESOURCE.YES : RESOURCE.NO}
             </Typography>
             <Typography variant="body2">
-              <strong>Employee:</strong> {user.name}
+              <strong>Employee:</strong> {user?.name}
             </Typography>
           </CardContent>
         </Card>
