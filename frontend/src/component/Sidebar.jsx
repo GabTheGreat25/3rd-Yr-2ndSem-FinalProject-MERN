@@ -5,11 +5,11 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SidebarLink from "./SidebarLink";
-import { generateKey } from "@/services/generateKey";
+import { generateKey } from "@generateKey";
 import Drawer from "./drawer";
 import { useDispatch, useSelector } from "react-redux";
-import { USER, LINKS } from "@/constants";
-import { changeLinks } from "@/state/sidebar/authSideBar";
+import { USER, LINKS, RESOURCE } from "@/constants";
+import { changeLinks } from "@sidebar";
 
 export default function (props) {
   const { open, toggleDrawer } = props;
@@ -36,7 +36,7 @@ export default function (props) {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-end",
-            px: [1],
+            px: [RESOURCE.NUMBER.ONE],
           }}
         >
           <IconButton onClick={toggleDrawer}>
@@ -47,9 +47,9 @@ export default function (props) {
         <List component="nav">
           {sideBar?.links?.map((e) => {
             return (
-              <div key={generateKey(5)}>
-                <SidebarLink title={e.title} link={e.link} icon={e.icon} />
-                <Divider sx={{ my: 1 }} />
+              <div key={generateKey(RESOURCE.NUMBER.FIVE)}>
+                <SidebarLink title={e?.title} link={e?.link} icon={e?.icon} />
+                <Divider sx={{ my: RESOURCE.NUMBER.ONE }} />
               </div>
             );
           })}
