@@ -71,7 +71,7 @@ exports.getSingleTransactionData = async (id) => {
   return transaction;
 };
 exports.CreateTransactionData = async (data) => {
-  const { user, cameras, status, date } = data;
+  const { user, cameras, date } = data;
   if (!user) {
     throw new Error("User is required");
   }
@@ -79,7 +79,6 @@ exports.CreateTransactionData = async (data) => {
   const transaction = await Transaction.create({
     user,
     cameras,
-    status,
     date,
   });
 
