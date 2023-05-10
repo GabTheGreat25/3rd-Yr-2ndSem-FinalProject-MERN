@@ -1,25 +1,17 @@
 import { useState } from "react";
 import { DataTable, Button } from "@/component";
-import {
-  useGetCamerasQuery,
-  useDeleteCameraMutation,
-} from "@/state/api/reducer";
+import { useGetCamerasQuery, useDeleteCameraMutation } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { USER, ERROR } from "../../constants";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { USER, ERROR, TAGS, RESOURCE } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function () {
   const navigate = useNavigate();
-  const {
-    data,
-    isLoading,
-    isError: isCameraError,
-  } = useGetCamerasQuery({
-    populate: "user",
+  const { data, isLoading, isError } = useGetCamerasQuery({
+    populate: TAGS.USER,
   });
 
   const [isDeletingId, setIsDeletingId] = useState(null);
@@ -32,7 +24,7 @@ export default function () {
   const headers = ["ID", "Name", "Text", "Price", "Image", "Owner"];
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/camera/${row?._id}`} className="link">
           {row?._id}
@@ -47,26 +39,26 @@ export default function () {
     },
     {
       key: "price",
-      operation: (value, row) => `₱${value}`,
+      operation: (value, row) => `${value}${RESOURCE.PHP}`,
     },
     {
       key: "image",
-      operation: (value) => {
-        return value.map((image) => (
+      operation: (value, row) => {
+        return value?.map((image) => (
           <img
             style={{ padding: "0 .5rem" }}
-            height={60}
-            width={75}
-            src={image.url}
-            alt={image.originalname}
-            key={image.public_id}
+            height={RESOURCE.NUMBER.SIXTY}
+            width={RESOURCE.NUMBER.SEVENTY_FIVE}
+            src={image?.url}
+            alt={image?.originalname}
+            key={image?.public_id}
           />
         ));
       },
     },
     {
-      key: "user",
-      operation: (value) => (value ? value.name : ""),
+      key: TAGS.USER,
+      operation: (value, row) => (value ? value?.name : ""),
     },
   ];
 
@@ -76,12 +68,12 @@ export default function () {
 
   const handleDelete = async (id) => {
     setIsDeletingId(id);
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(RESOURCE.CONFIRM)) {
       const response = await deleteCamera(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       };
       if (response?.data?.success === true) {
         toast.success(`${response?.data?.message}`, toastProps);
@@ -92,9 +84,7 @@ export default function () {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate(`edit/${id}`);
-  };
+  const handleEdit = (id) => navigate(`edit/${id}`);
 
   const actions = auth?.user?.roles?.includes(USER.ADMIN)
     ? [
@@ -121,9 +111,13 @@ export default function () {
       )}
       {isLoading || isDeleting ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
-      ) : isCameraError ? (
+      ) : isError ? (
         <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
       ) : isDeleteError ? (
         <div className="errorMessage">{ERROR.DELETE_CAMERA_ERROR}</div>
