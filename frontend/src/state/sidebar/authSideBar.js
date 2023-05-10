@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TAGS } from "../../constants";
+import { TAGS } from "@/constants";
 import { initialState } from "./state";
 
 export const sideBarSlice = createSlice({
@@ -7,7 +7,7 @@ export const sideBarSlice = createSlice({
   initialState,
   reducers: {
     changeLinks(state, action) {
-      state.links = action.payload.links;
+      state.links = action?.payload?.links;
     },
   },
 });
