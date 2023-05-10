@@ -1,9 +1,9 @@
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import { generateKey } from "@/services/generateKey";
+import { Link, useLocation } from "react-router-dom";
+import { generateKey } from "@generateKey";
+import { RESOURCE } from "@/constants";
 
 export default function () {
   const location = useLocation();
@@ -14,12 +14,14 @@ export default function () {
     <Breadcrumbs
       aria-label="breadcrumb"
       separator={<NavigateNextIcon fontSize="small" />}
-      sx={{ mb: 2 }}
+      sx={{ mb: RESOURCE.NUMBER.TWO }}
     >
-      {breadcrumbs.map((e, index) => (
+      {breadcrumbs?.map((e, index) => (
         <Link
-          key={generateKey(5)}
-          to={`/${breadcrumbs.slice(0, index + 1).join("/")}`}
+          key={generateKey(RESOURCE.NUMBER.FIVE)}
+          to={`/${breadcrumbs
+            .slice(RESOURCE.NUMBER.ZERO, index + RESOURCE.NUMBER.ONE)
+            .join("/")}`}
           style={{ textDecoration: "none" }}
         >
           <Typography
