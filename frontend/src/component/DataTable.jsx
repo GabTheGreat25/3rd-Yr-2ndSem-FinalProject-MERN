@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,18 +10,19 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Pagination from "@mui/material/Pagination";
-import { generateKey } from "../services/generateKey";
-import { splitKey, deconstruct, manipulate } from "../services/dataTable";
+import { generateKey } from "@generateKey";
+import { splitKey, deconstruct, manipulate } from "@dataTable";
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { RESOURCE } from "@/constants";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#2c3e50",
     color: "#f1f2f6",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: RESOURCE.NUMBER.FOURTEEN,
   },
 }));
 
@@ -30,52 +31,62 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
   "&:last-child td, &:last-child th": {
-    border: 0,
+    border: RESOURCE.NUMBER.ZERO,
   },
 }));
 
 export default function (props) {
   const { headers = [], data = [], keys = [], actions = [] } = props;
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(RESOURCE.NUMBER.ONE);
   const [filteredData, setFilteredData] = React.useState(data || []);
 
   const [searchQuery, setSearchQuery] = React.useState("");
-  const rowsPerPage = 4;
+  const rowsPerPage = RESOURCE.NUMBER.FOUR;
   const [sorting, setSorting] = React.useState({
     column: null,
     key: null,
     direction: null,
   });
-  const hasActions = actions.length > 0;
+  const hasActions = actions.length > RESOURCE.NUMBER.ZERO;
 
   const handleClickHeader = (column) => {
     const isAscending =
-      sorting.column === column && sorting.direction === "asc";
-    setSorting({ column, direction: isAscending ? "desc" : "asc" });
+      sorting.column === column && sorting.direction === RESOURCE.ASCENDING;
+    setSorting({
+      column,
+      direction: isAscending ? RESOURCE.DESCENDING : RESOURCE.ASCENDING,
+    });
     const newFilteredData = filteredData.sort((a, b) => {
       if (isAscending) {
-        return a[column] > b[column] ? -1 : 1;
-      } else {
-        return a[column] > b[column] ? 1 : -1;
-      }
+        return a[column] > b[column]
+          ? RESOURCE.NUMBER.NEGATIVE_ONE
+          : RESOURCE.NUMBER.ONE;
+      } else
+        return a[column] > b[column]
+          ? RESOURCE.NUMBER.ONE
+          : RESOURCE.NUMBER.NEGATIVE_ONE;
     });
 
     newFilteredData.sort((a, b) => {
-      if (a[keys] < b[keys]) {
-        return direction === "asc" ? -1 : 1;
-      }
-      if (a[keys] > b[keys]) {
-        return direction === "asc" ? 1 : -1;
-      }
-      return 0;
+      if (a[keys] < b[keys])
+        return direction === RESOURCE.ASCENDING
+          ? RESOURCE.NUMBER.NEGATIVE_ONE
+          : RESOURCE.NUMBER.ONE;
+
+      if (a[keys] > b[keys])
+        return direction === RESOURCE.ASCENDING
+          ? RESOURCE.NUMBER.ONE
+          : RESOURCE.NUMBER.NEGATIVE_ONE;
+
+      return RESOURCE.NUMBER.ZERO;
     });
     setFilteredData(newFilteredData);
   };
 
   const filter = (query) => {
-    const newData = data.filter((row) => {
-      return Object.values(row).some((column) => {
-        if (typeof column !== "string") {
+    const newData = data?.filter((row) => {
+      return Object.values(row)?.some((column) => {
+        if (typeof column !== RESOURCE.STRING) {
           return false;
         }
         return column.toLowerCase().includes(query.toLowerCase());
@@ -89,7 +100,7 @@ export default function (props) {
     setPage(newPage);
   };
 
-  const startIndex = (page - 1) * rowsPerPage;
+  const startIndex = (page - RESOURCE.NUMBER.ONE) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData =
     filteredData && filteredData.slice(startIndex, endIndex);
@@ -117,19 +128,24 @@ export default function (props) {
         />
       </div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          {headers && headers.length > 0 && (
+        <Table
+          sx={{ minWidth: RESOURCE.NUMBER.SEVEN_HUNDRED }}
+          aria-label="customized table"
+        >
+          {headers && headers.length > RESOURCE.NUMBER.ZERO && (
             <TableHead>
               <TableRow>
-                {headers.map((header) => (
+                {headers?.map((header) => (
                   <StyledTableCell
-                    key={generateKey(5)}
+                    key={generateKey(RESOURCE.NUMBER.FIVE)}
                     align="center"
                     onClick={() => handleClickHeader(header)}
                   >
                     {header}
                     {sorting && sorting.column === header && (
-                      <span>{sorting.direction === "asc" ? " ▲" : " ▼"}</span>
+                      <span>
+                        {sorting.direction === RESOURCE.ASCENDING ? " ▲" : " ▼"}
+                      </span>
                     )}
                   </StyledTableCell>
                 ))}
@@ -143,23 +159,28 @@ export default function (props) {
 
           <TableBody>
             {paginatedData &&
-              paginatedData.map((paginatedRow) => {
+              paginatedData?.map((paginatedRow) => {
                 const rowKeys =
-                  keys.length > 0 ? splitKey(generateKey(), keys) : null;
-                const rowData = deconstruct(paginatedRow, headers, rowKeys);
+                  keys.length > RESOURCE.NUMBER.ZERO
+                    ? splitKey(generateKey(RESOURCE.NUMBER.FIVE), keys)
+                    : null;
+                deconstruct(paginatedRow, headers, rowKeys);
                 return (
-                  <StyledTableRow key={generateKey(5)}>
-                    {keys.map((e) => {
+                  <StyledTableRow key={generateKey(RESOURCE.NUMBER.FIVE)}>
+                    {keys?.map((e) => {
                       const { key, operation } = e;
                       const splitted = splitKey(key);
                       const hasOperation = operation;
                       let tempValue = paginatedRow[key];
 
-                      if (splitted.length > 1)
+                      if (splitted.length > RESOURCE.NUMBER.ONE)
                         tempValue = deconstruct(splitted, paginatedRow);
 
                       return (
-                        <StyledTableCell key={generateKey(5)} align="center">
+                        <StyledTableCell
+                          key={generateKey(RESOURCE.NUMBER.FIVE)}
+                          align="center"
+                        >
                           {hasOperation
                             ? manipulate(tempValue, paginatedRow, hasOperation)
                             : tempValue}
@@ -169,7 +190,7 @@ export default function (props) {
                     {hasActions && (
                       <StyledTableCell align="center">
                         <ButtonGroup>
-                          {actions.map((action) => (
+                          {actions?.map((action) => (
                             <Button
                               sx={{
                                 backgroundColor: "#2c3e50",
@@ -183,9 +204,9 @@ export default function (props) {
                                   borderColor: "#2c3e50",
                                 },
                               }}
-                              key={generateKey(5)}
+                              key={generateKey(RESOURCE.NUMBER.FIVE)}
                               onClick={() => {
-                                action.onClick(paginatedRow["_id"]);
+                                action.onClick(paginatedRow[RESOURCE.ID]);
                               }}
                             >
                               {action.title}
