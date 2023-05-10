@@ -9,28 +9,28 @@ import AllUserCamera from "./AllUserCamera";
 import MonthlySales from "./MonthlySales";
 import TotalProfitPerYear from "./TotalProfitPerYear";
 import { useSelector } from "react-redux";
-import CreateTransaction from "../Transactions/createTransaction";
+import { RESOURCE, USER } from "@/constants";
 
 export default function () {
   const auth = useSelector((state) => state.auth);
 
   return (
     <>
-      {(auth?.user?.roles?.includes("Admin") ||
-        auth?.user?.roles?.includes("Employee")) && (
-        <Grid container spacing={2}>
+      {(auth?.user?.roles?.includes(USER.ADMIN) ||
+        auth?.user?.roles?.includes(USER.EMPLOYEE)) && (
+        <Grid container spacing={RESOURCE.NUMBER.TWO}>
           <Grid item sx={{ width: "100%" }}>
             <Box sx={{ mb: "1rem", mt: ".5rem" }}>
               <GetAllUser />
             </Box>
           </Grid>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid container spacing={RESOURCE.NUMBER.TWO}>
+            <Grid item xs={RESOURCE.NUMBER.TWELVE} sm={RESOURCE.NUMBER.SIX}>
               <Box sx={{ mb: "1rem", mt: ".5rem" }}>
                 <ShowActiveUser />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={RESOURCE.NUMBER.TWELVE} sm={RESOURCE.NUMBER.SIX}>
               <Box sx={{ mb: "1rem", mt: ".5rem" }}>
                 <GetAllAdmin />
               </Box>
@@ -43,13 +43,13 @@ export default function () {
             </Grid>
           </Grid>
 
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
+          <Grid container spacing={RESOURCE.NUMBER.TWO}>
+            <Grid item xs={RESOURCE.NUMBER.SIX}>
               <Box sx={{ mb: "1rem", mt: ".5rem" }}>
                 <AllUserCamera />
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={RESOURCE.NUMBER.SIX}>
               <Box sx={{ mb: "1rem", mt: ".5rem" }}>
                 <TotalProfitPerYear />
               </Box>
@@ -60,11 +60,6 @@ export default function () {
             <MonthlySales />
           </Box>
         </Grid>
-      )}
-      {auth?.user?.roles?.includes("Customer") && (
-        <>
-          <CreateTransaction />
-        </>
       )}
     </>
   );
