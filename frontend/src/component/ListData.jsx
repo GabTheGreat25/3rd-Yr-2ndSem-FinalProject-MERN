@@ -1,13 +1,14 @@
-import * as React from "react";
+import React from "react";
 import { Card, CardContent, Typography, ListItemIcon } from "@mui/material";
-import { generateKey } from "../services/generateKey";
+import { generateKey } from "@generateKey";
+import { RESOURCE } from "@/constants";
 
 export default function (props) {
   const { title, icon, data } = props;
   return (
-    <div key={generateKey(5)}>
+    <div key={generateKey(RESOURCE.NUMBER.FIVE)}>
       <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-        <CardContent sx={{ flex: 1, alignItems: "end" }}>
+        <CardContent sx={{ flex: RESOURCE.NUMBER.ONE, alignItems: "end" }}>
           <Typography variant="h5" component="div">
             {title}
           </Typography>
