@@ -1,10 +1,10 @@
 import React from "react";
-import WelcomeNav from "../component/WelcomeNav";
+import WelcomeNav from "@component/WelcomeNav";
 import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import camera1 from "../assets/camera1.jpg";
-import camera2 from "../assets/camera2.jpg";
-import camera3 from "../assets/camera3.jpg";
+import camera1 from "@assets/camera1.jpg";
+import camera2 from "@assets/camera2.jpg";
+import camera3 from "@assets/camera3.jpg";
 
 export default function Welcome() {
   return (
