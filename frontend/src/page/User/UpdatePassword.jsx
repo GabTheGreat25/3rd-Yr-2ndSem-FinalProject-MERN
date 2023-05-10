@@ -7,16 +7,16 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useUpdatePasswordMutation } from "../../state/api/reducer";
+import { useUpdatePasswordMutation } from "@api";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { updatePasswordValidation } from "../../validation";
+import { updatePasswordValidation } from "@/validation";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
@@ -47,35 +47,33 @@ export default function () {
       }).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
-  const handleClickShowOldPassword = () => {
-    setShowOldPassword(!showOldPassword);
-  };
+  const handleClickShowOldPassword = () => setShowOldPassword(!showOldPassword);
 
-  const handleClickShowConfirmPassword = () => {
+  const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword(!showConfirmPassword);
-  };
 
   return (
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.USERS_PASSWORD_ERROR}</div>
@@ -84,7 +82,7 @@ export default function () {
           <Container maxWidth="sm">
             <Box
               sx={{
-                mt: 4,
+                mt: RESOURCE.NUMBER.FOUR,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -186,7 +184,7 @@ export default function () {
                 <Button
                   type="submit"
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={{ mt: RESOURCE.NUMBER.THREE, mb: RESOURCE.NUMBER.TWO }}
                   disabled={!formik.isValid}
                 >
                   Update Password
