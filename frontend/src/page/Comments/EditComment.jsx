@@ -1,13 +1,10 @@
 import React from "react";
 import { TextField, Typography, Grid, Button, Rating } from "@mui/material";
-import {
-  useUpdateCommentMutation,
-  useGetCommentByIdQuery,
-} from "@/state/api/reducer";
+import { useUpdateCommentMutation, useGetCommentByIdQuery } from "@api";
 import { useFormik } from "formik";
-import { editCommentValidation } from "../../validation";
+import { editCommentValidation } from "@/validation";
 import { useNavigate, useParams } from "react-router-dom";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +23,7 @@ export default function () {
     initialValues: {
       transService: data?.details?.transService || "",
       text: data?.details?.text || "",
-      ratings: data?.details?.ratings || 1,
+      ratings: data?.details?.ratings || RESOURCE.NUMBER.ONE,
     },
     validationSchema: editCommentValidation,
     onSubmit: (values) => {
@@ -36,14 +33,13 @@ export default function () {
       }).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard/comment");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
@@ -52,7 +48,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_COMMENTS_ERROR}</div>
@@ -62,8 +62,8 @@ export default function () {
             Edit Comment
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="transService"
@@ -85,7 +85,7 @@ export default function () {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="text"
@@ -101,7 +101,7 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <Typography component="label" htmlFor="ratings" gutterBottom>
                   Ratings
                 </Typography>
