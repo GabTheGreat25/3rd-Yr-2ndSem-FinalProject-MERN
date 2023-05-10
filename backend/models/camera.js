@@ -4,7 +4,7 @@ const { RESOURCE } = require("../constants/index");
 const cameraSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: [true, "Please enter a user"],
     ref: "User",
   },
   name: {
