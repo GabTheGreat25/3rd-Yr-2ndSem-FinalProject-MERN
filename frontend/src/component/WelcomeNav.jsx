@@ -1,18 +1,19 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import logo from "../assets/logo-main-white-transparent.png";
+import logo from "@assets/logo-main-white-transparent.png";
 import { useNavigate } from "react-router-dom";
+import { RESOURCE } from "@/constants";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    marginRight: theme.spacing(2),
-    width: "70px",
+    marginRight: theme.spacing(RESOURCE.NUMBER.TWO),
+    width: "5rem",
     height: "auto",
   },
   loginBtn: {
     marginLeft: "auto",
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(RESOURCE.NUMBER.TWO),
   },
   transparent: {
     backgroundColor: "#2c3e50",
@@ -23,13 +24,9 @@ export default function () {
   const navigate = useNavigate();
   const classes = useStyles();
 
-  const handleLogin = () => {
-    navigate(`/login`);
-  };
+  const handleLogin = () => navigate(`/login`);
 
-  const handleRegister = () => {
-    navigate(`/register`);
-  };
+  const handleRegister = () => navigate(`/register`);
 
   return (
     <AppBar position="static" className={classes.transparent}>
@@ -44,7 +41,7 @@ export default function () {
           Login
         </Button>
         <Button color="inherit" onClick={handleRegister}>
-          Signup
+          Register
         </Button>
       </Toolbar>
     </AppBar>
