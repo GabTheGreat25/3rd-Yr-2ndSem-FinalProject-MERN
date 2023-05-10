@@ -1,11 +1,8 @@
 import React from "react";
 import { DataTable } from "@/component";
-import {
-  useGetTransactionsQuery,
-  useGetCommentsQuery,
-} from "@/state/api/reducer";
+import { useGetTransactionsQuery, useGetCommentsQuery } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE, TAGS } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -21,7 +18,7 @@ export default function () {
   } = useGetTransactionsQuery();
 
   const { data, isLoading, isError } = useGetCommentsQuery({
-    populate: "transaction",
+    populate: TAGS.TRANSACTION,
   });
 
   const filteredTransactions = transactionsData?.details?.filter(
@@ -37,7 +34,7 @@ export default function () {
   const headers = ["ID", "TransService", "Text", "Ratings", "Transaction"];
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/comment/${row?._id}`} className="link">
           {row?._id}
@@ -55,14 +52,12 @@ export default function () {
       operation: (value, row) => `${value} stars`,
     },
     {
-      key: "transaction",
-      operation: (value) => (value ? value?.status : ""),
+      key: TAGS.TRANSACTION,
+      operation: (value, row) => (value ? value?.status : ""),
     },
   ];
 
-  const handleEdit = (id) => {
-    navigate(`edit/${id}`);
-  };
+  const handleEdit = (id) => navigate(`edit/${id}`);
 
   const actions = [
     {
@@ -75,7 +70,11 @@ export default function () {
     <>
       {isLoading || transactionIsLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_COMMENTS_ERROR}</div>
