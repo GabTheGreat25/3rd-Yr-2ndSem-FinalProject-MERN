@@ -11,7 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
 import { useDispatch } from "react-redux";
-import { logout } from "@/state/auth/authReducer";
+import { logout } from "@auth";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Button from "@mui/material/Button";
@@ -19,151 +19,176 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useSelector } from "react-redux";
 import { Avatar } from "@mui/material";
-import CartPreview from "../page/Transactions/CartPreview";
+import CartPreview from "@transactions/CartPreview";
 import Dialog from "@mui/material/Dialog";
 import jsPDF from "jspdf";
-import {
-  useGetCamerasQuery,
-  useAddTransactionMutation,
-  useGetTransactionsQuery,
-} from "@/state/api/reducer";
+import { useAddTransactionMutation } from "@api";
+import { RESOURCE, USER, ERROR } from "@/constants";
 
 export default function (props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [addTransaction] = useAddTransactionMutation();
 
-  const { cartItems, onRemoveFromCart, onConfirmPurchase, onAddToCart } = props;
-  const [transactionDate, setTransactionDate] = useState(new Date());
+  const { cartItems, onRemoveFromCart, open, toggleDrawer } = props;
+
+  const auth = useSelector((state) => state.auth);
 
   const [cartPreviewOpen, setCartPreviewOpen] = useState(false);
 
-  const toggleCartPreview = () => {
-    setCartPreviewOpen(!cartPreviewOpen);
-  };
-
-  const auth = useSelector((state) => state.auth);
-  const { open, toggleDrawer } = props;
-
   const [anchorEl, setAnchorEl] = useState(null);
+
   const [selectedButton] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const toggleCartPreview = () => setCartPreviewOpen(!cartPreviewOpen);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
 
-  const [error, setError] = useState(false);
+  const handleClose = () => setAnchorEl(null);
 
   const handleLogout = async () => {
     try {
       await dispatch(logout());
       navigate("/login");
-      toast.success("Logout successful!", {
+      toast.success(RESOURCE.LOGOUT, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     } catch (error) {
-      console.error(error);
-      toast.error("Logout failed. Please try again.", {
+      toast.error(ERROR.LOGOUT_ERROR, {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       });
     }
   };
 
-  const handleUpdateUserDetails = async () => {
+  const handleUpdateUserDetails = async () =>
     navigate(`userDetails/${auth.user._id}`);
-  };
 
-  const handleUpdatePassword = async () => {
+  const handleUpdatePassword = async () =>
     navigate(`updatePassword/${auth.user._id}`);
-  };
-  const [cartItemsState, setCartItems] = useState([]);
-
-  const handleAddToCart = () => {
-    setCartCount(cartCount + 1);
-    onAddToCart();
-  };
-
-  const handleOnAddToCart = (item) => {
-    if (!cartItemsState.some((cartItem) => cartItem._id === item._id)) {
-      setCartItems([...cartItemsState, item]);
-      setCartCount(cartCount + 1); // update cartCount state variable
-    }
-  };
 
   const handleConfirmPurchase = async () => {
     const transactionDate = new Date();
-    try {
-      const newTransaction = await addTransaction({
-        user: auth.user._id,
-        cameras: cartItems.map((item) => item._id),
-        status: "pending",
-        date: transactionDate,
-      });
+    const formattedDate = transactionDate.toLocaleDateString("en-PH");
 
-      // Create a new instance of jsPDF
-      const doc = new jsPDF({
-        // Set page color to light red
-        backgroundColor: "rgb(255, 230, 230)",
-      });
+    await addTransaction({
+      user: auth.user._id,
+      cameras: cartItems.map((item) => item._id),
+      date: transactionDate,
+    });
 
-      // Add content to the PDF
-      const lineHeight = 10;
-      const startX = 10;
-      const startY = 20;
-      const lineThickness = 0.5;
-      const lineMargin = 5;
+    props.clearCart();
+    handleClose();
 
-      doc.setFont("Arial", "bold");
-      // Increase font size to 20
-      doc.setFontSize(20);
+    const doc = new jsPDF();
+
+    const lineHeight = RESOURCE.NUMBER.TEN;
+    const startX = RESOURCE.NUMBER.TEN;
+    const startY = RESOURCE.NUMBER.TWENTY;
+    const lineThickness = RESOURCE.NUMBER.POINT_FIVE;
+
+    doc.setFont("Arial", "bold");
+    doc.setFontSize(RESOURCE.NUMBER.TWENTY_TWO);
+    doc.setTextColor(
+      RESOURCE.NUMBER.FORTY,
+      RESOURCE.NUMBER.FORTY,
+      RESOURCE.NUMBER.FORTY
+    );
+    doc.text(
+      "Transaction Receipt",
+      doc.internal.pageSize.getWidth() / RESOURCE.NUMBER.TWO,
+      startY,
+      { align: "center" }
+    );
+    doc.setLineWidth(lineThickness);
+    doc.line(
+      startX,
+      startY + lineHeight,
+      doc.internal.pageSize.getWidth() - startX,
+      startY + lineHeight
+    );
+
+    doc.setFont("Arial", "normal");
+    doc.setFontSize(RESOURCE.NUMBER.FOURTEEN);
+    doc.setTextColor(
+      RESOURCE.NUMBER.SIXTY,
+      RESOURCE.NUMBER.SIXTY,
+      RESOURCE.NUMBER.SIXTY
+    );
+    doc.text(
+      `Date: ${formattedDate}`,
+      startX,
+      startY + RESOURCE.NUMBER.THREE * lineHeight
+    );
+    doc.text("Items:", startX, startY + RESOURCE.NUMBER.FOUR * lineHeight);
+
+    let totalCost = RESOURCE.NUMBER.ZERO;
+    cartItems.forEach((item, index) => {
       doc.text(
-        "Transaction Receipt",
-        doc.internal.pageSize.getWidth() / 2,
-        startY,
-        { align: "center" }
-      );
-      doc.setLineWidth(lineThickness);
-      doc.line(
+        `${index + RESOURCE.NUMBER.ONE}. ${item.name}`,
         startX,
-        startY + lineHeight,
-        doc.internal.pageSize.getWidth() - startX,
-        startY + lineHeight
+        startY + (RESOURCE.NUMBER.FIVE + index) * lineHeight
       );
-      doc.setFont("Arial", "normal");
-      // Increase font size to 14
-      doc.setFontSize(14);
+      doc.text(
+        `${item.price} ${RESOURCE.PHP}`,
+        doc.internal.pageSize.getWidth() - startX - RESOURCE.NUMBER.TEN,
+        startY + (RESOURCE.NUMBER.FIVE + index) * lineHeight,
+        { align: "right" }
+      );
+      totalCost += item.price;
+    });
 
-      doc.text(`Date: ${transactionDate}`, startX, startY + 3 * lineHeight);
-      doc.text("Items:", startX, startY + 4 * lineHeight);
-      cartItems.forEach((item, index) => {
-        doc.text(
-          `${index + 1}. ${item.name} - ${item.price}`,
-          startX,
-          startY + (5 + index) * lineHeight
-        );
-      });
+    const separatorY =
+      startY + (RESOURCE.NUMBER.FIVE + cartItems.length) * lineHeight;
+    doc.setLineWidth(RESOURCE.NUMBER.POINT_TWO);
+    doc.setLineDash([RESOURCE.NUMBER.THREE, RESOURCE.NUMBER.THREE]);
+    doc.line(
+      startX,
+      separatorY,
+      doc.internal.pageSize.getWidth() - startX,
+      separatorY
+    );
 
-      // Save the PDF
-      doc.save("transaction-receipt.pdf");
+    doc.setFont("Arial", "bold");
+    doc.setFontSize(RESOURCE.NUMBER.SIXTEEN);
+    doc.setTextColor(
+      RESOURCE.NUMBER.EIGHTY,
+      RESOURCE.NUMBER.EIGHTY,
+      RESOURCE.NUMBER.EIGHTY
+    );
+    doc.setLineWidth(lineThickness);
+    doc.text(`Total Cost:`, startX, separatorY + lineHeight);
+    doc.text(
+      `${totalCost.toFixed(RESOURCE.NUMBER.TWO)} ${RESOURCE.PHP}`,
+      doc.internal.pageSize.getWidth() - startX - RESOURCE.NUMBER.TEN,
+      separatorY + lineHeight,
+      { align: "right" }
+    );
 
-      navigate("/dashboard/comment/create");
-      setCartItems([]);
-      handleClose();
-    } catch (err) {
-      setError(true);
-      console.error(err);
-    }
+    doc.setFont("Arial", "italic");
+    doc.setFontSize(RESOURCE.NUMBER.FOURTEEN);
+    doc.setTextColor(
+      RESOURCE.NUMBER.HUNDRED,
+      RESOURCE.NUMBER.HUNDRED,
+      RESOURCE.NUMBER.HUNDRED
+    );
+    doc.text(
+      `Thank you for your purchase ${auth?.user?.name}!`,
+      doc.internal.pageSize.getWidth() / RESOURCE.NUMBER.TWO,
+      separatorY + RESOURCE.NUMBER.THREE * lineHeight,
+      { align: "center" }
+    );
+
+    doc.save("transaction-receipt.pdf");
+
+    navigate("/dashboard/comment/create");
   };
 
   const randomIndex =
     auth?.user?.image && auth?.user?.image.length
-      ? Math.floor(Math.random() * auth.user.image.length)
+      ? Math.floor(Math.random() * auth?.user?.image.length)
       : null;
 
   return (
@@ -175,7 +200,7 @@ export default function (props) {
       >
         <Toolbar
           sx={{
-            pr: "24px",
+            pr: "1.5rem",
           }}
         >
           <IconButton
@@ -184,7 +209,7 @@ export default function (props) {
             aria-label="open drawer"
             onClick={toggleDrawer}
             sx={{
-              marginRight: "36px",
+              marginRight: "3rem",
               ...(open && { display: "none" }),
               "&:hover": {
                 backgroundColor: "#f1f2f6",
@@ -196,23 +221,23 @@ export default function (props) {
           >
             <MenuIcon />
           </IconButton>
-          {auth?.user?.roles?.includes("Admin") ? (
+          {auth?.user?.roles?.includes(USER.ADMIN) ? (
             <Typography
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: RESOURCE.NUMBER.ONE }}
             >
               Admin Dashboard
             </Typography>
-          ) : auth?.user?.roles?.includes("Employee") ? (
+          ) : auth?.user?.roles?.includes(USER.EMPLOYEE) ? (
             <Typography
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: RESOURCE.NUMBER.ONE }}
             >
               Employee Dashboard
             </Typography>
@@ -222,13 +247,13 @@ export default function (props) {
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}
+              sx={{ flexGrow: RESOURCE.NUMBER.ONE }}
             >
               Customer Dashboard
             </Typography>
           )}
 
-          {auth?.user?.roles?.includes("Customer") ? (
+          {auth?.user?.roles?.includes(USER.CUSTOMER) ? (
             <IconButton
               onClick={toggleCartPreview}
               color="inherit"
@@ -236,7 +261,7 @@ export default function (props) {
             >
               <Badge badgeContent={props.cartCount}>
                 <ShoppingCartIcon />
-                <Typography>Cart</Typography>
+                <Typography sx={{ marginRight: ".25rem" }}>Cart</Typography>
               </Badge>
             </IconButton>
           ) : null}
@@ -248,6 +273,7 @@ export default function (props) {
               onConfirmPurchase={handleConfirmPurchase}
             />
           </Dialog>
+
           <Button
             aria-controls="dropdown-menu"
             aria-haspopup="true"
@@ -272,7 +298,11 @@ export default function (props) {
                       : null
                   }
                   key={auth?.user?.image?.public_id}
-                  sx={{ width: 32, height: 32, mr: 1 }}
+                  sx={{
+                    width: RESOURCE.NUMBER.THIRTY_TWO,
+                    height: RESOURCE.NUMBER.THIRTY_TWO,
+                    mr: RESOURCE.NUMBER.ONE,
+                  }}
                 />
                 Welcome, {auth?.user?.name}
               </>
@@ -302,10 +332,13 @@ export default function (props) {
                   },
                 }}
               >
-                <Typography variant="button" sx={{ marginLeft: 1 }}>
+                <Typography
+                  variant="button"
+                  sx={{ marginLeft: RESOURCE.NUMBER.ONE }}
+                >
                   Update Your Details
                 </Typography>
-                <InfoIcon sx={{ ml: 1 }} />
+                <InfoIcon sx={{ ml: RESOURCE.NUMBER.ONE }} />
               </IconButton>
             </MenuItem>
             <MenuItem onClick={handleUpdatePassword}>
@@ -322,10 +355,13 @@ export default function (props) {
                   },
                 }}
               >
-                <Typography variant="button" sx={{ marginLeft: 1 }}>
+                <Typography
+                  variant="button"
+                  sx={{ marginLeft: RESOURCE.NUMBER.ONE }}
+                >
                   Update Password
                 </Typography>
-                <PasswordIcon sx={{ ml: 1 }} />
+                <PasswordIcon sx={{ ml: RESOURCE.NUMBER.ONE }} />
               </IconButton>
             </MenuItem>
             <MenuItem onClick={handleLogout}>
@@ -342,10 +378,13 @@ export default function (props) {
                   },
                 }}
               >
-                <Typography variant="button" sx={{ marginLeft: 1 }}>
+                <Typography
+                  variant="button"
+                  sx={{ marginLeft: RESOURCE.NUMBER.ONE }}
+                >
                   Logout
                 </Typography>
-                <ExitToAppIcon sx={{ ml: 1 }} />
+                <ExitToAppIcon sx={{ ml: RESOURCE.NUMBER.ONE }} />
               </IconButton>
             </MenuItem>
           </Menu>
