@@ -9,9 +9,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": srcPath,
-      // "@components": `${srcPath}/components`,
-      // "@features": `${srcPath}/features`,
-      // "@api": `${srcPath}/app/api`,
+      "@assets": `${srcPath}/assets`,
+      "@generateKey": `${srcPath}/services/generateKey`,
+      "@dataTable": `${srcPath}/services/dataTable`,
+      "@component": `${srcPath}/component`,
+      "@transactions": `${srcPath}/page/Transactions`,
+      "@api": `${srcPath}/state/api/reducer`,
+      "@auth": `${srcPath}/state/auth/authReducer`,
+      "@sidebar": `${srcPath}/state/sidebar/authSideBar`,
     },
   },
   server: {
