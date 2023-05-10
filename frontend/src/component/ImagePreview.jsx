@@ -1,15 +1,17 @@
 import React from "react";
+import { RESOURCE } from "@/constants";
 
 export default function ({ images }) {
   return (
     <>
-      {images.map((image, index) => (
+      {images?.map((image, index) => (
         <span key={index}>
           <img
-            height={60}
-            width={75}
+            height={RESOURCE.NUMBER.SIXTY}
+            width={RESOURCE.NUMBER.SEVENTY_FIVE}
             src={URL.createObjectURL(image)}
-            alt={image.name}
+            alt={image?.originalname}
+            key={image?.public_id}
           />
         </span>
       ))}
