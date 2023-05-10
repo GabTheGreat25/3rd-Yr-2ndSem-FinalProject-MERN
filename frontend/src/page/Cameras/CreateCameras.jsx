@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   TextField,
   Typography,
@@ -8,14 +8,13 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useAddCameraMutation, useGetUsersQuery } from "@/state/api/reducer";
+import { useAddCameraMutation, useGetUsersQuery } from "@api";
 import { useFormik } from "formik";
-import { createCameraValidation } from "../../validation";
+import { createCameraValidation } from "@/validation";
 import { useNavigate } from "react-router-dom";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE, USER } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
-import { USER } from "@/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -39,25 +38,24 @@ export default function () {
     onSubmit: (values) => {
       const formData = new FormData();
 
-      formData.append("name", values.name);
-      formData.append("text", values.text);
-      formData.append("price", values.price);
-      formData.append("user", values.user);
-      Array.from(values.image).forEach((file) => {
+      formData.append("name", values?.name);
+      formData.append("text", values?.text);
+      formData.append("price", values?.price);
+      formData.append("user", values?.user);
+      Array.from(values?.image).forEach((file) => {
         formData.append("image", file);
       });
 
       addCamera(formData).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard/camera");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
@@ -66,7 +64,11 @@ export default function () {
     <>
       {!isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_CAMERAS_ERROR}</div>
@@ -76,8 +78,8 @@ export default function () {
             Create Camera
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="name"
@@ -93,7 +95,7 @@ export default function () {
                   helperText={formik.touched.name && formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="text"
@@ -109,7 +111,7 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="price"
@@ -125,7 +127,7 @@ export default function () {
                   helperText={formik.touched.price && formik.errors.price}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   id="image"
                   name="image"
@@ -146,7 +148,7 @@ export default function () {
                   <ImagePreview images={Array.from(formik.values.image)} />
                 )}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <InputLabel id="user-label">Select User</InputLabel>
                 <Select
                   labelId="user-label"
