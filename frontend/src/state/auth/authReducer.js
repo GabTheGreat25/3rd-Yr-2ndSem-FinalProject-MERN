@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { api } from "../api/reducer";
+import { api } from "@api";
 import { initialState } from "./state";
-import { TAGS } from "../../constants";
+import { TAGS } from "@/constants";
 
 export const authSlice = createSlice({
   name: TAGS.AUTH,
@@ -22,7 +22,7 @@ export const authSlice = createSlice({
           state.token = payload?.details?.accessToken;
           state.user = payload?.details?.user;
           state.authenticated = true;
-          state.loggedInUserId = state.user._id;
+          state.loggedInUserId = state?.user?._id;
         }
       }
     );
@@ -31,7 +31,7 @@ export const authSlice = createSlice({
       (state, { payload }) => {
         if (payload?.success === true) {
           const updatedUser = payload?.details;
-          if (updatedUser._id === state.loggedInUserId) {
+          if (updatedUser?._id === state?.loggedInUserId) {
             return {
               ...state,
               user: updatedUser,
