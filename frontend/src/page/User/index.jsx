@@ -1,11 +1,9 @@
-import React from "react";
 import { useState } from "react";
 import { DataTable, Button } from "@/component";
-import { useGetUsersQuery, useDeleteUserMutation } from "@/state/api/reducer";
+import { useGetUsersQuery, useDeleteUserMutation } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { ERROR, RESOURCE } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -23,7 +21,7 @@ export default function () {
   const headers = ["ID", "User Name", "Email", "Roles", "Images"];
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/user/${row?._id}`} className="link">
           {row?._id}
@@ -38,19 +36,19 @@ export default function () {
     },
     {
       key: "roles",
-      operation: (value) => value.join(", "),
+      operation: (value, row) => value?.join(", "),
     },
     {
       key: "image",
-      operation: (value) => {
-        return value.map((image) => (
+      operation: (value, row) => {
+        return value?.map((image) => (
           <img
             style={{ padding: "0.5rem" }}
-            height={60}
-            width={75}
-            src={image.url}
-            alt={image.originalname}
-            key={image.public_id}
+            height={RESOURCE.NUMBER.SIXTY}
+            width={RESOURCE.NUMBER.SEVENTY_FIVE}
+            src={image?.url}
+            alt={image?.originalname}
+            key={image?.public_id}
           />
         ));
       },
@@ -63,12 +61,12 @@ export default function () {
 
   const handleDelete = async (id) => {
     setIsDeletingId(id);
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(RESOURCE.CONFIRM)) {
       const response = await deleteUser(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       };
       if (response?.data?.success === true) {
         toast.success(`${response?.data?.message}`, toastProps);
@@ -79,9 +77,7 @@ export default function () {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate(`edit/${id}`);
-  };
+  const handleEdit = (id) => navigate(`edit/${id}`);
 
   const actions = [
     {
@@ -104,7 +100,11 @@ export default function () {
       />
       {isLoading || isDeleting ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
