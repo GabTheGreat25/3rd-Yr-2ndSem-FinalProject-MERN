@@ -12,12 +12,12 @@ import {
 import { Box } from "@mui/system";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import RegisterImg from "@/assets/camera-register.jpg";
-import { useAddUserMutation } from "@/state/api/reducer";
+import { useAddUserMutation } from "@api";
 import { useFormik } from "formik";
-import { createUserValidation } from "../../validation";
+import { createUserValidation } from "@/validation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { ROLES } from "../../constants";
+import { ROLES, RESOURCE, USER } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
 
@@ -38,57 +38,62 @@ export default function () {
     onSubmit: async (values) => {
       const formData = new FormData();
 
-      formData.append("name", values.name);
+      formData.append("name", values?.name);
       formData.append("email", values.email);
-      formData.append("password", values.password);
-      values.roles.forEach((role) => formData.append("roles[]", role));
-      Array.from(values.image).forEach((file) => {
+      formData.append("password", values?.password);
+      values?.roles?.forEach((role) => formData.append("roles[]", role));
+      Array.from(values?.image).forEach((file) => {
         formData.append("image", file);
       });
 
       addUser(formData).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/login");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const handleRoleChange = (value) => {
     let values = Array.isArray(value) ? value : [value];
     if (
-      values.includes("Customer") &&
-      (values.includes("Admin") || values.includes("Employee"))
-    ) {
-      values = values.filter((role) => role !== "Customer");
-    }
+      values.includes(USER.CUSTOMER) &&
+      (values.includes(USER.ADMIN) || values.includes(USER.EMPLOYEE))
+    )
+      values = values.filter((role) => role !== USER.CUSTOMER);
+
     formik.setFieldValue("roles", values);
   };
 
-  const handleLogin = () => {
-    navigate(`/login`);
-  };
+  const handleLogin = () => navigate(`/login`);
 
   return (
     <>
       {!isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : (
         <>
-          <Container sx={{ mt: 7.5, mb: 5 }} disableGutters>
+          <Container
+            sx={{
+              mt: RESOURCE.NUMBER.SEVEN_POINT_FIVE,
+              mb: RESOURCE.NUMBER.FIVE,
+            }}
+            disableGutters
+          >
             <Box
               sx={{
                 display: "flex",
@@ -148,9 +153,9 @@ export default function () {
                       multiple: true,
                     }}
                   >
-                    {ROLES.map((role) => (
-                      <MenuItem key={role.value} value={role.value}>
-                        {role.label}
+                    {ROLES?.map((role) => (
+                      <MenuItem key={role?.value} value={role?.value}>
+                        {role?.label}
                       </MenuItem>
                     ))}
                   </TextField>
@@ -213,15 +218,15 @@ export default function () {
                       multiple: true,
                     }}
                   />
-                  {formik.values.image && (
-                    <ImagePreview images={Array.from(formik.values.image)} />
+                  {formik.values?.image && (
+                    <ImagePreview images={Array.from(formik.values?.image)} />
                   )}
 
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: RESOURCE.NUMBER.THREE, mb: RESOURCE.NUMBER.TWO }}
                     disabled={!formik.isValid}
                   >
                     {
@@ -239,7 +244,7 @@ export default function () {
                   sx={{
                     display: "flex",
                     justifyContent: "center",
-                    mt: 1,
+                    mt: RESOURCE.NUMBER.ONE,
                   }}
                 >
                   <Typography
@@ -247,7 +252,7 @@ export default function () {
                     align="center"
                     gutterBottom
                     sx={{
-                      mt: 1,
+                      mt: RESOURCE.NUMBER.ONE,
                     }}
                   >
                     Already Have An Account?
@@ -257,7 +262,7 @@ export default function () {
                     onClick={handleLogin}
                     variant="text"
                     color="secondary"
-                    sx={{ ml: 2 }}
+                    sx={{ ml: RESOURCE.NUMBER.TWO }}
                   >
                     {
                       <span
