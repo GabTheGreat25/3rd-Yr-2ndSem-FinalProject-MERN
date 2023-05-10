@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { useGetUserByIdQuery } from "@/state/api/reducer";
+import { useGetUserByIdQuery } from "@api";
 import { Card, CardContent, Typography } from "@mui/material";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 
 export default function () {
@@ -15,7 +15,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
@@ -34,15 +38,17 @@ export default function () {
             <Typography variant="h5" component="div">
               User Details
             </Typography>
-            <Typography sx={{ mb: 1.5 }}>ID: {id}</Typography>
+            <Typography sx={{ mb: RESOURCE.NUMBER.ONE_POINT_FIVE }}>
+              ID: {id}
+            </Typography>
             {image?.map((image) => (
               <img
                 style={{ padding: "0 .5rem" }}
-                height={150}
-                width={150}
-                src={image.url}
-                alt={image.originalname}
-                key={image.public_id}
+                height={RESOURCE.NUMBER.HUNDRED_FIFTY}
+                width={RESOURCE.NUMBER.HUNDRED_FIFTY}
+                src={image?.url}
+                alt={image?.originalname}
+                key={image?.public_id}
               />
             ))}
             <Typography variant="body2">
