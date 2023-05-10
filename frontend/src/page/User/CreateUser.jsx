@@ -8,11 +8,11 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useAddUserMutation } from "@/state/api/reducer";
+import { useAddUserMutation } from "@api";
 import { useFormik } from "formik";
-import { createUserValidation } from "../../validation";
+import { createUserValidation } from "@/validation";
 import { useNavigate } from "react-router-dom";
-import { ROLES, ERROR } from "../../constants";
+import { ROLES, ERROR, RESOURCE, USER } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { ImagePreview } from "@/component";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -36,41 +36,38 @@ export default function () {
     onSubmit: async (values) => {
       const formData = new FormData();
 
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      values.roles.forEach((role) => formData.append("roles[]", role));
-      Array.from(values.image).forEach((file) => {
+      formData.append("name", values?.name);
+      formData.append("email", values?.email);
+      formData.append("password", values?.password);
+      values?.roles?.forEach((role) => formData.append("roles[]", role));
+      Array.from(values?.image).forEach((file) => {
         formData.append("image", file);
       });
 
       addUser(formData).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard/user");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const handleRoleChange = (value) => {
     let values = Array.isArray(value) ? value : [value];
     if (
-      values.includes("Customer") &&
-      (values.includes("Admin") || values.includes("Employee"))
-    ) {
-      values = values.filter((role) => role !== "Customer");
-    }
+      values.includes(USER.CUSTOMER) &&
+      (values.includes(USER.ADMIN) || values.includes(USER.EMPLOYEE))
+    )
+      values = values.filter((role) => role !== USER.CUSTOMER);
+
     formik.setFieldValue("roles", values);
   };
 
@@ -78,7 +75,11 @@ export default function () {
     <>
       {!isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
@@ -88,8 +89,8 @@ export default function () {
             Create User
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="name"
@@ -105,7 +106,7 @@ export default function () {
                   helperText={formik.touched.name && formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="email"
@@ -122,7 +123,7 @@ export default function () {
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="password"
@@ -150,7 +151,7 @@ export default function () {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   select
                   required
@@ -167,14 +168,14 @@ export default function () {
                     multiple: true,
                   }}
                 >
-                  {ROLES.map((role) => (
-                    <MenuItem key={role.value} value={role.value}>
-                      {role.label}
+                  {ROLES?.map((role) => (
+                    <MenuItem key={role?.value} value={role?.value}>
+                      {role?.label}
                     </MenuItem>
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   id="image"
                   name="image"
@@ -191,8 +192,8 @@ export default function () {
                     multiple: true,
                   }}
                 />
-                {formik.values.image && (
-                  <ImagePreview images={Array.from(formik.values.image)} />
+                {formik.values?.image && (
+                  <ImagePreview images={Array.from(formik.values?.image)} />
                 )}
               </Grid>
             </Grid>
