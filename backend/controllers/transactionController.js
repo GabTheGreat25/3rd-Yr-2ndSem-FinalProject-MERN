@@ -48,19 +48,14 @@ exports.getSingleTransaction = asyncHandler(async (req, res, next) => {
 });
 
 exports.createNewTransaction = [
-  checkRequiredFields(["user", "cameras", "status", "date"]),
+  checkRequiredFields(["user", "cameras", "date"]),
   asyncHandler(async (req, res, next) => {
-    const { user, status, date } = req.body;
+    const { user, date } = req.body;
     const cameras = req.body.cameras || [];
-
-    if (!user || !status || !date) {
-      return ErrorHandler(res, 400, "Missing required fields");
-    }
 
     const transactionData = {
       user,
       cameras,
-      status,
       date,
     };
 
