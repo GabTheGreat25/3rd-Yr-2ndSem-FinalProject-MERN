@@ -1,16 +1,12 @@
 import { useState } from "react";
 import { DataTable } from "@/component";
-import {
-  useGetTransactionsQuery,
-  useDeleteTransactionMutation,
-} from "@/state/api/reducer";
+import { useGetTransactionsQuery, useDeleteTransactionMutation } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { USER, ERROR } from "../../constants";
-import { Link } from "react-router-dom";
+import { USER, ERROR, RESOURCE, TAGS } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment-timezone";
-import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function () {
@@ -19,7 +15,7 @@ export default function () {
   const auth = useSelector((state) => state.auth);
 
   const { data, isLoading, isError } = useGetTransactionsQuery({
-    populate: ["user", "cameras"],
+    populate: [TAGS.USER, TAGS.CAMERA],
   });
 
   const [isDeletingId, setIsDeletingId] = useState(null);
@@ -31,7 +27,7 @@ export default function () {
 
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/transaction/${row?._id}`} className="link">
           {row?._id}
@@ -39,12 +35,13 @@ export default function () {
       ),
     },
     {
-      key: "user",
-      operation: (value) => (value ? value?.name : ""),
+      key: TAGS.USER,
+      operation: (value, row) => (value ? value?.name : ""),
     },
     {
-      key: "cameras",
-      operation: (value) => value?.map((camera) => camera?.name).join(", "),
+      key: TAGS.CAMERA,
+      operation: (value, row) =>
+        value?.map((camera) => camera?.name).join(", "),
     },
     {
       key: "status",
@@ -62,12 +59,12 @@ export default function () {
 
   const handleDelete = async (id) => {
     setIsDeletingId(id);
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(RESOURCE.CONFIRM)) {
       const response = await deleteTransaction(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       };
       if (response?.data?.success === true) {
         toast.success(`${response?.data?.message}`, toastProps);
@@ -79,9 +76,7 @@ export default function () {
         toast.error(`${response?.error?.data?.error?.message}`, toastProps);
     }
   };
-  const handleEdit = (id) => {
-    navigate(`edit/${id}`);
-  };
+  const handleEdit = (id) => navigate(`edit/${id}`);
 
   const actions = [
     {
@@ -102,7 +97,11 @@ export default function () {
     <>
       {isLoading || isDeleting ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_TRANSACTIONS_ERROR}</div>
