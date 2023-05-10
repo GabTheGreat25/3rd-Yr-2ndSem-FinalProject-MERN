@@ -8,14 +8,11 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import {
-  useUpdateUserMutation,
-  useGetUserByIdQuery,
-} from "@/state/api/reducer";
+import { useUpdateUserMutation, useGetUserByIdQuery } from "@api";
 import { useFormik } from "formik";
-import { editUserValidation } from "../../validation";
+import { editUserValidation } from "@/validation";
 import { useNavigate, useParams } from "react-router-dom";
-import { ROLES, ERROR } from "../../constants";
+import { ROLES, ERROR, RESOURCE, USER } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,25 +39,24 @@ export default function () {
     validationSchema: editUserValidation,
     onSubmit: async (values) => {
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      values.roles.forEach((role) => formData.append("roles[]", role));
-      Array.from(values.image).forEach((file) => {
+      formData.append("name", values?.name);
+      formData.append("email", values?.email);
+      values?.roles?.forEach((role) => formData.append("roles[]", role));
+      Array.from(values?.image).forEach((file) => {
         formData.append("image", file);
       });
-      formData.append("active", values.active.toString());
+      formData.append("active", values?.active?.toString());
       updateUser({ id: data?.details?._id, payload: formData }).then(
         (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
+            autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
           };
           if (response?.data?.success === true) {
             navigate("/dashboard/user");
             toast.success(`${response?.data?.message}`, toastProps);
-          } else {
+          } else
             toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-          }
         }
       );
     },
@@ -69,11 +65,11 @@ export default function () {
   const handleRoleChange = (value) => {
     let values = Array.isArray(value) ? value : [value];
     if (
-      values.includes("Customer") &&
-      (values.includes("Admin") || values.includes("Employee"))
-    ) {
-      values = values.filter((role) => role !== "Customer");
-    }
+      values.includes(USER.CUSTOMER) &&
+      (values.includes(USER.ADMIN) || values.includes(USER.EMPLOYEE))
+    )
+      values = values.filter((role) => role !== USER.CUSTOMER);
+
     formik.setFieldValue("roles", values);
   };
 
@@ -81,7 +77,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
@@ -91,8 +91,8 @@ export default function () {
             Edit User
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="name"
@@ -108,7 +108,7 @@ export default function () {
                   helperText={formik.touched.name && formik.errors.name}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="email"
@@ -125,7 +125,7 @@ export default function () {
                   helperText={formik.touched.email && formik.errors.email}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   select
                   required
@@ -142,14 +142,14 @@ export default function () {
                     multiple: true,
                   }}
                 >
-                  {ROLES.map((role) => (
-                    <MenuItem key={role.value} value={role.value}>
-                      {role.label}
+                  {ROLES?.map((role) => (
+                    <MenuItem key={role?.value} value={role?.value}>
+                      {role?.label}
                     </MenuItem>
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   id="image"
                   name="image"
@@ -167,18 +167,18 @@ export default function () {
                     multiple: true,
                   }}
                 />
-                {data.details.image.map((image) => (
-                  <span key={image.public_id}>
+                {data?.details?.image?.map((image) => (
+                  <span key={image?.public_id}>
                     <img
-                      height={60}
-                      width={75}
-                      src={image.url}
-                      alt={image.originalname}
+                      height={RESOURCE.NUMBER.SIXTY}
+                      width={RESOURCE.NUMBER.SEVENTY_FIVE}
+                      src={image?.url}
+                      alt={image?.originalname}
                     />
                   </span>
                 ))}
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <FormControlLabel
                   control={
                     <Checkbox
