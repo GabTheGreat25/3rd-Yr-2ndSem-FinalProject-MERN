@@ -1,13 +1,10 @@
 import React from "react";
 import { TextField, Typography, Grid, Button, MenuItem } from "@mui/material";
-import {
-  useUpdateTransactionMutation,
-  useGetTransactionByIdQuery,
-} from "@/state/api/reducer";
+import { useUpdateTransactionMutation, useGetTransactionByIdQuery } from "@api";
 import { useFormik } from "formik";
-import { editTransactionValidation } from "../../validation";
+import { editTransactionValidation } from "@/validation";
 import { useNavigate, useParams } from "react-router-dom";
-import { STATUS, ERROR } from "../../constants";
+import { STATUS, ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +24,9 @@ export default function () {
       status: data?.details?.status || "",
       date:
         (data?.details?.date &&
-          new Date(data?.details?.date).toISOString().substring(0, 10)) ||
+          new Date(data?.details?.date)
+            .toISOString()
+            .substring(RESOURCE.NUMBER.ZERO, RESOURCE.NUMBER.TEN)) ||
         "",
     },
     validationSchema: editTransactionValidation,
@@ -36,14 +35,13 @@ export default function () {
         (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
+            autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
           };
           if (response?.data?.success === true) {
             navigate("/dashboard/allTransaction");
             toast.success(`${response?.data?.message}`, toastProps);
-          } else {
+          } else
             toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-          }
         }
       );
     },
@@ -53,7 +51,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_TRANSACTIONS_ERROR}</div>
@@ -63,8 +65,8 @@ export default function () {
             Edit Transaction
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   select
                   required
@@ -78,14 +80,14 @@ export default function () {
                   error={formik.touched.status && Boolean(formik.errors.status)}
                   helperText={formik.touched.status && formik.errors.status}
                 >
-                  {STATUS.map((status) => (
-                    <MenuItem key={status.value} value={status.value}>
-                      {status.label}
+                  {STATUS?.map((status) => (
+                    <MenuItem key={status?.value} value={status?.value}>
+                      {status?.label}
                     </MenuItem>
                   ))}
                 </TextField>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="date"
