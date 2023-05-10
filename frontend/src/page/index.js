@@ -1,4 +1,3 @@
-import Home from "./Home";
 import User from "./User";
 import UserLogin from "./UserLogin";
 import UserRegister from "./UserRegister";
@@ -32,12 +31,10 @@ import Transactions from "./Transactions";
 import GetPerTransaction from "./Transactions/GetPerTransaction";
 import ShowAllTransaction from "./Transactions/ShowAllTransaction";
 import EditTransaction from "./Transactions/EditTransaction";
-import CreateTransaction from "./Transactions/CreateTransaction";
 import CartPreview from "./Transactions/CartPreview";
 import CreateComment from "./Comments/CreateComment";
 
 export {
-  Home,
   User,
   UserLogin,
   UserRegister,
@@ -71,7 +68,6 @@ export {
   GetPerTransaction,
   ShowAllTransaction,
   EditTransaction,
-  CreateTransaction,
   CartPreview,
   CreateComment,
 };
