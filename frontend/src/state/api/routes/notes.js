@@ -1,4 +1,4 @@
-import { ROUTE, TAGS, API } from "../../../constants";
+import { ROUTE, TAGS, API } from "@/constants";
 
 export const get = (builder) => {
   return builder.query({
