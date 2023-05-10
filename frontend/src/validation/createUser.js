@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { RESOURCE } from "@/constants";
 
 export default yup.object({
   name: yup.string("Enter your Name").required("Name is required"),
@@ -8,6 +9,9 @@ export default yup.object({
     .required("Email is required"),
   password: yup
     .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
+    .min(
+      RESOURCE.NUMBER.EIGHT,
+      "Password should be of minimum 8 characters length"
+    )
     .required("Password is required"),
 });
