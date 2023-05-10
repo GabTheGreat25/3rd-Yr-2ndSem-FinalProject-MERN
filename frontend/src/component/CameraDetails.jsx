@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import Button from "./Button";
+import { RESOURCE } from "@/constants";
 
 export default function (props) {
   const { item, onAddToCart, isInCart } = props;
@@ -13,7 +14,7 @@ export default function (props) {
       <Box
         sx={{
           width: "50%",
-          borderRadius: 2,
+          borderRadius: RESOURCE.NUMBER.TWO,
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -38,22 +39,22 @@ export default function (props) {
               color="inherit"
               gutterBottom
             >
-              {item.name}
+              {item?.name}
             </Typography>
 
             <Typography variant="h5" color="inherit" paragraph>
-              {`${item.price || 0} PHP`}
+              {`${item?.price || RESOURCE.NUMBER.ZERO} PHP`}
             </Typography>
           </Box>
           <Typography variant="h5" color="inherit" paragraph>
-            {item.description}
+            {item?.description}
           </Typography>
         </Box>
         <Box
           sx={{
             display: "flex",
             justifyContent: "flex-end",
-            gap: 4,
+            gap: RESOURCE.NUMBER.FOUR,
           }}
         >
           {isInCart ? (
