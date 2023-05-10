@@ -1,26 +1,20 @@
 import React from "react";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-} from "recharts";
-import { useGetUsersQuery } from "@/state/api/reducer";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { useGetUsersQuery } from "@api";
 import { PacmanLoader } from "react-spinners";
 import randomColor from "randomcolor";
+import { RESOURCE } from "@/constants";
 
 export default function () {
   const { data, isLoading } = useGetUsersQuery();
 
   const chartData = React.useMemo(() => {
     if (data?.details) {
-      const activeCount = data?.details?.filter((user) => user.active).length;
+      const activeCount = data?.details?.filter((user) => user?.active).length;
       const inactiveCount = data?.details?.length - activeCount;
       return [
-        { name: "Active", quantity: activeCount },
-        { name: "Inactive", quantity: inactiveCount },
+        { name: RESOURCE.ACTIVE, quantity: activeCount },
+        { name: RESOURCE.INACTIVE, quantity: inactiveCount },
       ];
     }
     return [];
@@ -34,18 +28,25 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
-      ) : (
-        chartData.length !== 0 && (
-          <PieChart width={550} height={400}>
+      ) : !data ? null : (
+        chartData.length !== RESOURCE.NUMBER.ZERO && (
+          <PieChart
+            width={RESOURCE.NUMBER.FIVE_HUNDRED_FIFTY}
+            height={RESOURCE.NUMBER.FOUR_HUNDRED}
+          >
             <Pie
               data={chartData}
               dataKey="quantity"
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={150}
+              outerRadius={RESOURCE.NUMBER.HUNDRED_FIFTY}
               fill="#8884d8"
               label
             >
