@@ -1,4 +1,5 @@
 import * as yup from "yup";
+import { RESOURCE } from "@/constants";
 
 export default yup.object({
   name: yup.string().required("Name is required"),
@@ -6,6 +7,6 @@ export default yup.object({
   price: yup
     .number()
     .required("Price is required")
-    .min(0, "Price must be at least 0")
-    .max(10000, "Price must be at most 10000"),
+    .min(RESOURCE.NUMBER.ZERO, "Price must be at least 0")
+    .max(RESOURCE.NUMBER.TEN_THOUSAND, "Price must be at most 10000"),
 });
