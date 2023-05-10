@@ -1,9 +1,9 @@
 import React from "react";
-import ListData from "../../component/ListData";
+import { ListData } from "@/component";
 import { AccountCircle } from "@mui/icons-material";
-import { useGetUsersQuery } from "@/state/api/reducer";
+import { useGetUsersQuery } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "@/constants";
+import { ERROR, RESOURCE } from "@/constants";
 
 export default function () {
   const { data, isLoading, isError } = useGetUsersQuery();
@@ -12,7 +12,11 @@ export default function () {
 
   return isLoading ? (
     <div className="loader">
-      <PacmanLoader color="#2c3e50" loading={true} size={50} />
+      <PacmanLoader
+        color="#2c3e50"
+        loading={true}
+        size={RESOURCE.NUMBER.FIFTY}
+      />
     </div>
   ) : isError ? (
     <div className="errorMessage">{ERROR.GET_USERS_ERROR}</div>
