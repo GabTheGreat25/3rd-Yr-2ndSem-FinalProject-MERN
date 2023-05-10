@@ -1,4 +1,4 @@
-import { API, ROUTE } from "../../../constants/index";
+import { API, ROUTE } from "@/constants";
 
 export const login = (builder) => {
   return builder.mutation({
