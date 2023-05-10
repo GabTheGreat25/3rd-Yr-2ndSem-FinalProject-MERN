@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { DataTable } from "@/component";
-import {
-  useGetCommentsQuery,
-  useDeleteCommentMutation,
-} from "@/state/api/reducer";
+import { useGetCommentsQuery, useDeleteCommentMutation } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { USER, ERROR } from "../../constants";
+import { USER, ERROR, RESOURCE, TAGS } from "@/constants";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -15,7 +12,7 @@ export default function () {
   const auth = useSelector((state) => state.auth);
 
   const { data, isLoading, isError } = useGetCommentsQuery({
-    populate: "transaction",
+    populate: TAGS.TRANSACTION,
   });
 
   const [isDeletingId, setIsDeletingId] = useState(null);
@@ -27,7 +24,7 @@ export default function () {
 
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/comment/${row?._id}`} className="link">
           {row?._id}
@@ -45,8 +42,8 @@ export default function () {
       operation: (value, row) => `${value} stars`,
     },
     {
-      key: "transaction",
-      operation: (value) => (value ? value?.status : ""),
+      key: TAGS.TRANSACTION,
+      operation: (value, row) => (value ? value?.status : ""),
     },
   ];
 
@@ -56,12 +53,12 @@ export default function () {
 
   const handleDelete = async (id) => {
     setIsDeletingId(id);
-    if (window.confirm("Are you sure?")) {
+    if (window.confirm(RESOURCE.CONFIRM)) {
       const response = await deleteComment(id);
 
       const toastProps = {
         position: toast.POSITION.TOP_RIGHT,
-        autoClose: 5000,
+        autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
       };
       if (response?.data?.success === true) {
         toast.success(`${response?.data?.message}`, toastProps);
@@ -87,7 +84,11 @@ export default function () {
     <>
       {isLoading || isDeleting ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_COMMENTS_ERROR}</div>
