@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Grid } from "@mui/material";
-import GetAllUser from "./getAllUser";
+import GetAllUser from "./GetAllUser";
 import GetAllAdmin from "./GetAllAdmin";
 import GetAllEmployee from "./GetAllEmployee";
 import GetAllCustomer from "./GetAllCustomer";

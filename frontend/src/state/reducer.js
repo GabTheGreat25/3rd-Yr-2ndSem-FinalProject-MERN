@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import auth from "./auth/authReducer";
-import sideBar from "./sideBar/authSideBar";
+import sideBar from "./sidebar/authSideBar";
 import { api } from "./api/reducer";
 
 export const rootReducer = combineReducers({

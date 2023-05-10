@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import SidebarLink from "./SidebarLink";
 import { generateKey } from "@generateKey";
-import Drawer from "./drawer";
+import Drawer from "./Drawer";
 import { useDispatch, useSelector } from "react-redux";
 import { USER, LINKS, RESOURCE } from "@/constants";
 import { changeLinks } from "@sidebar";

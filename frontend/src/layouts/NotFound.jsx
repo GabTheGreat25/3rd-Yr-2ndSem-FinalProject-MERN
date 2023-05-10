@@ -1,7 +1,7 @@
 import React from "react";
 import Broken from "@assets/broken-camera.jpg";
 import { Button } from "@component";
-import { Typography } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
 
 export default function () {
   const goBack = () => {
