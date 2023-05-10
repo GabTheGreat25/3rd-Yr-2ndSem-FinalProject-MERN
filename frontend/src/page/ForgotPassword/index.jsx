@@ -6,17 +6,18 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { useForgotPasswordMutation } from "../../state/api/reducer";
+import { useForgotPasswordMutation } from "@api";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
 import ClearIcon from "@mui/icons-material/Clear";
-import { forgotPasswordValidation } from "../../validation";
+import { forgotPasswordValidation } from "@/validation";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RESOURCE, ERROR } from "@/constants";
 
 export default function () {
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading, isError }] = useForgotPasswordMutation();
 
   const formik = useFormik({
     initialValues: {
@@ -27,14 +28,13 @@ export default function () {
       forgotPassword(values?.email).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success) {
           window.open(`https://mailtrap.io/inboxes`, "_blank");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
@@ -43,14 +43,20 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
+      ) : isError ? (
+        <div className="errorMessage">{ERROR.FORGOT_PASSWORD_ERROR}</div>
       ) : (
         <>
           <Container maxWidth="xs">
             <Box
               sx={{
-                marginTop: 8,
+                marginTop: RESOURCE.NUMBER.EIGHT,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -62,7 +68,7 @@ export default function () {
               <Box
                 component="form"
                 onSubmit={formik.handleSubmit}
-                sx={{ mt: 1 }}
+                sx={{ mt: RESOURCE.NUMBER.ONE }}
               >
                 <TextField
                   fullWidth
@@ -95,7 +101,7 @@ export default function () {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3 }}
+                  sx={{ mt: RESOURCE.NUMBER.THREE }}
                   disabled={!formik.isValid}
                 >
                   Send Email
