@@ -1,13 +1,10 @@
 import React from "react";
 import { TextField, Typography, Grid, Button, Rating } from "@mui/material";
-import {
-  useAddCommentMutation,
-  useGetTransactionsQuery,
-} from "@/state/api/reducer";
+import { useAddCommentMutation, useGetTransactionsQuery } from "@api";
 import { useFormik } from "formik";
-import { createCommentValidation } from "../../validation";
+import { createCommentValidation } from "@/validation";
 import { useNavigate } from "react-router-dom";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,13 +17,14 @@ export default function () {
     useGetTransactionsQuery();
 
   const lastTransactionId =
-    transactions?.details?.[transactions.details.length - 1]?._id;
+    transactions?.details?.[transactions.details.length - RESOURCE.NUMBER.ONE]
+      ?._id;
 
   const formik = useFormik({
     initialValues: {
       transService: "",
       text: "",
-      ratings: 0,
+      ratings: RESOURCE.NUMBER.ZERO,
     },
     validationSchema: createCommentValidation,
     onSubmit: (values) => {
@@ -37,14 +35,13 @@ export default function () {
       addComment(newComment).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard/comment");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
@@ -53,7 +50,11 @@ export default function () {
     <>
       {!isLoading || transactionsLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_COMMENTS_ERROR}</div>
@@ -63,8 +64,8 @@ export default function () {
             Create Comment
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="transService"
@@ -85,7 +86,7 @@ export default function () {
                   }
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="text"
@@ -101,14 +102,14 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <Typography component="label" htmlFor="ratings" gutterBottom>
                   Ratings
                 </Typography>
                 <br />
                 <Rating
                   name="ratings"
-                  value={Number(formik.values.ratings) || 0}
+                  value={Number(formik.values.ratings) || RESOURCE.NUMBER.ZERO}
                   onChange={(event, newValue) => {
                     formik.setFieldValue("ratings", Number(newValue));
                   }}
