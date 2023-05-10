@@ -14,11 +14,11 @@ import {
   useUpdateNoteMutation,
   useGetNoteByIdQuery,
   useGetUsersQuery,
-} from "@/state/api/reducer";
+} from "@api";
 import { useFormik } from "formik";
-import { editNoteValidation } from "../../validation";
+import { editNoteValidation } from "@/validation";
 import { useNavigate, useParams } from "react-router-dom";
-import { USER, ERROR } from "../../constants";
+import { USER, ERROR, RESOURCE } from "@/constants";
 import { PacmanLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,9 +33,10 @@ export default function () {
 
   const auth = useSelector((state) => state.auth);
 
-  const isAdmin = auth?.user?.roles?.includes("Admin");
+  const isAdmin = auth?.user?.roles?.includes(USER.ADMIN);
   const isEmployee =
-    auth?.user?.roles?.includes("Employee") && auth?.user?.roles?.length === 1;
+    auth?.user?.roles?.includes(USER.EMPLOYEE) &&
+    auth?.user?.roles?.length === RESOURCE.NUMBER.ONE;
   const taskBelongsToUser = data?.details?.user?._id === auth?.user?._id;
 
   const { data: getAllNote } = useGetUsersQuery();
@@ -70,14 +71,13 @@ export default function () {
         (response) => {
           const toastProps = {
             position: toast.POSITION.TOP_RIGHT,
-            autoClose: 5000,
+            autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
           };
           if (response?.data?.success === true) {
             navigate("/dashboard/note");
             toast.success(`${response?.data?.message}`, toastProps);
-          } else {
+          } else
             toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-          }
         }
       );
     },
@@ -87,7 +87,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_NOTES_ERROR}</div>
@@ -97,8 +101,8 @@ export default function () {
             Edit Note
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="title"
@@ -114,7 +118,7 @@ export default function () {
                   helperText={formik.touched.title && formik.errors.title}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="text"
@@ -131,7 +135,7 @@ export default function () {
                 />
               </Grid>
               {!taskBelongsToUser && isAdmin && (
-                <Grid item xs={12}>
+                <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                   <InputLabel id="user-label">Select User</InputLabel>
                   <Select
                     labelId="user-label"
@@ -148,10 +152,10 @@ export default function () {
                       Please select an employee
                     </MenuItem>
                     {Array.isArray(employees) &&
-                      employees.map((user) => {
+                      employees?.map((user) => {
                         return (
-                          <MenuItem key={user._id} value={user._id}>
-                            {user.name}
+                          <MenuItem key={user?._id} value={user?._id}>
+                            {user?.name}
                           </MenuItem>
                         );
                       })}
@@ -167,7 +171,7 @@ export default function () {
               {(taskBelongsToUser ||
                 (!isAdmin && !isEmployee) ||
                 (isEmployee && !taskBelongsToUser)) && (
-                <Grid item xs={12}>
+                <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                   <FormControlLabel
                     control={
                       <Checkbox
