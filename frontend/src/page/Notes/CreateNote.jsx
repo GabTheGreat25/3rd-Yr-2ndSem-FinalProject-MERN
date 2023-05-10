@@ -8,13 +8,12 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { useAddNoteMutation, useGetUsersQuery } from "@/state/api/reducer";
+import { useAddNoteMutation, useGetUsersQuery } from "@api";
 import { useFormik } from "formik";
-import { createNoteValidation } from "../../validation";
+import { createNoteValidation } from "@/validation";
 import { useNavigate } from "react-router-dom";
-import { ERROR } from "../../constants";
+import { ERROR, RESOURCE, USER } from "@/constants";
 import { PacmanLoader } from "react-spinners";
-import { USER } from "@/constants";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -47,14 +46,13 @@ export default function () {
       addNote(values).then((response) => {
         const toastProps = {
           position: toast.POSITION.TOP_RIGHT,
-          autoClose: 5000,
+          autoClose: RESOURCE.NUMBER.FIVE_THOUSAND,
         };
         if (response?.data?.success === true) {
           navigate("/dashboard/note");
           toast.success(`${response?.data?.message}`, toastProps);
-        } else {
+        } else
           toast.error(`${response?.error?.data?.error?.message}`, toastProps);
-        }
       });
     },
   });
@@ -63,7 +61,11 @@ export default function () {
     <>
       {!isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_NOTES_ERROR}</div>
@@ -73,8 +75,8 @@ export default function () {
             Create Note
           </Typography>
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
+            <Grid container spacing={RESOURCE.NUMBER.THREE}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="title"
@@ -90,7 +92,7 @@ export default function () {
                   helperText={formik.touched.title && formik.errors.title}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <TextField
                   required
                   id="text"
@@ -106,7 +108,7 @@ export default function () {
                   helperText={formik.touched.text && formik.errors.text}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={RESOURCE.NUMBER.TWELVE}>
                 <InputLabel id="user-label">Select User</InputLabel>
                 <Select
                   labelId="user-label"
@@ -123,10 +125,10 @@ export default function () {
                     Please select an employee
                   </MenuItem>
                   {Array.isArray(employees) &&
-                    employees.map((user) => {
+                    employees?.map((user) => {
                       return (
-                        <MenuItem key={user._id} value={user._id}>
-                          {user.name}
+                        <MenuItem key={user?._id} value={user?._id}>
+                          {user?.name}
                         </MenuItem>
                       );
                     })}
