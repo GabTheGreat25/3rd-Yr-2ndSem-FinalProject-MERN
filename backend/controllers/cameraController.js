@@ -48,7 +48,7 @@ exports.getSingleCamera = asyncHandler(async (req, res, next) => {
 
 exports.createNewCamera = [
   upload.array("image"),
-  checkRequiredFields(["user", "name", "text", "price"]),
+  checkRequiredFields(["user", "name", "text", "price", "image"]),
   asyncHandler(async (req, res, next) => {
     const camera = await camerasService.CreateCameraData(req);
 
