@@ -1,17 +1,17 @@
 import React from "react";
 import { DataTable } from "@/component";
-import { useGetTransactionsQuery } from "@/state/api/reducer";
+import { useGetTransactionsQuery } from "@api";
 import { PacmanLoader } from "react-spinners";
-import { ERROR } from "../../constants";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import moment from "moment-timezone";
+import { ERROR, TAGS, RESOURCE } from "@/constants";
 
 export default function () {
   const auth = useSelector((state) => state.auth);
 
   const { data, isLoading, isError } = useGetTransactionsQuery({
-    populate: ["user", "cameras"],
+    populate: [TAGS.USER, TAGS.CAMERA],
   });
 
   const filteredTransactions = data?.details?.filter(
@@ -22,7 +22,7 @@ export default function () {
 
   const keys = [
     {
-      key: "_id",
+      key: RESOURCE.ID,
       operation: (value, row) => (
         <Link to={`/dashboard/transaction/${row?._id}`} className="link">
           {row?._id}
@@ -30,19 +30,20 @@ export default function () {
       ),
     },
     {
-      key: "user",
-      operation: (value) => (value ? value?.name : ""),
+      key: TAGS.USER,
+      operation: (value, row) => (value ? value?.name : ""),
     },
     {
-      key: "cameras",
-      operation: (value) => value?.map((camera) => camera?.name).join(", "),
+      key: TAGS.CAMERA,
+      operation: (value, row) =>
+        value?.map((camera) => camera?.name).join(", "),
     },
     {
       key: "status",
     },
     {
       key: "date",
-      operation: (value) =>
+      operation: (value, row) =>
         moment(value).tz("Asia/Manila").format("YYYY-MM-DD"),
     },
   ];
@@ -51,7 +52,11 @@ export default function () {
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
       ) : isError ? (
         <div className="errorMessage">{ERROR.GET_TRANSACTIONS_ERROR}</div>
