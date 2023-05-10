@@ -4,6 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { useNavigate } from "react-router-dom";
 import Icon from "./Icons";
+import { RESOURCE } from "@/constants";
 
 export default function (props) {
   const { title, link, icon } = props;
@@ -13,7 +14,7 @@ export default function (props) {
     <>
       <ListItemButton
         onClick={() => {
-          typeof link === "function" ? link() : navigate(link);
+          typeof link === RESOURCE.FUNCTION ? link() : navigate(link);
         }}
       >
         <ListItemIcon>
