@@ -13,12 +13,13 @@ import {
   REGISTER,
 } from "redux-persist";
 import { persistConfig } from "./persistor";
+import { RESOURCE } from "@/constants";
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== RESOURCE.PRODUCTION,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
