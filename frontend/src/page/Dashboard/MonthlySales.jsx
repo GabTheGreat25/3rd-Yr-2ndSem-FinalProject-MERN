@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import {
   Area,
   AreaChart,
@@ -7,60 +7,68 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useGetTransactionsQuery } from "@/state/api/reducer";
+import { useGetTransactionsQuery } from "@api";
 import { PacmanLoader } from "react-spinners";
+import { MONTHS, RESOURCE } from "@/constants";
 
-export default function MonthlySalesChart() {
+export default function () {
   const { data, isLoading } = useGetTransactionsQuery();
 
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sept",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
   const groupedData = data?.details
-    ? data.details.reduce((acc, transaction) => {
-        const month = new Date(transaction?.date).getMonth();
+    ? data?.details?.reduce((acc, transaction) => {
+        if (
+          transaction.status !== RESOURCE.PENDING &&
+          transaction.status !== RESOURCE.CANCELLED &&
+          transaction.status !== RESOURCE.NOT_PAID
+        ) {
+          const month = new Date(transaction?.date).getMonth();
 
-        const totalCost = transaction.cameras.reduce(
-          (sum, camera) => sum + camera.price,
-          0
-        );
+          const totalCost = transaction?.cameras?.reduce(
+            (sum, camera) => sum + camera?.price,
+            RESOURCE.NUMBER.ZERO
+          );
 
-        acc[month] = (acc[month] || 0) + totalCost;
+          acc[month] = (acc[month] || RESOURCE.NUMBER.ZERO) + totalCost;
+        }
         return acc;
       }, {})
     : {};
 
-  const chartData = monthNames?.map((monthName, index) => ({
+  const chartData = MONTHS?.map((monthName, index) => ({
     month: monthName,
-    sales: groupedData[index] || 0,
+    sales: groupedData[index] || RESOURCE.NUMBER.ZERO,
   }));
 
   return (
     <>
       {isLoading ? (
         <div className="loader">
-          <PacmanLoader color="#2c3e50" loading={true} size={50} />
+          <PacmanLoader
+            color="#2c3e50"
+            loading={true}
+            size={RESOURCE.NUMBER.FIFTY}
+          />
         </div>
-      ) : (
+      ) : !data ? null : (
         <>
-          {groupedData.length !== 0 && (
-            <AreaChart data={chartData} width={1200} height={400}>
+          {groupedData.length !== RESOURCE.NUMBER.ZERO && (
+            <AreaChart
+              data={chartData}
+              width={RESOURCE.NUMBER.THOUSAND_TWO_HUNDRED}
+              height={RESOURCE.NUMBER.FOUR_HUNDRED}
+            >
               <defs>
                 <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#33B2DF" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#33B2DF" stopOpacity={0} />
+                  <stop
+                    offset="5%"
+                    stopColor="#33B2DF"
+                    stopOpacity={RESOURCE.NUMBER.ONE}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="#33B2DF"
+                    stopOpacity={RESOURCE.NUMBER.ZERO}
+                  />
                 </linearGradient>
               </defs>
               <XAxis dataKey="month" />
@@ -71,7 +79,7 @@ export default function MonthlySalesChart() {
                 type="monotone"
                 dataKey="sales"
                 stroke="#33B2DF"
-                fillOpacity={1}
+                fillOpacity={RESOURCE.NUMBER.ONE}
                 fill="url(#colorSales)"
               />
             </AreaChart>
